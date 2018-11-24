@@ -2,9 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
+import { BrowserRouter as Router } from "react-router-dom";
 import thunk from "redux-thunk";
-import rootReducer from "./reducers";
 import "./index.css";
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+import "normalize.css/normalize.css";
+
+import rootReducer from "./reducers";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 
@@ -18,7 +23,9 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </Provider>,
   document.getElementById("root")
 );

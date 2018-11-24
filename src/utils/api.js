@@ -7,6 +7,10 @@ class StadiumApiClient {
     this.url = `${base}/${version}`;
   }
 
+  login(code) {
+    return axios.post(`${this.url}/users/${code}/github_oauth/`);
+  }
+
   config() {
     return axios.get(`${this.url}/app_config/`);
   }
@@ -15,8 +19,16 @@ class StadiumApiClient {
     return axios.get(`${this.base}/watchman/`);
   }
 
-  repos() {
-    return axios.get(`${this.url}/repos/`);
+  environments(params) {
+    return axios.get(`${this.url}/environments/`);
+  }
+
+  repositories() {
+    return axios.get(`${this.url}/repositories/`);
+  }
+
+  findGymRepos() {
+    return axios.get(`${this.url}/repositories/find_gym_repos/`);
   }
 }
 

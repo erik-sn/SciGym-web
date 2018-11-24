@@ -1,4 +1,4 @@
-import types from "./types";
+import types from "../utils/types";
 
 import api from "../utils/api";
 import { logError } from "../utils/errors";
