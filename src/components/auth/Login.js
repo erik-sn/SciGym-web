@@ -2,12 +2,18 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { debounce } from "lodash";
 import { Icon, Intent } from "@blueprintjs/core";
 
-import AppToaster from "../../utils/toast";
+import toast from "../../utils/toast";
 import "./Login.css";
 
 export class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.checkUserLoggedIn = debounce(this.checkUserLoggedIn, 300);
+  }
+
   componentDidMount() {
     this.checkUserLoggedIn({}, this.props);
   }
@@ -18,7 +24,7 @@ export class Login extends Component {
 
   checkUserLoggedIn(prev, now) {
     if (!prev.userExists && now.userExists) {
-      AppToaster.show({
+      toast.show({
         message: "Successfully logged in",
         intent: Intent.SUCCESS
       });
@@ -58,11 +64,14 @@ Login.propTypes = {
   userExists: PropTypes.bool.isRequired
 };
 
-const mapStateToProps = state => ({
-  githubClientId: state.config.githubClientId,
-  githubCallbackUrl: state.config.githubCallbackUrl,
-  githubRandomState: state.config.githubRandomState,
-  userExists: Boolean(state.user.accessToken)
-});
+const mapStateToProps = state => {
+  console.log(state.user);
+  return {
+    githubClientId: state.config.githubClientId,
+    githubCallbackUrl: state.config.githubCallbackUrl,
+    githubRandomState: state.config.githubRandomState,
+    userExists: Boolean(state.user.accessToken)
+  };
+};
 
 export default connect(mapStateToProps)(Login);

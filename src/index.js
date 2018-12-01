@@ -4,22 +4,30 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import thunk from "redux-thunk";
+import { persistStore, persistReducer } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+import storage from "redux-persist/lib/storage";
 import "./index.css";
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import "normalize.css/normalize.css";
 
+import auth from "./middleware/auth";
 import rootReducer from "./reducers";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 
-const store = createStore(
-  rootReducer,
-  compose(
-    applyMiddleware(thunk),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
-);
+const persistConfig = {
+  key: "root",
+  storage
+};
+
+// const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const middleware = applyMiddleware(thunk, auth);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(rootReducer, composeEnhancers(middleware));
+// const persistor = persistStore(store);
 
 ReactDOM.render(
   <Provider store={store}>

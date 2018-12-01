@@ -1,24 +1,33 @@
 import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import Auth from "./auth/Auth";
+import UserWatcher from "./auth/UserWatcher";
 import Header from "./header/Header";
 import { getApiConfig, getApiStatus } from "../actions/config";
-import { getEnvironments } from "../actions/environments";
+import { getRepositories } from "../actions/repositories";
+import { refreshAuthToken } from "../actions/user";
+import Home from "./home/Home";
 import Profile from "./profile/Profile";
+import constants from "../utils/constants";
 
 export class App extends Component {
   componentDidMount() {
     this.refreshAuthToken();
     this.props.getApiConfig();
     this.props.getApiStatus();
-    this.props.getEnvironments();
+    this.props.getRepositories();
     window.setTimeout(this.props.getApiStatus, 30000);
   }
 
-  refreshAuthToken() {}
+  refreshAuthToken() {
+    const storedRefreshToken = localStorage.getItem(constants.REFRESH_TOKEN);
+    if (storedRefreshToken) {
+      this.props.refreshAuthToken(storedRefreshToken);
+    }
+  }
 
   render() {
     if (!this.props.appLoaded) {
@@ -32,8 +41,9 @@ export class App extends Component {
         <Header />
         <Switch>
           <Route path="/profile" component={Profile} />
-          <Route path="*" component={Profile} />
+          <Route path="*" component={Home} />
         </Switch>
+        <UserWatcher />
       </div>
     );
   }
@@ -47,7 +57,8 @@ App.propTypes = {
   appLoaded: PropTypes.bool.isRequired,
   getApiConfig: PropTypes.func.isRequired,
   getApiStatus: PropTypes.func.isRequired,
-  getEnvironments: PropTypes.func.isRequired,
+  getRepositories: PropTypes.func.isRequired,
+  refreshAuthToken: PropTypes.func.isRequired,
   githubCallbackUrl: PropTypes.string
 };
 
@@ -56,7 +67,9 @@ const mapStateToProps = state => ({
   appLoaded: state.config.loaded
 });
 
-export default connect(
-  mapStateToProps,
-  { getApiConfig, getApiStatus, getEnvironments }
-)(App);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { getApiConfig, getApiStatus, refreshAuthToken, getRepositories }
+  )(App)
+);

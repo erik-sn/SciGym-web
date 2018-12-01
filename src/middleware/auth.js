@@ -29,13 +29,12 @@ export function clearAuthorizationHeader() {
  */
 const AuthMiddleware = () => next => action => {
   // coming from the async action hitting the user endpoint
-  if (action.type === types.LOGIN_USER_GITHUB_OAUTH_SUCCESS) {
+  if (
+    action.type === types.LOGIN_USER_GITHUB_OAUTH_SUCCESS ||
+    action.type === types.REFRESH_AUTH_TOKEN_SUCCESS
+  ) {
     const { accessToken, refreshToken } = action.payload;
     setAuthorizationHeader(accessToken, refreshToken);
-  }
-  // coming from localStorage
-  if (action.type === types.REHYDRATE_AUTH_TOKEN) {
-    setAuthorizationHeader(action.payload);
   }
   if (action.type === types.CLEAR_AUTH_TOKEN) {
     clearAuthorizationHeader();

@@ -7,12 +7,20 @@ class StadiumApiClient {
     this.url = `${base}/${version}`;
   }
 
+  config() {
+    return axios.get(`${this.url}/app_config/`);
+  }
+
   login(code) {
     return axios.post(`${this.url}/users/${code}/github_oauth/`);
   }
 
-  config() {
-    return axios.get(`${this.url}/app_config/`);
+  refreshToken(token) {
+    return axios.post(`${this.url}/users/${token}/refresh_token/`);
+  }
+
+  me() {
+    return axios.get(`${this.url}/users/me/`);
   }
 
   status() {
@@ -23,12 +31,25 @@ class StadiumApiClient {
     return axios.get(`${this.url}/environments/`);
   }
 
+  createEnvironment(name, repositoryId, isPublic, pypiUrl) {
+    return axios.post(`${this.url}/environments/`, {
+      name,
+      public: isPublic,
+      pypi_url: pypiUrl,
+      repository: repositoryId
+    });
+  }
+
   repositories() {
     return axios.get(`${this.url}/repositories/`);
   }
 
+  myRepositories() {
+    return axios.get(`${this.url}/repositories/mine/`);
+  }
+
   findGymRepos() {
-    return axios.get(`${this.url}/repositories/find_gym_repos/`);
+    return axios.post(`${this.url}/repositories/find_gym_repos/`);
   }
 }
 

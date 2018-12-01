@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Button, Card } from "@blueprintjs/core";
+import { Button, Card, Spinner } from "@blueprintjs/core";
 
-import { findGymRepos } from "../../actions/repositories";
+import types from "../../utils/types";
+import { isLoading } from "../../reducers/display";
+import { findGymRepos, getUserRepositories } from "../../actions/repositories";
+import { createEnvironment } from "../../actions/environments";
+import RepositoryItem from "./RepositoryItem";
+import "./profile.css";
 
 class Profile extends Component {
   constructor(props) {
@@ -11,24 +16,41 @@ class Profile extends Component {
     this.findGymRepos = this.findGymRepos.bind(this);
   }
 
+  componentDidMount() {
+    if (this.props.userExists) {
+      this.props.getUserRepositories();
+    }
+  }
+
   findGymRepos() {
     this.props.findGymRepos();
   }
 
   render() {
-    const { repositories } = this.props;
+    const { repositories, findGymLoading } = this.props;
     const loaded = repositories !== undefined;
     const empty = loaded && repositories.size > 0;
     return (
       <Card>
         <h1>My repositories</h1>
-        <Button
-          icon="refresh"
-          intent="danger"
-          text="Find gym repos"
-          onClick={this.findGymRepos}
-        />
+        {findGymLoading ? (
+          <Spinner size={45} />
+        ) : (
+          <Button
+            icon="refresh"
+            intent="success"
+            text="Refresh my repos"
+            onClick={this.findGymRepos}
+          />
+        )}
         {empty && <h1>No repositories found</h1>}
+        {loaded && (
+          <ul>
+            {repositories.map(r => (
+              <RepositoryItem key={r.id} {...r} />
+            ))}
+          </ul>
+        )}
       </Card>
     );
   }
@@ -40,9 +62,15 @@ Profile.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  repositories: state.repositories.userRepositories
+  userExists: Boolean(state.user.accessToken),
+  repositories: state.repositories.userRepositories,
+  findGymLoading: isLoading(state.display, types.FIND_GYM_REPOS)
 });
-const mapDispatchToProps = { findGymRepos };
+const mapDispatchToProps = {
+  findGymRepos,
+  getUserRepositories,
+  createEnvironment
+};
 
 export default connect(
   mapStateToProps,

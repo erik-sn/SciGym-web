@@ -20,3 +20,21 @@ export const getEnvironments = params => {
       });
   };
 };
+
+export const createEnvironment = (...args) => {
+  return dispatch => {
+    dispatch({ type: types.CREATE_ENVIRONMENT });
+    api
+      .createEnvironment(...args)
+      .then(response => {
+        dispatch({
+          type: types.CREATE_ENVIRONMENT_SUCCESS,
+          payload: response.data
+        });
+      })
+      .catch(error => {
+        dispatch({ type: types.CREATE_ENVIRONMENT_FAILURE });
+        logError(error);
+      });
+  };
+};
