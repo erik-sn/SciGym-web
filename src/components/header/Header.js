@@ -53,6 +53,9 @@ export class Header extends PureComponent {
           />
         </NavbarGroup>
         <NavbarGroup align={Alignment.RIGHT}>
+          <Button className={Classes.MINIMAL} icon="question">
+            <Link to="/about">About</Link>
+          </Button>
           {loading ? <Spinner size={30} /> : <Login />}
         </NavbarGroup>
       </Navbar>
