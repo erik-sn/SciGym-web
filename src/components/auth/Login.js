@@ -65,7 +65,6 @@ Login.propTypes = {
 };
 
 const mapStateToProps = state => {
-  console.log(state.user);
   return {
     githubClientId: state.config.githubClientId,
     githubCallbackUrl: state.config.githubCallbackUrl,

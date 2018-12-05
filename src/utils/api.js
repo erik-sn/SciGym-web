@@ -15,6 +15,10 @@ class StadiumApiClient {
     return axios.post(`${this.url}/users/${code}/github_oauth/`);
   }
 
+  logout(clientId) {
+    return axios.post(`${this.url}/users/logout/`);
+  }
+
   refreshToken(token) {
     return axios.post(`${this.url}/users/${token}/refresh_token/`);
   }
