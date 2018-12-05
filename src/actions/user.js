@@ -22,14 +22,17 @@ export const loginUserWithGithub = (code, state) => {
 };
 
 export const getMyProfile = dispatch => {
-  dispatch({ type: types.GET_MY_PROFILE, payload: null });
+  dispatch({ type: types.GET_USER_PROFILE, payload: null });
   api
     .me()
     .then(response => {
-      dispatch({ type: types.GET_MY_PROFILE_SUCCESS, payload: response.data });
+      dispatch({
+        type: types.GET_USER_PROFILE_SUCCESS,
+        payload: response.data
+      });
     })
     .catch(error => {
-      dispatch({ type: types.GET_MY_PROFILE_FAILURE, payload: null });
+      dispatch({ type: types.GET_USER_PROFILE_FAILURE, payload: null });
       logError(error);
     });
 };
@@ -49,6 +52,27 @@ export const refreshAuthToken = token => {
       .catch(error => {
         dispatch({
           type: types.REFRESH_AUTH_TOKEN_FAILURE,
+          payload: null
+        });
+        logError(error);
+      });
+  };
+};
+
+export const logout = clientId => {
+  return dispatch => {
+    dispatch({ type: types.LOGOUT_USER, payload: null });
+    api
+      .logout(clientId)
+      .then(response => {
+        dispatch({
+          type: types.LOGOUT_USER_SUCCESS,
+          payload: response.data
+        });
+      })
+      .catch(error => {
+        dispatch({
+          type: types.LOGOUT_USER_FAILURE,
           payload: null
         });
         logError(error);
