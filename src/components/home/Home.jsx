@@ -3,16 +3,18 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Card } from "@blueprintjs/core";
 
+import Hero from "./Hero";
 import RepositoryItem from "../profile/RepositoryItem";
 
-class Profile extends Component {
+class Home extends Component {
   render() {
     const { repositories } = this.props;
     const loaded = repositories !== undefined;
     const empty = loaded && repositories.size > 0;
     return (
-      <Card>
-        <h1>All repositories</h1>
+      <React.Fragment>
+        <Hero />
+        <h1>Recent repositories</h1>
         {empty && <h1>No repositories found</h1>}
         {loaded && (
           <ul>
@@ -25,12 +27,12 @@ class Profile extends Component {
             ))}
           </ul>
         )}
-      </Card>
+      </React.Fragment>
     );
   }
 }
 
-Profile.propTypes = {
+Home.propTypes = {
   repositories: PropTypes.arrayOf(PropTypes.object)
 };
 
@@ -38,4 +40,4 @@ const mapStateToProps = state => ({
   repositories: state.repositories.repositories
 });
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps)(Home);
