@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { debounce } from "lodash";
-import { Icon, Intent } from "@blueprintjs/core";
+import { Intent } from "@blueprintjs/core";
+import IconButton from '@material-ui/core/IconButton';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 import toast from "../../utils/toast";
 import "./Login.css";
@@ -40,18 +42,13 @@ export class Login extends Component {
     } = this.props;
     const github_oauth_link = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${githubCallbackUrl}&state=${githubRandomState}`;
     return userExists ? (
-      <Link className="bp3-button bp3-minimal login__link" to="/profile">
-        <Icon icon="user" />
-        My Profile
-      </Link>
+      <IconButton href='/profile'>
+      <AccountCircle/>
+      </IconButton>
     ) : (
-      <a
-        className="bp3-button bp3-minimal login__link"
-        href={github_oauth_link}
-      >
-        <Icon icon="user" />
-        Login
-      </a>
+      <IconButton href={github_oauth_link}>
+      <AccountCircle />
+      </IconButton>
     );
   }
 }
