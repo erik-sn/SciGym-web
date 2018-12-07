@@ -19,7 +19,7 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case types.LOGIN_USER_GITHUB_OAUTH:
     case types.REFRESH_AUTH_TOKEN:
-    case types.GET_MY_PROFILE: {
+    case types.GET_USER_PROFILE: {
       return setLoading(state, types.LOGIN_USER_GITHUB_OAUTH);
     }
 
@@ -27,8 +27,8 @@ export default (state = initialState, action) => {
     case types.LOGIN_USER_GITHUB_OAUTH_FAILURE:
     case types.REFRESH_AUTH_TOKEN_SUCCESS:
     case types.REFRESH_AUTH_TOKEN_FAILURE:
-    case types.GET_MY_PROFILE_SUCCESS:
-    case types.GET_MY_PROFILE_FAILURE: {
+    case types.GET_USER_PROFILE_SUCCESS:
+    case types.GET_USER_PROFILE_FAILURE: {
       return removeLoading(state, types.LOGIN_USER_GITHUB_OAUTH);
     }
 

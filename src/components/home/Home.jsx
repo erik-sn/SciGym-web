@@ -49,7 +49,7 @@ class Profile extends Component {
   }
 }
 
-Profile.propTypes = {
+Home.propTypes = {
   repositories: PropTypes.arrayOf(PropTypes.object)
 };
 

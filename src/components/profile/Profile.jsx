@@ -8,6 +8,7 @@ import { isLoading } from "../../reducers/display";
 import { findGymRepos, getUserRepositories } from "../../actions/repositories";
 import { createEnvironment } from "../../actions/environments";
 import RepositoryItem from "./RepositoryItem";
+import Logout from "../auth/Logout";
 import "./profile.css";
 
 class Profile extends Component {
@@ -32,6 +33,7 @@ class Profile extends Component {
     const empty = loaded && repositories.size > 0;
     return (
       <Card>
+        <Logout />
         <h1>My repositories</h1>
         {findGymLoading ? (
           <Spinner size={45} />
