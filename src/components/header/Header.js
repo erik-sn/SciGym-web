@@ -1,13 +1,10 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import {
-  Spinner
-} from "@blueprintjs/core";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Login from "../auth/Login";
 import types from "../../utils/types";
-import "./Header.css";
 import { SciGymIcon } from "../files/icons";
 
 import AppBar from '@material-ui/core/AppBar';
@@ -19,15 +16,23 @@ import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'redux';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import Hidden from '@material-ui/core/Hidden';
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
+    flex: 1,
+    flexDirection: 'row',
+    display: 'flex',
   },
   grow: {
     flexGrow: 1,
+    display:'flex',
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
   },
   menuButton: {
+    position: 'relative',
     marginLeft: -12,
     marginRight: 20,
   },
@@ -66,7 +71,7 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
     paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 10,
+    paddingLeft: theme.spacing.unit * 9,
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
@@ -97,30 +102,43 @@ export class Header extends PureComponent {
     return (
       <AppBar position="sticky" color="inherit">
         <Toolbar className={classes.toolBarStyle}>
-          <IconButton href="/" color="inherit" style={{backgroundColor: 'transparent', textDecoration: 'none'}}>
-            <SciGymIcon/>
-            SciGym
-          </IconButton>
-          <IconButton href="/" color="inherit" >
-            <Star/>
-            Get Started
-          </IconButton>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+          <div className={classes.root}>
+            <IconButton href="/" color="inherit" style={{backgroundColor: 'transparent', textDecoration: 'none'}}>
+              <SciGymIcon/>
+              SciGym
+            </IconButton>
+            <Hidden xsDown>
+              <IconButton href="/" color="inherit" style={{backgroundColor: 'transparent', textDecoration: 'none'}}>
+                <Star className={classes.leftIcon}/>
+                Get Started
+              </IconButton>
+            </Hidden>
+            <Hidden smUp>
+              <IconButton href="/" color="inherit" style={{backgroundColor: 'transparent', textDecoration: 'none'}}>
+                <Star/>
+              </IconButton>
+            </Hidden>
+          </div>
+          <Hidden xsDown>
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search environments…"
+                onChange={this.handleSearchChange}
+                value={searchValue}
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+              />
             </div>
-            <InputBase
-              placeholder="Search environments…"
-              onChange={this.handleSearchChange}
-              value={searchValue}
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-            />
-            </div>
-        
-          {loading ? <Spinner size={30} /> : <Login />}
+          </Hidden>
+          <div className={classes.grow} />
+          <div className={classes.menuButton}>
+            {loading ? <CircularProgress size={30} disableShrink color="secondary"/> : <Login />}
+          </div>
         </Toolbar>
       </AppBar>
     );
