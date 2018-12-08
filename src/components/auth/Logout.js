@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Button } from "@blueprintjs/core";
-
+import { Link } from "react-router-dom";
 import { logout } from "../../actions/user";
 
 class Logout extends Component {
@@ -17,19 +16,15 @@ class Logout extends Component {
 
   render() {
     return (
-      <Button
-        icon="log-out"
-        intent="danger"
-        text="logout"
-        onClick={this.logoutUser}
-      />
+      <Link onClick={this.logoutUser} to="/">
+       Logout
+      </Link>
     );
   }
 }
 
 Logout.propTypes = {
-  logout: PropTypes.string,
-  findGymRepos: PropTypes.func.isRequired
+  logout: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

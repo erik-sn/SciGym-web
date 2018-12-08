@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Login from "../auth/Login";
 import types from "../../utils/types";
 import { SciGymIcon } from "../files/icons";
 
@@ -17,6 +16,7 @@ import { compose } from 'redux';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import Hidden from '@material-ui/core/Hidden';
+import ProfileMenu from './ProfileMenu';
 
 const styles = theme => ({
   root: {
@@ -46,11 +46,10 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    marginRight: theme.spacing.unit * 2,
-    marginLeft: 0,
-    width: '100%',
+    visibility: 'hidden',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing.unit * 3,
+      visibility: 'visible',
+      marginLeft: theme.spacing.unit * 6,
       width: 'auto',
     },
   },
@@ -119,7 +118,6 @@ export class Header extends PureComponent {
               </IconButton>
             </Hidden>
           </div>
-          <Hidden xsDown>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -134,10 +132,9 @@ export class Header extends PureComponent {
                 }}
               />
             </div>
-          </Hidden>
           <div className={classes.grow} />
           <div className={classes.menuButton}>
-            {loading ? <CircularProgress size={30} disableShrink color="secondary"/> : <Login />}
+            {loading ? <CircularProgress size={30} disableShrink color="secondary"/> : <ProfileMenu />}
           </div>
         </Toolbar>
       </AppBar>

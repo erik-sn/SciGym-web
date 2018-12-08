@@ -9,6 +9,7 @@ import RepositoryItem from "../profile/RepositoryItem";
 import { withStyles } from "@material-ui/core";
 import { compose } from 'redux';
 import Grid from '@material-ui/core/Grid';
+import Hero from "./Hero";
 
 const styles = {
   root: {
@@ -16,7 +17,7 @@ const styles = {
   }
 };
 
-class Profile extends Component {
+class Home extends Component {
   render() {
     const { classes } = this.props;
     const { repositories } = this.props;
@@ -24,9 +25,10 @@ class Profile extends Component {
     const empty = loaded && repositories.size > 0;
     return (
       <div className={classes.root}>
+      <Hero/>
       <Grid container justify="center">
         <div>
-          <h1>All repositories</h1>
+          <h1>Recent repositories</h1>
           {empty && <h1>No repositories found</h1>}
           {loaded && (
             <List>
@@ -60,4 +62,4 @@ const mapStateToProps = state => ({
 export default compose(
   connect(mapStateToProps), 
   withStyles(styles)
-)(Profile);
+)(Home);

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import { Button, Card } from "@blueprintjs/core";
 
+// not implemented yet -- convert to material
 class Profile extends Component {
   render() {
     return (

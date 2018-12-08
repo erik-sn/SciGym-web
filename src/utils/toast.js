@@ -1,6 +1,7 @@
 import { Position, Toaster } from "@blueprintjs/core";
 import { debounce } from "lodash";
 
+// not used anymore -- replace?
 /** Singleton toaster instance. Create separate instances for different options. */
 const toaster = Toaster.create({
   className: "toaster",
