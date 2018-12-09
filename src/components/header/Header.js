@@ -4,7 +4,7 @@ import { withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import types from "../../utils/types";
-import { SciGymIcon } from "../files/icons";
+import { SciGymIcon } from "../files/images";
 
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
