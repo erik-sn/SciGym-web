@@ -1,15 +1,24 @@
 import React from "react";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
+import { withStyles } from "@material-ui/core";
 
-import "./Hero.css";
+const styles = {
+  hero: {
+    height: '400px',
+    width: '100%',
+    backgroundPosition: '50% 50%',
+    backgroundSize: 'cover',
+  }
+};
 
 const Hero = props => {
+  const { classes } = props
   return (
     <div
-      className="hero"
+      className={classes.hero}
       style={{
         backgroundImage:
-          "url(https://cdn-images-1.medium.com/max/2000/1*m2gDBT_nc-iE7R4AM3sHBQ.jpeg)"
+          "url(http://localhost:8000/static/images/ai_photonics_banner.jpg"
       }}
     />
   );
@@ -17,4 +26,4 @@ const Hero = props => {
 
 Hero.propTypes = {};
 
-export default Hero;
+export default withStyles(styles)(Hero);
