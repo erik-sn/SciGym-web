@@ -6,7 +6,6 @@ import Divider from '@material-ui/core/Divider';
 import types from "../../utils/types";
 import { isLoading } from "../../reducers/display";
 import { findGymRepos, getUserRepositories } from "../../actions/repositories";
-import { createEnvironment } from "../../actions/environments";
 import RepositoryItem from "./RepositoryItem";
 import { withStyles } from "@material-ui/core";
 import { compose } from 'redux';
@@ -65,8 +64,7 @@ class Profile extends Component {
               <React.Fragment key={r.id}>
                 <RepositoryItem
                   key={r.id}
-                  {...r}
-                  createEnvironment={this.createEnvironment}
+                  repo={r}
                 />
                 <Divider />
               </React.Fragment>
@@ -92,8 +90,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = {
   findGymRepos,
-  getUserRepositories,
-  createEnvironment
+  getUserRepositories
 };
 
 export default compose(

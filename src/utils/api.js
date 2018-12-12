@@ -35,11 +35,10 @@ class StadiumApiClient {
     return axios.get(`${this.url}/environments/`);
   }
 
-  createEnvironment(name, repositoryId, isPublic, pypiUrl) {
+  createEnvironment(name, description, repositoryId) {
     return axios.post(`${this.url}/environments/`, {
       name,
-      public: isPublic,
-      pypi_url: pypiUrl,
+      description,
       repository: repositoryId
     });
   }

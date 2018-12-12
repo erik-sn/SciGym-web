@@ -13,10 +13,11 @@ import Fab from '@material-ui/core/Fab';
 
 import { SciGymLogo, GithubIcon } from '../files/images';
 import AddIcon from '@material-ui/icons/Add';
+import Edit from '@material-ui/icons/Edit';
 
-import { createEnvironment, getEnvironments } from "../../actions/environments";
-import { withStyles, IconButton } from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 import { compose } from 'redux';
+import EnvironmentForm from "./EnvironmentForm";
 
 
 const styles = {
@@ -45,19 +46,24 @@ const styles = {
 }
 
 class RepositoryItem extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.createEnvironment = this.createEnvironment.bind(this);
-  //   this.getEnvironments = this.getEnvironments.bind(this);
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      envExists: Boolean(this.props.environment)
+    };
+  }
 
-  // getEnvironments() {
-  //   this.props.getEnvironments();
-  // }
+  handleClickOpen = () => {
+    this.setState({
+      open: true,
+    });
+  }
 
-  // createEnvironment() {
-  //   this.props.createEnvironment();
-  // }
+  handleClose = () => {
+    this.setState({ open: false });
+}
+
 
   render() {
     const {
@@ -68,7 +74,7 @@ class RepositoryItem extends Component {
       sshUrl,
       gitUrl,
       pypiName,
-    } = this.props;
+    } = this.props.repo;
     const { classes } = this.props;
     return(
       <ListItem>
@@ -79,31 +85,42 @@ class RepositoryItem extends Component {
               <SciGymLogo /> 
             </div>
             <div className={classes.cardContentStyle}>
-            <CardContent>
-              <Typography variant="h5" component='h2' gutterBottom>
-                {name}
-              </Typography>
-              <Typography variant='subheading' gutterBottom>
-                {description}
-              </Typography>
-              <Typography variant='subheading' gutterBottom>
-                Owner: <a href={"https://github.com/".concat(owner.username)}> {owner.username} </a>
-              </Typography>
-              <Typography variant="subheading">{pypiName && <pre>pip install {pypiName}</pre>}</Typography>
-            </CardContent>
-            <CardActions>
-              <Button href={htmlUrl}>
-                <GithubIcon />
-                Github
-              </Button>
-            </CardActions>
-            <Fab size="medium" className={classes.buttonPosition} color="primary">
-              <AddIcon />
-            </Fab>
-            
+              <CardContent>
+                <Typography variant="h5" component='h2' gutterBottom>
+                  {name}
+                </Typography>
+                <Typography variant='subheading' gutterBottom>
+                  {description}
+                </Typography>
+                <Typography variant='subheading' gutterBottom>
+                  Owner: <a href={"https://github.com/".concat(owner.username)}> {owner.username} </a>
+                </Typography>
+                <Typography variant="subheading">{pypiName && <pre>pip install {pypiName}</pre>}</Typography>
+              </CardContent>
+              <CardActions>
+                <Button href={htmlUrl}>
+                  <GithubIcon />
+                  Github
+                </Button>
+              </CardActions>
+              {this.state.envExists ? 
+              <Fab size="medium" className={classes.buttonPosition} color="primary" onClick={this.handleClickOpen}>
+                <Edit />
+              </Fab> : 
+              <Fab size="medium" className={classes.buttonPosition} color="primary" onClick={this.handleClickOpen}>
+                <AddIcon />
+              </Fab>
+            }
+    
             </div>
           </div>
-    
+          <EnvironmentForm 
+            repo={this.props.repo}
+            onClose={this.handleClose}
+            open={this.state.open}
+            environment={this.props.environment}
+            envExists={this.state.envExists}
+          />
         </Card>
       </ListItem>
     );
@@ -113,25 +130,19 @@ class RepositoryItem extends Component {
 
 
 RepositoryItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  description: PropTypes.string,
-  owner: PropTypes.object.isRequired,
-  htmlUrl: PropTypes.string.isRequired,
-  sshUrl: PropTypes.string,
-  gitUrl: PropTypes.string,
-  pypiName: PropTypes.string,
-  // createEnvironment: PropTypes.func.isRequired,
-  // getEnvironments:PropTypes.func.isRequired
+  key: PropTypes.string,
+  repo: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-  userExists: Boolean(state.user.accessToken)
-});
+function mapStateToProps(state, ownProps) {
+  const repoId = ownProps.repo.id;
+  const { environments } = state.environments;
+  return {
+    environment: environments.find(env => env.id === repoId) // check env.repo instead of id
+  };
+}
 
 const mapDispatchToProps = {
-  // createEnvironment,
-  // getEnvironments
 };
 
 export default compose(

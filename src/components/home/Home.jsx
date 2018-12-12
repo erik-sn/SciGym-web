@@ -36,8 +36,7 @@ class Home extends Component {
                 <React.Fragment key={r.id}>
                   <RepositoryItem
                     key={r.id}
-                    {...r}
-                    createEnvironment={this.createEnvironment}
+                    repo={r}
                   />
                   <Divider />
                 </React.Fragment>

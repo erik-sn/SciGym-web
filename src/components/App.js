@@ -9,6 +9,7 @@ import Header from "./header/Header";
 import { getApiConfig, getApiStatus } from "../actions/config";
 import { getRepositories } from "../actions/repositories";
 import { refreshAuthToken } from "../actions/user";
+import { getEnvironments } from "../actions/environments";
 import Home from "./home/Home";
 import Profile from "./profile/Profile";
 import constants from "../utils/constants";
@@ -19,6 +20,7 @@ export class App extends Component {
     this.props.getApiConfig();
     this.props.getApiStatus();
     this.props.getRepositories();
+    this.props.getEnvironments();
     window.setTimeout(this.props.getApiStatus, 30000);
   }
 
@@ -59,7 +61,8 @@ App.propTypes = {
   getApiStatus: PropTypes.func.isRequired,
   getRepositories: PropTypes.func.isRequired,
   refreshAuthToken: PropTypes.func.isRequired,
-  githubCallbackUrl: PropTypes.string
+  githubCallbackUrl: PropTypes.string,
+  getEnvironments: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -70,6 +73,6 @@ const mapStateToProps = state => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { getApiConfig, getApiStatus, refreshAuthToken, getRepositories }
+    { getApiConfig, getApiStatus, refreshAuthToken, getRepositories, getEnvironments }
   )(App)
 );
