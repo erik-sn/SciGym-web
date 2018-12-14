@@ -14,13 +14,16 @@ import Fab from '@material-ui/core/Fab';
 import { SciGymLogo, GithubIcon } from '../files/images';
 import AddIcon from '@material-ui/icons/Add';
 import Edit from '@material-ui/icons/Edit';
+import Delete from '@material-ui/icons/Delete';
 
 import { withStyles } from "@material-ui/core";
 import { compose } from 'redux';
 import EnvironmentForm from "./EnvironmentForm";
+import api from '../../utils/api';
+import { getEnvironments } from "../../actions/environments";
 
 
-const styles = {
+const styles = theme => ({
   root: {
     display: 'flex', 
     flexFlow: 'row wrap',
@@ -38,19 +41,23 @@ const styles = {
   cardContentStyle: {
     flex: '1 1 400px',
   },
+  buttonStyle: {
+    margin: theme.spacing.unit,
+  },
   buttonPosition: {
     position: 'absolute',
     right: '40px',
-    bottom: '30px',
+    bottom: '25px',
   }
-}
+})
 
 class RepositoryItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      envExists: Boolean(this.props.environment)
+      envExists: Boolean(this.props.environment),
+      error: ''
     };
   }
 
@@ -62,7 +69,21 @@ class RepositoryItem extends Component {
 
   handleClose = () => {
     this.setState({ open: false });
-}
+  }
+
+  handleClickDelete = () => {
+    api.deleteEnvironment(this.props.environment).then(this.handleSuccess).catch(this.handleFailure);
+  }
+
+  handleSuccess = () => {
+    api.environments().then((json) => {
+      this.props.getEnvironments(json.data);
+    });
+	}
+	
+	handleFailure = () => {
+		this.setState({ error: 'Problems!' })
+	}
 
 
   render() {
@@ -104,9 +125,14 @@ class RepositoryItem extends Component {
                 </Button>
               </CardActions>
               {this.state.envExists ? 
-              <Fab size="medium" className={classes.buttonPosition} color="primary" onClick={this.handleClickOpen}>
+              <div className={classes.buttonPosition}> 
+              <Fab size="small" color="secondary" onClick={this.handleClickDelete} className={classes.buttonStyle}>
+                <Delete />
+              </Fab>
+              <Fab size="small" color="primary" onClick={this.handleClickOpen} className={classes.buttonStyle}>
                 <Edit />
-              </Fab> : 
+              </Fab>
+              </div> : 
               <Fab size="medium" className={classes.buttonPosition} color="primary" onClick={this.handleClickOpen}>
                 <AddIcon />
               </Fab>
@@ -132,17 +158,19 @@ class RepositoryItem extends Component {
 RepositoryItem.propTypes = {
   key: PropTypes.string,
   repo: PropTypes.object.isRequired,
+  getEnvironments: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
   const repoId = ownProps.repo.id;
-  const { environments } = state.environments;
+  const { environments } = state.environments; // this is empty at reload
   return {
-    environment: environments.find(env => env.id === repoId) // check env.repo instead of id
+    environment: environments.find(env => env.repository.id === repoId) // check env.repo instead of id
   };
 }
 
 const mapDispatchToProps = {
+  getEnvironments
 };
 
 export default compose(

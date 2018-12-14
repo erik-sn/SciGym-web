@@ -3,23 +3,26 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core";
 import { compose } from 'redux';
 import { connect } from "react-redux";
-import { createEnvironment } from "../../actions/environments";
+import { getEnvironments } from "../../actions/environments";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import TextField from '@material-ui/core/TextField';
+import Fab from '@material-ui/core/Fab';
+import Button from '@material-ui/core/Button';
+import api from '../../utils/api';
 
 const styles = theme => ({
 	root:{
 		flex: '1'
 	},
 	container: {
-    display: 'flex',
-    flexWrap: 'wrap',
+		display: 'flex',
+		flexWrap: 'wrap',
 	},
 	textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-	},
+		marginLeft: theme.spacing.unit,
+		marginRight: theme.spacing.unit,
+	}
 })
 
 class EnvironmentForm extends Component {
@@ -29,19 +32,42 @@ class EnvironmentForm extends Component {
 			id: this.props.envExists ? this.props.environment.id : this.props.repo.id,
 			name: this.props.envExists ? this.props.environment.name : this.props.repo.name,
 			description: this.props.envExists ? this.props.environment.description : this.props.repo.description,
+			error: '',
 		}
-    this.createEnvironment = this.createEnvironment.bind(this);
+    this.getEnvironments = this.getEnvironments.bind(this);
   };
 
 
-  createEnvironment() {
-    this.props.createEnvironment();
+	getEnvironments() {
+		this.props.getEnvironments();
 	};
 
 	handleClose = () => {
     this.props.onClose();
 	};
 
+	handleSubmit = (event) => {
+		// event,preventDefault();
+		if (this.props.envExists) {
+			console.log('Nothing yet');
+			this.handleFailure();
+		} else {
+			const { name, description, id} = this.state;
+			api.createEnvironment(name, description, id).then(this.handleSuccess).catch(this.handleFailure);
+		}
+	}
+
+	handleSuccess = () => {
+		this.handleClose();
+    api.environments().then((json) => {
+      this.props.getEnvironments(json.data);
+    });
+	}
+	
+	handleFailure = () => {
+		this.setState({ error: 'Problems!' })
+	}
+	
 
   handleChange = name => event => {
     this.setState({
@@ -53,6 +79,7 @@ class EnvironmentForm extends Component {
 		const { classes } = this.props
 		const { environment } = this.props;
 		const { repo } = this.props;
+		const { error } = this.state
 		return (
 			<form className={classes.container}>
 				<Dialog onClose={this.handleClose} open={this.props.open} fullWidth>
@@ -90,6 +117,10 @@ class EnvironmentForm extends Component {
 						margin="normal"
 						variant="filled"
 					/>
+					<Button onClick={this.handleSubmit}>
+						Submit
+					</Button>
+					{error ? <h1> Something went wrong: {error} </h1> : null}
 				</Dialog>
 			</form>
 		);
@@ -97,7 +128,7 @@ class EnvironmentForm extends Component {
 }
 
 EnvironmentForm.propTypes = {
-  createEnvironment: PropTypes.func.isRequired,
+  getEnvironments: PropTypes.func.isRequired,
 	onClose: PropTypes.func.isRequired,
 	repo: PropTypes.object.isRequired,
 	open: PropTypes.bool.isRequired,
@@ -106,7 +137,7 @@ EnvironmentForm.propTypes = {
 
 const mapStateToProps = state => ({});
 const mapDispatchToProps = {
-	createEnvironment
+	getEnvironments
 };
 
 export default compose(

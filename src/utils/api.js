@@ -37,10 +37,15 @@ class StadiumApiClient {
 
   createEnvironment(name, description, repositoryId) {
     return axios.post(`${this.url}/environments/`, {
-      name,
-      description,
+      name: name,
+      description: description,
       repository: repositoryId
     });
+  }
+
+  deleteEnvironment(environment) {
+    return axios.delete(`${this.url}/environments/${environment.id}/`
+    );
   }
 
   repositories() {

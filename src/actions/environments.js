@@ -38,3 +38,24 @@ export const createEnvironment = (...args) => {
       });
   };
 };
+
+export const deleteEnvironment = (environment) => {
+  return dispatch => {
+    dispatch({ 
+      type: types.DELETE_ENVIRONMENT ,
+      meta: environment,
+    });
+    api
+    .deleteEnvironment(environment)
+    .then(response => {
+      dispatch({
+        type: types.DELETE_ENVIRONMENT_SUCCESS,
+        payload: response.data
+      });
+    })
+    .catch(error => {
+      dispatch({ type: types.DELETE_ENVIRONMENT_FAILURE });
+      logError(error);
+    });
+  };
+};
