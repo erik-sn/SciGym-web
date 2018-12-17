@@ -64,7 +64,7 @@ class Profile extends Component {
               <React.Fragment key={r.id}>
                 <RepositoryItem
                   key={r.id}
-                  repo={r}
+                  repository={r}
                 />
                 <Divider />
               </React.Fragment>

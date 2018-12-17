@@ -43,6 +43,10 @@ class StadiumApiClient {
     });
   }
 
+  editEnvironment(environment) {
+    return axios.put(`${this.url}/environments/${environment.id}/`, environment);
+  }
+
   deleteEnvironment(environment) {
     return axios.delete(`${this.url}/environments/${environment.id}/`
     );

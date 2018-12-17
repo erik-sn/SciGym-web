@@ -35,7 +35,7 @@ const styles = theme => ({
     flex: '1 1 10px', 
     margin: 'auto', 
     top: '0', 
-    bottom: '0', 
+    bottom: '0',
     textAlign: 'center',
   },
   cardContentStyle: {
@@ -57,6 +57,7 @@ class RepositoryItem extends Component {
     this.state = {
       open: false,
       envExists: Boolean(this.props.environment),
+      repository: this.props.repository,
       error: ''
     };
   }
@@ -85,6 +86,11 @@ class RepositoryItem extends Component {
 		this.setState({ error: 'Problems!' })
 	}
 
+  componentDidUpdate(prevProps) {
+    if (this.props.environment !== prevProps.environment) {
+      this.setState( {envExists: Boolean(this.props.environment)} )
+    }
+  }
 
   render() {
     const {
@@ -95,7 +101,7 @@ class RepositoryItem extends Component {
       sshUrl,
       gitUrl,
       pypiName,
-    } = this.props.repo;
+    } = this.props.repository;
     const { classes } = this.props;
     return(
       <ListItem>
@@ -141,7 +147,7 @@ class RepositoryItem extends Component {
             </div>
           </div>
           <EnvironmentForm 
-            repo={this.props.repo}
+            repository={this.props.repository}
             onClose={this.handleClose}
             open={this.state.open}
             environment={this.props.environment}
@@ -157,12 +163,12 @@ class RepositoryItem extends Component {
 
 RepositoryItem.propTypes = {
   key: PropTypes.string,
-  repo: PropTypes.object.isRequired,
+  repository: PropTypes.object.isRequired,
   getEnvironments: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
-  const repoId = ownProps.repo.id;
+  const repoId = ownProps.repository.id;
   const { environments } = state.environments; // this is empty at reload
   return {
     environment: environments.find(env => env.repository.id === repoId) // check env.repo instead of id

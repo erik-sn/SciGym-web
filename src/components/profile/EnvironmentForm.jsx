@@ -7,7 +7,6 @@ import { getEnvironments } from "../../actions/environments";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import TextField from '@material-ui/core/TextField';
-import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
 import api from '../../utils/api';
 
@@ -29,9 +28,9 @@ class EnvironmentForm extends Component {
   constructor(props) {
 		super(props);
 		this.state = {
-			id: this.props.envExists ? this.props.environment.id : this.props.repo.id,
-			name: this.props.envExists ? this.props.environment.name : this.props.repo.name,
-			description: this.props.envExists ? this.props.environment.description : this.props.repo.description,
+			id: this.props.envExists ? this.props.environment.id : this.props.repository.id,
+			name: this.props.envExists ? this.props.environment.name : this.props.repository.name,
+			description: this.props.envExists ? this.props.environment.description : this.props.repository.description,
 			error: '',
 		}
     this.getEnvironments = this.getEnvironments.bind(this);
@@ -49,8 +48,7 @@ class EnvironmentForm extends Component {
 	handleSubmit = (event) => {
 		// event,preventDefault();
 		if (this.props.envExists) {
-			console.log('Nothing yet');
-			this.handleFailure();
+			api.editEnvironment(this.state).then(this.handleSuccess).catch(this.handleFailure);
 		} else {
 			const { name, description, id} = this.state;
 			api.createEnvironment(name, description, id).then(this.handleSuccess).catch(this.handleFailure);
@@ -59,9 +57,9 @@ class EnvironmentForm extends Component {
 
 	handleSuccess = () => {
 		this.handleClose();
-    api.environments().then((json) => {
-      this.props.getEnvironments(json.data);
-    });
+    	api.environments().then((json) => {
+	  		this.props.getEnvironments(json.data);
+		});
 	}
 	
 	handleFailure = () => {
@@ -77,8 +75,7 @@ class EnvironmentForm extends Component {
 	
 	render() {
 		const { classes } = this.props
-		const { environment } = this.props;
-		const { repo } = this.props;
+		const { repository } = this.props;
 		const { error } = this.state
 		return (
 			<form className={classes.container}>
@@ -113,7 +110,7 @@ class EnvironmentForm extends Component {
 						id="filled-disabled-owner"
 						label="Owner"
 						className={classes.textField}
-						defaultValue={repo.owner.username}
+						defaultValue={repository.owner.username}
 						margin="normal"
 						variant="filled"
 					/>
@@ -130,7 +127,8 @@ class EnvironmentForm extends Component {
 EnvironmentForm.propTypes = {
   getEnvironments: PropTypes.func.isRequired,
 	onClose: PropTypes.func.isRequired,
-	repo: PropTypes.object.isRequired,
+	repository: PropTypes.object.isRequired,
+	environment: PropTypes.object,
 	open: PropTypes.bool.isRequired,
 	envExists: PropTypes.bool.isRequired
 };
