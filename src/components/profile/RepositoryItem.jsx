@@ -98,8 +98,6 @@ class RepositoryItem extends Component {
       description,
       owner,
       htmlUrl,
-      sshUrl,
-      gitUrl,
       pypiName,
     } = this.props.repository;
     const { classes } = this.props;

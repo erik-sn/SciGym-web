@@ -9,18 +9,32 @@ import Dialog from '@material-ui/core/Dialog';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import api from '../../utils/api';
+import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
+import Chip from '@material-ui/core/Chip';
+import List from '@material-ui/core/List';
+import Typography from "@material-ui/core/Typography";
+
 
 const styles = theme => ({
 	root:{
-		flex: '1'
+		flex: 1,
 	},
 	container: {
 		display: 'flex',
 		flexWrap: 'wrap',
 	},
 	textField: {
-		marginLeft: theme.spacing.unit,
-		marginRight: theme.spacing.unit,
+		margin: theme.spacing.unit*2,
+		// marginLeft: theme.spacing.unit,
+		// marginRight: theme.spacing.unit,
+	},
+	tagStyle: {
+		margin: theme.spacing.unit,
 	}
 })
 
@@ -31,6 +45,8 @@ class EnvironmentForm extends Component {
 			id: this.props.envExists ? this.props.environment.id : this.props.repository.id,
 			name: this.props.envExists ? this.props.environment.name : this.props.repository.name,
 			description: this.props.envExists ? this.props.environment.description : this.props.repository.description,
+			tag: '',
+			tags: this.props.envExists && Boolean(this.props.environment.tags) ? this.props.environment.tags : [],
 			error: '',
 		}
     this.getEnvironments = this.getEnvironments.bind(this);
@@ -46,12 +62,12 @@ class EnvironmentForm extends Component {
 	};
 
 	handleSubmit = (event) => {
-		// event,preventDefault();
+		event.preventDefault();
 		if (this.props.envExists) {
 			api.editEnvironment(this.state).then(this.handleSuccess).catch(this.handleFailure);
 		} else {
-			const { name, description, id} = this.state;
-			api.createEnvironment(name, description, id).then(this.handleSuccess).catch(this.handleFailure);
+			const { name, description, id, tags} = this.state;
+			api.createEnvironment(name, description, id, tags).then(this.handleSuccess).catch(this.handleFailure);
 		}
 	}
 
@@ -63,7 +79,7 @@ class EnvironmentForm extends Component {
 	}
 	
 	handleFailure = () => {
-		this.setState({ error: 'Problems!' })
+		this.setState({ error: 'Request did NOT succeed!' })
 	}
 	
 
@@ -72,11 +88,37 @@ class EnvironmentForm extends Component {
       [name]: event.target.value,
     });
 	};
+
+	handleAddTag = () => {
+		const tagArray = this.state.tags;
+		if (tagArray.includes(this.state.tag) || this.state.tag === '') {
+			this.setState({ error: 'Tag invalid!' })
+		} else {
+			tagArray.push(this.state.tag);
+			this.setState({
+				tags: tagArray,
+				tag: '',
+			});
+		}
+	}
+
+	handleDeleteTag = tag => event => {
+		event.preventDefault();
+		const tagArray = this.state.tags;
+		tagArray.splice( tagArray.indexOf(tag), 1 );
+		this.setState({tag: ''});
+		this.setState({
+			tags: tagArray,
+		});
+	};
+
+
 	
 	render() {
 		const { classes } = this.props
 		const { repository } = this.props;
-		const { error } = this.state
+		const { error } = this.state;
+		const { tags } = this.state;
 		return (
 			<form className={classes.container}>
 				<Dialog onClose={this.handleClose} open={this.props.open} fullWidth>
@@ -95,7 +137,7 @@ class EnvironmentForm extends Component {
 					<TextField
 						id="filled-full-description"
 						label="Description"
-						style={{ margin: 8 }}
+						className={classes.textField}
 						value={Boolean(this.state.description) ? this.state.description : ''}
 						onChange={this.handleChange('description')}
 						multiline
@@ -114,10 +156,42 @@ class EnvironmentForm extends Component {
 						margin="normal"
 						variant="filled"
 					/>
+										<FormControl className={classes.textField}>
+					<InputLabel htmlFor="adornment-tag">Add a Tag</InputLabel>
+					<Input
+						id="adornment-tag"
+						value={this.state.tag}
+						onChange={this.handleChange('tag')}
+						endAdornment={
+						<InputAdornment position="end">
+							<IconButton
+							aria-label="Add tag"
+							onClick={this.handleAddTag}
+							>
+							<AddIcon />
+							</IconButton>
+						</InputAdornment>
+						}
+					/>
+					</FormControl>
+					{tags.length > 0 && (
+					<List>
+						{tags.map(tag => (
+							<Chip
+							label={tag}
+							key={tag}
+							onDelete={this.handleDeleteTag(tag)}
+							className={classes.tagStyle}
+							color="primary"
+							variant="outlined"
+						/>
+						))}
+					</List>
+					)}
 					<Button onClick={this.handleSubmit}>
 						Submit
 					</Button>
-					{error ? <h1> Something went wrong: {error} </h1> : null}
+					{error ? <Typography variant="h6" className={classes.title}>{error}</Typography> : null}
 				</Dialog>
 			</form>
 		);

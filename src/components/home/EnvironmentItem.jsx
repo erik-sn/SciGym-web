@@ -17,6 +17,11 @@ import Button from '@material-ui/core/Button';
 import { SciGymLogo, GithubIcon } from '../files/images';
 
 import { withStyles } from "@material-ui/core";
+import LocalOffer from "@material-ui/icons/LocalOffer";
+import ErrorOutline from "@material-ui/icons/ErrorOutline";
+import Done from "@material-ui/icons/Done";
+import Chip from '@material-ui/core/Chip';
+import List from '@material-ui/core/List';
 
 import showdown from "showdown";
 
@@ -43,6 +48,9 @@ const styles = theme => ({
   buttonStyle: {
     margin: theme.spacing.unit,
   },
+  tagStyle: {
+		margin: theme.spacing.unit,
+	},
   buttonPosition: {
     position: 'absolute',
     right: '40px',
@@ -50,6 +58,11 @@ const styles = theme => ({
   },
   readmeStyle: {
     margin: theme.spacing.unit,
+  },
+  chipPosition: {
+    position: 'absolute',
+    right: '40px',
+    bottom: '25px',
   }
 })
 class EnvironmentItem extends Component {
@@ -58,7 +71,6 @@ class EnvironmentItem extends Component {
     this.state = {
       open: false,
       error: '',
-      readme_html: '',
     };
   }
 
@@ -75,29 +87,22 @@ class EnvironmentItem extends Component {
 	handleFailure = () => {
 		this.setState({ error: 'Problems!' })
   }
-  
-  componentDidMount() {
-    var converter = new showdown.Converter();
-    this.setState({ readme_html: converter.makeHtml(atob(this.props.environment.repository.readme)) })
-  }
-
 
   render() {
     const {
       owner,
       htmlUrl,
-      sshUrl,
-      gitUrl,
-      pypiName,
       readme,
+      gym,
     } = this.props.environment.repository;
     const {
       name,
       description,
+      tags,
     } = this.props.environment
     const { classes } = this.props;
-    
-    // var parser = new DOMParser()
+    var converter = new showdown.Converter();
+    converter.setFlavor('github');
     return(
       <ListItem>
         <Card className={classes.cardStyle}>
@@ -119,20 +124,59 @@ class EnvironmentItem extends Component {
                     <Typography variant='subheading' gutterBottom>
                       Owner: <a href={"https://github.com/".concat(owner.username)}> {owner.username} </a>
                     </Typography>
-                    <Typography variant="subheading">{pypiName && <pre>pip install {pypiName}</pre>}</Typography>
+                    <List>
+                      {tags.map(tag => (
+                        <Chip
+                        icon={<LocalOffer/>}
+                        label={tag}
+                        key={tag}
+                        clickable
+                        className={classes.tagStyle}
+                        color="primary"
+                        variant="outlined"
+                      />
+                      ))}
+                    </List>
+                    {/* <Typography variant="subheading">{pypiName && <pre>pip install {pypiName}</pre>}</Typography> */}
                   </CardContent>
                   <CardActions>
                     <Button href={htmlUrl}>
                       <GithubIcon />
                       Github
                     </Button>
-                  </CardActions>    
+                  </CardActions>
+                  {gym ? 
+                  <div className={classes.chipPosition}> 
+                  <Chip
+                    icon={<Done/>}
+                    label="Verified Gym Environment"
+                    className={classes.tagStyle}
+                    color="primary"
+                  /> 
+                  </div> :
+                  <div className={classes.chipPosition}> 
+                  <Chip
+                  icon={<ErrorOutline/>}
+                  label="Not a Gym Environment"
+                  className={classes.tagStyle}
+                  color="secondary"
+                  />
+                  </div>
+                  }  
                 </div>
               </div>
             </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-            <Paper style={{maxHeight: '500px', overflow: 'auto', maxWidth: '100%'}}>
-              <div dangerouslySetInnerHTML={{ __html: this.state.readme_html }} className={classes.readmeStyle}/>
+            <ExpansionPanelDetails style={{maxWidth: '100%', alignItems: 'center'}}>
+            <Paper style={{maxHeight: '500px', overflowY: 'scroll', overflowX: 'hidden'}}>
+              <div 
+                // if html
+                // dangerouslySetInnerHTML={{ __html: this.props.environment.repository.readme }} 
+                // if raw
+                // dangerouslySetInnerHTML={{ __html: converter.makeHtml(this.props.environment.repository.readme)}}
+                // if md
+                dangerouslySetInnerHTML={{ __html: converter.makeHtml(atob(readme))}}
+                className={classes.readmeStyle}
+                />
             </Paper>
             </ExpansionPanelDetails>
           </ExpansionPanel>

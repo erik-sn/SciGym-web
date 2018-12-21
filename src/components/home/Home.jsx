@@ -10,30 +10,31 @@ import { withStyles } from "@material-ui/core";
 import { compose } from 'redux';
 import Grid from '@material-ui/core/Grid';
 import Hero from "./Hero";
+import Typography from "@material-ui/core/Typography";
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1,
+  },
+  title: {
+    margin: theme.spacing.unit*2,
+    marginTop: theme.spacing.unit*6,
   }
-};
+});
 
 class Home extends Component {
   render() {
     const { classes } = this.props;
-    // const loaded = repositories !== undefined;
-    // const empty = loaded && repositories.size > 0;
-
     const { environments } = this.props;
-    const loaded = environments !== undefined;
-    const empty = loaded && environments.length === 0;
+    const empty = environments.length === 0;
     return (
       <div className={classes.root}>
       <Hero/>
       <Grid container justify="center">
         <div>
-        <h1>Recent environments</h1>
-        {empty && <h1>No environments found</h1>}
-        {loaded && (
+        <Typography variant="h4" className={classes.title}>Recent environments</Typography>
+        {empty && <Typography variant="h6" className={classes.title}>No environments found</Typography>}
+        {!(empty) && (
           <List>
             {environments.map(env => (
               <React.Fragment key={env.id}>

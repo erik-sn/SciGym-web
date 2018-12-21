@@ -35,11 +35,12 @@ class StadiumApiClient {
     return axios.get(`${this.url}/environments/`);
   }
 
-  createEnvironment(name, description, repositoryId) {
+  createEnvironment(name, description, repositoryId, tags) {
     return axios.post(`${this.url}/environments/`, {
       name: name,
       description: description,
-      repository: repositoryId
+      repository: repositoryId,
+      tags: tags,
     });
   }
 
