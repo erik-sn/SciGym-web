@@ -15,6 +15,7 @@ import Typography from "@material-ui/core/Typography";
 const styles = theme => ({
   root: {
     flexGrow: 1,
+    backgroundColor: "AliceBlue",
   },
   title: {
     margin: theme.spacing.unit*2,

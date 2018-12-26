@@ -30,12 +30,10 @@ const styles = theme => ({
 	},
 	textField: {
 		margin: theme.spacing.unit*2,
-		// marginLeft: theme.spacing.unit,
-		// marginRight: theme.spacing.unit,
 	},
 	tagStyle: {
 		margin: theme.spacing.unit,
-	}
+	},
 })
 
 class EnvironmentForm extends Component {
@@ -83,10 +81,10 @@ class EnvironmentForm extends Component {
 	}
 	
 
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    });
+	handleChange = name => event => {
+		this.setState({
+		[name]: event.target.value,
+		});
 	};
 
 	handleAddTag = () => {
@@ -115,7 +113,7 @@ class EnvironmentForm extends Component {
 
 	
 	render() {
-		const { classes } = this.props
+		const { classes } = this.props;
 		const { repository } = this.props;
 		const { error } = this.state;
 		const { tags } = this.state;
@@ -191,7 +189,7 @@ class EnvironmentForm extends Component {
 					<Button onClick={this.handleSubmit}>
 						Submit
 					</Button>
-					{error ? <Typography variant="h6" className={classes.title}>{error}</Typography> : null}
+					{error ? <Typography variant="h6" color='error'>{error}</Typography> : null}
 				</Dialog>
 			</form>
 		);

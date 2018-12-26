@@ -19,6 +19,7 @@ import Delete from '@material-ui/icons/Delete';
 import { withStyles } from "@material-ui/core";
 import { compose } from 'redux';
 import EnvironmentForm from "./EnvironmentForm";
+import DeleteEnvironment from "./DeleteEnvironment";
 import api from '../../utils/api';
 import { getEnvironments } from "../../actions/environments";
 
@@ -57,8 +58,8 @@ class RepositoryItem extends Component {
     this.state = {
       open: false,
       envExists: Boolean(this.props.environment),
-      repository: this.props.repository,
-      error: ''
+      openDelete: false,
+      error: '',
     };
   }
 
@@ -73,17 +74,26 @@ class RepositoryItem extends Component {
   }
 
   handleClickDelete = () => {
+    this.setState({openDelete: true})
+  }
+
+  handleCloseDelete = () => {
+    this.setState({openDelete: false})
+  }
+
+  handleDelete = () => {
     api.deleteEnvironment(this.props.environment).then(this.handleSuccess).catch(this.handleFailure);
   }
 
   handleSuccess = () => {
     api.environments().then((json) => {
       this.props.getEnvironments(json.data);
+      this.setState( {envExists: ! this.state.envExists, openDelete: false} );
     });
 	}
 	
 	handleFailure = () => {
-		this.setState({ error: 'Problems!' })
+		this.setState({ error: "Can't be deleted!" })
 	}
 
   componentDidUpdate(prevProps) {
@@ -98,12 +108,12 @@ class RepositoryItem extends Component {
       description,
       owner,
       htmlUrl,
-      pypiName,
     } = this.props.repository;
     const { classes } = this.props;
+    const keyId = this.state.envExists ? this.props.environment.id : this.props.repository.id;
     return(
       <ListItem>
-        <Card className={classes.cardStyle}>
+        <Card className={classes.cardStyle} raised >
           <div className={classes.root}>
             <div className={classes.logoStyle}>
               {/* add pictures */}
@@ -120,7 +130,6 @@ class RepositoryItem extends Component {
                 <Typography variant='subheading' gutterBottom>
                   Owner: <a href={"https://github.com/".concat(owner.username)}> {owner.username} </a>
                 </Typography>
-                <Typography variant="subheading">{pypiName && <pre>pip install {pypiName}</pre>}</Typography>
               </CardContent>
               <CardActions>
                 <Button href={htmlUrl}>
@@ -136,6 +145,14 @@ class RepositoryItem extends Component {
               <Fab size="small" color="primary" onClick={this.handleClickOpen} className={classes.buttonStyle}>
                 <Edit />
               </Fab>
+              <DeleteEnvironment
+                handleCloseDelete={this.handleCloseDelete}
+                openDelete={this.state.openDelete}
+                environment={this.props.environment}
+                handleDelete={this.handleDelete}
+                error={this.state.error}
+                key={keyId}
+              />
               </div> : 
               <Fab size="medium" className={classes.buttonPosition} color="primary" onClick={this.handleClickOpen}>
                 <AddIcon />
@@ -150,6 +167,7 @@ class RepositoryItem extends Component {
             open={this.state.open}
             environment={this.props.environment}
             envExists={this.state.envExists}
+            key={keyId}
           />
         </Card>
       </ListItem>
@@ -162,7 +180,8 @@ class RepositoryItem extends Component {
 RepositoryItem.propTypes = {
   key: PropTypes.string,
   repository: PropTypes.object.isRequired,
-  getEnvironments: PropTypes.func.isRequired
+  getEnvironments: PropTypes.func.isRequired,
+  environment: PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {

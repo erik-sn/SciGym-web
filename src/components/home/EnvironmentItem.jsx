@@ -6,9 +6,6 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Paper from '@material-ui/core/Paper';
 
 import Typography from '@material-ui/core/Typography';
@@ -16,7 +13,7 @@ import Button from '@material-ui/core/Button';
 
 import { SciGymLogo, GithubIcon } from '../files/images';
 
-import { withStyles } from "@material-ui/core";
+import { withStyles, Collapse, IconButton } from "@material-ui/core";
 import LocalOffer from "@material-ui/icons/LocalOffer";
 import ErrorOutline from "@material-ui/icons/ErrorOutline";
 import Done from "@material-ui/icons/Done";
@@ -24,6 +21,9 @@ import Chip from '@material-ui/core/Chip';
 import List from '@material-ui/core/List';
 
 import showdown from "showdown";
+
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import classnames from 'classnames';
 
 
 
@@ -47,9 +47,15 @@ const styles = theme => ({
   },
   buttonStyle: {
     margin: theme.spacing.unit,
+    [theme.breakpoints.down('xs')]: {
+      margin: '0',
+    }
   },
   tagStyle: {
-		margin: theme.spacing.unit,
+    margin: theme.spacing.unit,
+    [theme.breakpoints.down('xs')]: {
+      margin: '0',
+    }
 	},
   buttonPosition: {
     position: 'absolute',
@@ -58,11 +64,37 @@ const styles = theme => ({
   },
   readmeStyle: {
     margin: theme.spacing.unit,
+    textAlign: 'left',
   },
-  chipPosition: {
+  expandPosition: {
     position: 'absolute',
     right: '40px',
-    bottom: '25px',
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+    position: 'absolute',
+    right: '40px',
+    [theme.breakpoints.down('xs')]: {
+      right: '30px',
+    }
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
+  },
+  paperStyle: {
+    maxHeight: '500px',
+    overflow: 'scroll',
+    maxWidth: '800px',
+    align: 'center',
+    margin: 'auto',
+    textAlign: 'center',
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: '320px',
+      maxHeight: '320px',
+    },
   }
 })
 class EnvironmentItem extends Component {
@@ -75,8 +107,9 @@ class EnvironmentItem extends Component {
   }
 
   handleClickOpen = () => {
+    const newStateOpen = !(this.state.open)
     this.setState({
-      open: true,
+      open: newStateOpen,
     });
   }
 
@@ -105,84 +138,79 @@ class EnvironmentItem extends Component {
     converter.setFlavor('github');
     return(
       <ListItem>
-        <Card className={classes.cardStyle}>
-          <ExpansionPanel>
-            <ExpansionPanelSummary>
-              <div className={classes.root}>
-                <div className={classes.logoStyle}>
-                  {/* add pictures */}
-                  <SciGymLogo /> 
-                </div>
-                <div className={classes.cardContentStyle}>
-                  <CardContent>
-                    <Typography variant="h5" component='h2' gutterBottom>
-                      {name}
-                    </Typography>
-                    <Typography variant='subheading' gutterBottom>
-                      {description}
-                    </Typography>
-                    <Typography variant='subheading' gutterBottom>
-                      Owner: <a href={"https://github.com/".concat(owner.username)}> {owner.username} </a>
-                    </Typography>
-                    <List>
-                      {tags.map(tag => (
-                        <Chip
-                        icon={<LocalOffer/>}
-                        label={tag}
-                        key={tag}
-                        clickable
-                        className={classes.tagStyle}
-                        color="primary"
-                        variant="outlined"
-                      />
-                      ))}
-                    </List>
-                    {/* <Typography variant="subheading">{pypiName && <pre>pip install {pypiName}</pre>}</Typography> */}
-                  </CardContent>
-                  <CardActions>
-                    <Button href={htmlUrl}>
-                      <GithubIcon />
-                      Github
-                    </Button>
-                  </CardActions>
-                  {gym ? 
-                  <div className={classes.chipPosition}> 
-                  <Chip
-                    icon={<Done/>}
-                    label="Verified Gym Environment"
+        <Card className={classes.cardStyle} raised>
+          <div className={classes.root}>
+            <div className={classes.logoStyle}>
+              {/* add pictures */}
+              <SciGymLogo /> 
+            </div>
+            <div className={classes.cardContentStyle}>
+              <CardContent>
+                <Typography variant="h5" component='h2' gutterBottom>
+                  {name}
+                </Typography>
+                <Typography variant='subheading' gutterBottom>
+                  {description}
+                </Typography>
+                <Typography variant='subheading' gutterBottom>
+                  Owner: <a href={"https://github.com/".concat(owner.username)}> {owner.username} </a>
+                </Typography>
+                <List>
+                  {tags.map(tag => (
+                    <Chip
+                    icon={<LocalOffer/>}
+                    label={tag}
+                    key={tag}
+                    clickable
                     className={classes.tagStyle}
                     color="primary"
-                  /> 
-                  </div> :
-                  <div className={classes.chipPosition}> 
-                  <Chip
-                  icon={<ErrorOutline/>}
-                  label="Not a Gym Environment"
-                  className={classes.tagStyle}
-                  color="secondary"
+                    variant="outlined"
                   />
-                  </div>
-                  }  
-                </div>
-              </div>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails style={{maxWidth: '100%', alignItems: 'center'}}>
-            <Paper style={{maxHeight: '500px', overflowY: 'scroll', overflowX: 'hidden'}}>
-              <div 
-                // if html
-                // dangerouslySetInnerHTML={{ __html: this.props.environment.repository.readme }} 
-                // if raw
-                // dangerouslySetInnerHTML={{ __html: converter.makeHtml(this.props.environment.repository.readme)}}
-                // if md
-                dangerouslySetInnerHTML={{ __html: converter.makeHtml(atob(readme))}}
-                className={classes.readmeStyle}
+                  ))}
+                </List>
+              </CardContent>
+              <CardActions>
+                <Button href={htmlUrl} className={classes.buttonStyle}>
+                  <GithubIcon />
+                  Github
+                </Button>
+                <IconButton 
+                  onClick={this.handleClickOpen}
+                  className={classnames(classes.expand, {
+                    [classes.expandOpen]: this.state.open,
+                  })}
+                  >
+                  <ExpandMoreIcon />
+                </IconButton>
+                {gym ? 
+                <div className={classes.chipPosition}>
+                <Chip
+                  icon={<Done/>}
+                  label="Gym Verified"
+                  className={classes.tagStyle}
+                  color="primary"
+                /> 
+                </div> :
+                <div className={classes.chipPosition}> 
+                <Chip
+                icon={<ErrorOutline/>}
+                label="Gym Unverified"
+                className={classes.tagStyle}
+                color="secondary"
                 />
+                </div>
+                }
+              </CardActions>
+            </div>
+          </div>
+          <Collapse in={this.state.open} timeout="auto" unmountOnExit stile={{width:'500px'}}>
+            <Paper className={classes.paperStyle}>
+              <div dangerouslySetInnerHTML={{ __html: converter.makeHtml(atob(readme))}}
+              className={classes.readmeStyle}
+              />
             </Paper>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
+          </Collapse>
         </Card>
-          
-
       </ListItem>
     );
   }
