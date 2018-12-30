@@ -57,7 +57,7 @@ class RepositoryItem extends Component {
     super(props);
     this.state = {
       open: false,
-      envExists: Boolean(this.props.environment),
+      envExists: Boolean(props.environment),
       openDelete: false,
       error: '',
     };
@@ -74,11 +74,11 @@ class RepositoryItem extends Component {
   }
 
   handleClickDelete = () => {
-    this.setState({openDelete: true})
+    this.setState({ openDelete: true })
   }
 
   handleCloseDelete = () => {
-    this.setState({openDelete: false})
+    this.setState({ openDelete: false })
   }
 
   handleDelete = () => {
@@ -88,7 +88,10 @@ class RepositoryItem extends Component {
   handleSuccess = () => {
     api.environments().then((json) => {
       this.props.getEnvironments(json.data);
-      this.setState( {envExists: ! this.state.envExists, openDelete: false} );
+      this.setState({
+        envExists: ! this.state.envExists, 
+        openDelete: false 
+      });
     });
 	}
 	
@@ -98,7 +101,7 @@ class RepositoryItem extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.environment !== prevProps.environment) {
-      this.setState( {envExists: Boolean(this.props.environment)} )
+      this.setState({ envExists: Boolean(this.props.environment) })
     }
   }
 

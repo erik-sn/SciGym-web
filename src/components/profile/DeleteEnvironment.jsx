@@ -11,7 +11,7 @@ class DeleteEnvironment extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: this.props.environment.name,
+			name: props.environment.name,
 		}
 	}
 

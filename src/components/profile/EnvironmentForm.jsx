@@ -40,11 +40,11 @@ class EnvironmentForm extends Component {
   constructor(props) {
 		super(props);
 		this.state = {
-			id: this.props.envExists ? this.props.environment.id : this.props.repository.id,
-			name: this.props.envExists ? this.props.environment.name : this.props.repository.name,
-			description: this.props.envExists ? this.props.environment.description : this.props.repository.description,
+			id: props.envExists ? props.environment.id : props.repository.id,
+			name: props.envExists ? props.environment.name : props.repository.name,
+			description: props.envExists ? props.environment.description : props.repository.description,
 			tag: '',
-			tags: this.props.envExists && Boolean(this.props.environment.tags) ? this.props.environment.tags : [],
+			tags: props.envExists && Boolean(props.environment.tags) ? props.environment.tags : [],
 			error: '',
 		}
     this.getEnvironments = this.getEnvironments.bind(this);
@@ -56,7 +56,7 @@ class EnvironmentForm extends Component {
 	};
 
 	handleClose = () => {
-    this.props.onClose();
+		this.props.onClose();
 	};
 
 	handleSubmit = (event) => {
@@ -82,6 +82,7 @@ class EnvironmentForm extends Component {
 	
 
 	handleChange = name => event => {
+		event.preventDefault();
 		this.setState({
 		[name]: event.target.value,
 		});
@@ -92,9 +93,8 @@ class EnvironmentForm extends Component {
 		if (tagArray.includes(this.state.tag) || this.state.tag === '') {
 			this.setState({ error: 'Tag invalid!' })
 		} else {
-			tagArray.push(this.state.tag);
 			this.setState({
-				tags: tagArray,
+				tags: tagArray.concat([this.state.tag]),
 				tag: '',
 			});
 		}
@@ -104,8 +104,8 @@ class EnvironmentForm extends Component {
 		event.preventDefault();
 		const tagArray = this.state.tags;
 		tagArray.splice( tagArray.indexOf(tag), 1 );
-		this.setState({tag: ''});
 		this.setState({
+			tag: '',
 			tags: tagArray,
 		});
 	};

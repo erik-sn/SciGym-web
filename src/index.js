@@ -8,9 +8,6 @@ import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import storage from "redux-persist/lib/storage";
 import "./index.css";
-import "@blueprintjs/core/lib/css/blueprint.css";
-import "@blueprintjs/icons/lib/css/blueprint-icons.css";
-import "normalize.css/normalize.css";
 
 import auth from "./middleware/auth";
 import rootReducer from "./reducers";
