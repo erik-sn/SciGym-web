@@ -1,7 +1,7 @@
 import types from "../utils/types";
 
 const initialState = {
-  environments: undefined,
+  environments: [],
   searchedEnvironments: undefined
 };
 
@@ -11,6 +11,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         environments: action.payload.results
+      };
+    }
+    case types.DELETE_ENVIRONMENT: {
+      const envId = action.meta.id;
+      return {
+        ...state,
+        environments: state.environments.filter(env => env.id !== envId),
       };
     }
     default:

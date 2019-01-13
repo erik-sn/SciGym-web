@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom"; //use Link instead of href?
 import PropTypes from "prop-types";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import types from "../../utils/types";

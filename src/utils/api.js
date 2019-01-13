@@ -35,13 +35,22 @@ class StadiumApiClient {
     return axios.get(`${this.url}/environments/`);
   }
 
-  createEnvironment(name, repositoryId, isPublic, pypiUrl) {
+  createEnvironment(name, description, repositoryId, tags) {
     return axios.post(`${this.url}/environments/`, {
-      name,
-      public: isPublic,
-      pypi_url: pypiUrl,
-      repository: repositoryId
+      name: name,
+      description: description,
+      repository: repositoryId,
+      tags: tags,
     });
+  }
+
+  editEnvironment(environment) {
+    return axios.put(`${this.url}/environments/${environment.id}/`, environment);
+  }
+
+  deleteEnvironment(environment) {
+    return axios.delete(`${this.url}/environments/${environment.id}/`
+    );
   }
 
   repositories() {

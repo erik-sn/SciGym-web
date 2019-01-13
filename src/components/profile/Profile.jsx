@@ -6,7 +6,6 @@ import Divider from '@material-ui/core/Divider';
 import types from "../../utils/types";
 import { isLoading } from "../../reducers/display";
 import { findGymRepos, getUserRepositories } from "../../actions/repositories";
-import { createEnvironment } from "../../actions/environments";
 import RepositoryItem from "./RepositoryItem";
 import { withStyles } from "@material-ui/core";
 import { compose } from 'redux';
@@ -14,14 +13,23 @@ import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import Refresh from '@material-ui/icons/Refresh';
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
+    backgroundColor: "AliceBlue",
+  },
+  buttonStyle: {
+    margin: theme.spacing.unit*2,
   },
   leftIcon: {
     marginRight: theme.spacing.unit,
   },
+  title: {
+    margin: theme.spacing.unit*2,
+    marginTop: theme.spacing.unit*6,
+  }
 });
 
 class Profile extends Component {
@@ -41,32 +49,54 @@ class Profile extends Component {
   }
 
   render() {
-    const { repositories, findGymLoading } = this.props;
-    const loaded = repositories !== undefined;
-    const empty = loaded && repositories.size > 0;
+    const { repositories, findGymLoading, gymRepo, notGymRepo } = this.props;
+    const empty = repositories.length === 0;
+    const emptyGym = gymRepo.length === 0;
     const { classes } = this.props;
     return (
       <div className={classes.root}>
       <Grid container justify="center">
         <div>
-        <h1>My repositories</h1>
+        <Typography variant="h4" className={classes.title}>My repositories</Typography>
         {findGymLoading ? (
           <CircularProgress size={45} />
         ) : (
-          <Button variant="contained" color="primary" onClick={this.findGymRepos}>
+          <Button variant="contained" color="primary" onClick={this.findGymRepos} className={classes.buttonStyle}>
           <Refresh className={classes.leftIcon}/>
           Refresh my repositories
           </Button>
         )}
-        {empty && <h1>No repositories found</h1>}
-        {loaded && (
+        {empty && <Typography variant="h6" className={classes.title}>No repositories found</Typography>}
+        {!(empty) && (
             <List>
-            {repositories.map(r => (
+            <Typography variant="h6" className={classes.title}>
+              OpenAI Gym Repositories
+            </Typography>
+            {!(emptyGym) ? (gymRepo.map(r => (
               <React.Fragment key={r.id}>
                 <RepositoryItem
                   key={r.id}
-                  {...r}
-                  createEnvironment={this.createEnvironment}
+                  repository={r}
+                />
+                <Divider />
+              </React.Fragment>
+            ))) : (
+              <React.Fragment>
+              <Typography variant="h6" className={classes.title}>
+                You don't have any Gym Repositories!
+              </Typography>
+              <Divider/>
+            </React.Fragment>
+            )
+          }
+            <Typography variant="h6" className={classes.title}>
+              Other Repositories
+            </Typography>
+            {notGymRepo.map(r => (
+              <React.Fragment key={r.id}>
+                <RepositoryItem
+                  key={r.id}
+                  repository={r}
                 />
                 <Divider />
               </React.Fragment>
@@ -88,12 +118,14 @@ Profile.propTypes = {
 const mapStateToProps = state => ({
   userExists: Boolean(state.user.accessToken),
   repositories: state.repositories.userRepositories,
-  findGymLoading: isLoading(state.display, types.FIND_GYM_REPOS)
+  findGymLoading: isLoading(state.display, types.FIND_GYM_REPOS),
+  gymRepo: state.repositories.userRepositories.filter(repo => repo['gym']),
+  notGymRepo: state.repositories.userRepositories.filter(repo => !(repo['gym'])),
 });
+
 const mapDispatchToProps = {
   findGymRepos,
-  getUserRepositories,
-  createEnvironment
+  getUserRepositories
 };
 
 export default compose(
