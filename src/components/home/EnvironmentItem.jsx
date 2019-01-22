@@ -25,6 +25,8 @@ import showdown from "showdown";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import classnames from 'classnames';
 
+import Slide from '@material-ui/core/Slide';
+
 
 
 const styles = theme => ({
@@ -138,6 +140,8 @@ class EnvironmentItem extends Component {
     converter.setFlavor('github');
     return(
       <ListItem>
+        {/*slide could be better done*/}
+        <Slide direction="up" in={true} mountOnEnter unmountOnExit>
         <Card className={classes.cardStyle} raised>
           <div className={classes.root}>
             <div className={classes.logoStyle}>
@@ -211,6 +215,7 @@ class EnvironmentItem extends Component {
             </Paper>
           </Collapse>
         </Card>
+        </Slide>
       </ListItem>
     );
   }

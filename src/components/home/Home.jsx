@@ -26,7 +26,7 @@ const styles = theme => ({
 class Home extends Component {
   render() {
     const { classes } = this.props;
-    const { environments } = this.props;
+    const environments = this.props.searchedEnvironments ? this.props.searchedEnvironments : this.props.environments;
     const empty = environments.length === 0;
     return (
       <div className={classes.root}>
@@ -57,15 +57,19 @@ class Home extends Component {
 
 Home.propTypes = {
   repositories: PropTypes.arrayOf(PropTypes.object),
-  environments: PropTypes.arrayOf(PropTypes.object)
+  environments: PropTypes.arrayOf(PropTypes.object),
+  searchedEnvironments: PropTypes.arrayOf(PropTypes.object)
 };
 
 const mapStateToProps = state => ({
   repositories: state.repositories.repositories,
-  environments: state.environments.environments
+  environments: state.environments.environments,
+  searchedEnvironments: state.environments.searchedEnvironments
 });
 
 export default compose(
-  connect(mapStateToProps), 
+  connect(
+    mapStateToProps
+  ), 
   withStyles(styles)
 )(Home);

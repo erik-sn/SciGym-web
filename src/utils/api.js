@@ -53,6 +53,10 @@ class StadiumApiClient {
     );
   }
 
+  searchEnvironments(searchPhrases) {
+    return axios.get(`${this.url}/environments/filter/?search=${searchPhrases}`)
+  }
+
   repositories() {
     return axios.get(`${this.url}/repositories/`);
   }

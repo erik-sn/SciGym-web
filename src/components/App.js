@@ -13,6 +13,7 @@ import { getEnvironments } from "../actions/environments";
 import Home from "./home/Home";
 import Profile from "./profile/Profile";
 import constants from "../utils/constants";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export class App extends Component {
   componentDidMount() {
@@ -21,7 +22,7 @@ export class App extends Component {
     this.props.getApiStatus();
     this.props.getRepositories();
     this.props.getEnvironments();
-    window.setTimeout(this.props.getApiStatus, 30000);
+    window.setTimeout(this.props.getApiStatus, 30000); // do we need this?
   }
 
   refreshAuthToken() {
@@ -33,7 +34,7 @@ export class App extends Component {
 
   render() {
     if (!this.props.appLoaded) {
-      return <h1>Loading</h1>;
+      return <h1> <CircularProgress variant="indeterminate"/> Loading</h1>;
     }
 
     const oauthPath = new URL(this.props.githubCallbackUrl).pathname;

@@ -8,15 +8,13 @@ import { SciGymIcon } from "../files/images";
 
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
-import InputBase from '@material-ui/core/InputBase';
 import Star from '@material-ui/icons/Star';
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'redux';
-import SearchIcon from '@material-ui/icons/Search';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 import Hidden from '@material-ui/core/Hidden';
 import ProfileMenu from './ProfileMenu';
+import SearchBar from './SearchBar';
 
 const styles = theme => ({
   root: {
@@ -37,66 +35,14 @@ const styles = theme => ({
     marginRight: 20,
   },
   toolBarStyle: {
-    backgroundColor: '#82B1FF',//'#8C9EFF'//'#00bcd4',
-  },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    visibility: 'hidden',
-    [theme.breakpoints.up('sm')]: {
-      visibility: 'visible',
-      marginLeft: theme.spacing.unit * 6,
-      width: 'auto',
-    },
-  },
-  searchIcon: {
-    width: theme.spacing.unit * 9,
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputRoot: {
-    color: 'inherit',
-    width: '100%',
-  },
-  inputInput: {
-    paddingTop: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 9,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: 200,
-    },
+    backgroundColor: '#82B1FF',
   },
 });
 
 
 export class Header extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchValue: ""
-    };
-    this.handleSearchChange = this.handleSearchChange.bind(this);
-  }
-
-  handleSearchChange(event) {
-    event.preventDefault();
-    this.setState({ searchValue: event.target.value });
-  }
-
   render() {
     const { loading } = this.props;
-    const { searchValue } = this.state;
     const { classes } = this.props
     return (
       <AppBar position="sticky" color="inherit">
@@ -118,20 +64,7 @@ export class Header extends PureComponent {
               </IconButton>
             </Hidden>
           </div>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search environments…"
-                onChange={this.handleSearchChange}
-                value={searchValue}
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-              />
-            </div>
+          <SearchBar />
           <div className={classes.grow} />
           <div className={classes.menuButton}>
             {loading ? <CircularProgress size={30} disableShrink color="secondary"/> : <ProfileMenu />}
