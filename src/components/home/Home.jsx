@@ -24,16 +24,22 @@ const styles = theme => ({
 });
 
 class Home extends Component {
+  get title() {
+    if (this.props.searchedEnvironments) {
+      return 'Search results'
+    } 
+    return 'Recent environments'
+  }
   render() {
     const { classes } = this.props;
-    const { environments } = this.props;
+    const environments = this.props.searchedEnvironments ? this.props.searchedEnvironments : this.props.environments;
     const empty = environments.length === 0;
     return (
       <div className={classes.root}>
       <Hero/>
       <Grid container justify="center">
         <div>
-        <Typography variant="h4" className={classes.title}>Recent environments</Typography>
+        <Typography variant="h4" className={classes.title}>{this.title}</Typography>
         {empty && <Typography variant="h6" className={classes.title}>No environments found</Typography>}
         {!(empty) && (
           <List>
@@ -57,15 +63,19 @@ class Home extends Component {
 
 Home.propTypes = {
   repositories: PropTypes.arrayOf(PropTypes.object),
-  environments: PropTypes.arrayOf(PropTypes.object)
+  environments: PropTypes.arrayOf(PropTypes.object),
+  searchedEnvironments: PropTypes.arrayOf(PropTypes.object)
 };
 
 const mapStateToProps = state => ({
   repositories: state.repositories.repositories,
-  environments: state.environments.environments
+  environments: state.environments.environments,
+  searchedEnvironments: state.environments.searchedEnvironments
 });
 
 export default compose(
-  connect(mapStateToProps), 
+  connect(
+    mapStateToProps
+  ), 
   withStyles(styles)
 )(Home);

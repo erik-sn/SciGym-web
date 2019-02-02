@@ -42,7 +42,7 @@ export const createEnvironment = (...args) => {
 export const deleteEnvironment = (environment) => {
   return dispatch => {
     dispatch({ 
-      type: types.DELETE_ENVIRONMENT ,
+      type: types.DELETE_ENVIRONMENT,
       meta: environment,
     });
     api
@@ -59,3 +59,31 @@ export const deleteEnvironment = (environment) => {
     });
   };
 };
+
+export const searchEnvironments = (searchPhrases) => {
+  const searchPhrasesSplit = searchPhrases.replace(/[ ,]+/g, ",")
+  return dispatch => {
+    dispatch({
+      type: types.SEARCH_ENVIRONMENTS,
+      payload: searchPhrases,
+    });
+    api
+    .searchEnvironments(searchPhrasesSplit)
+    .then(response => {
+      dispatch({
+        type: types.SEARCH_ENVIRONMENTS_SUCCESS,
+        payload: response.data
+      });
+    })
+    .catch(error => {
+      dispatch({ type: types.SEARCH_ENVIRONMENTS_FAILURE });
+      logError(error);
+    });
+  };
+};
+
+export const resetSearchedEnvironments = () => {
+  return dispatch => {
+    dispatch({ type: types.SEARCH_ENVIRONMENTS_RESET });
+  }
+}

@@ -49,7 +49,7 @@ export class Login extends Component {
       githubRandomState,
       userExists
     } = this.props;
-    const github_oauth_link = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${githubCallbackUrl}&state=${githubRandomState}`;
+    const github_oauth_link = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${githubCallbackUrl}&state=${githubRandomState}`; //&scope=repo
     return userExists ? (
       <Link to='/profile' className={classes.linkStyle}>
         My Profile

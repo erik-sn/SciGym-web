@@ -20,6 +20,24 @@ export default (state = initialState, action) => {
         environments: state.environments.filter(env => env.id !== envId),
       };
     }
+    case types.SEARCH_ENVIRONMENTS_SUCCESS: {
+      return {
+        ...state,
+        searchedEnvironments: action.payload
+      };
+    }
+    case types.SEARCH_ENVIRONMENTS_FAILURE: {
+      return {
+        ...state,
+        searchedEnvironments: []
+      }
+    }
+    case types.SEARCH_ENVIRONMENTS_RESET: {
+      return {
+        ...state,
+        searchedEnvironments: undefined
+      }
+    }
     default:
       return state;
   }
