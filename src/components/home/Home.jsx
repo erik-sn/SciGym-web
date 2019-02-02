@@ -24,6 +24,12 @@ const styles = theme => ({
 });
 
 class Home extends Component {
+  get title() {
+    if (this.props.searchedEnvironments) {
+      return 'Search results'
+    } 
+    return 'Recent environments'
+  }
   render() {
     const { classes } = this.props;
     const environments = this.props.searchedEnvironments ? this.props.searchedEnvironments : this.props.environments;
@@ -33,7 +39,7 @@ class Home extends Component {
       <Hero/>
       <Grid container justify="center">
         <div>
-        <Typography variant="h4" className={classes.title}>Recent environments</Typography>
+        <Typography variant="h4" className={classes.title}>{this.title}</Typography>
         {empty && <Typography variant="h6" className={classes.title}>No environments found</Typography>}
         {!(empty) && (
           <List>

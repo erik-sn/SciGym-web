@@ -58,13 +58,18 @@ export class SearchBar extends Component {
       searchValue: ""
     };
 		this.handleSearch = this.handleSearch.bind(this);
-		this.delayedSearch = debounce(this.props.searchEnvironments.bind(this), 500)
+		this.delayedSearch = debounce(this.props.searchEnvironments, 500)
+		this.delayedReset = debounce(this.props.resetSearchedEnvironments, 500)
   }
 
-	handleSearch(event) {
+	handleSearch(event) { // TODO: LOADING and FAILURE and X-out button
 		event.preventDefault();
 		this.setState({ searchValue: event.target.value })
-		this.delayedSearch(event.target.value) // TODO: do a reset (and async)
+		if (event.target.value.trim().length >= 3) {
+			this.delayedSearch(event.target.value)
+		} else {
+			this.delayedReset()
+		}
 	}
 
 	render() {

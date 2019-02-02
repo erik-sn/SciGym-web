@@ -64,7 +64,8 @@ export const searchEnvironments = (searchPhrases) => {
   const searchPhrasesSplit = searchPhrases.replace(/[ ,]+/g, ",")
   return dispatch => {
     dispatch({
-      type: types.SEARCH_ENVIRONMENTS
+      type: types.SEARCH_ENVIRONMENTS,
+      payload: searchPhrases,
     });
     api
     .searchEnvironments(searchPhrasesSplit)
