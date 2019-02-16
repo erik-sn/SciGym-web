@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
@@ -24,62 +24,43 @@ const styles = theme => ({
   },
 });
 
-class ProfileMenu extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-    };
-    this.handleClose = this.handleClose.bind(this);
-  }
-
-  handleToggle = () => {
-    this.setState(state => ({ open: !state.open }));
-  };
-
-  handleClose = event => {
-    this.setState({ open: false });
-  };
-
-  render() {
-    const { classes } = this.props;
-    const { open } = this.state;
-    const { userExists } = this.props;
-    return (
-      <div className={classes.root}>
-        <div>
-          <Button
-            buttonRef={node => {
-              this.anchorEl = node;
-            }}
-            aria-owns={open ? 'menu-list-grow' : undefined}
-            aria-haspopup="true"
-            onClick={this.handleToggle}
-          >
-            <AccountCircle />
-          </Button>
-          <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
-            {({ TransitionProps, placement }) => (
-              <Grow
-                {...TransitionProps}
-                id="menu-list-grow"
-                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-              >
-                <Paper>
-                  <ClickAwayListener onClickAway={this.handleClose}>
-                    <MenuList>
-                      <Login onClick={this.handleClose} />
-                      {userExists && <Logout onClick={this.handleClose} />}
-                    </MenuList>
-                  </ClickAwayListener>
-                </Paper>
-              </Grow>
-            )}
-          </Popper>
-        </div>
+function ProfileMenu({ classes, userExists }) {
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(undefined);
+  const toggle = () => setOpen(!open);
+  const close = () => setOpen(false);
+  return (
+    <div className={classes.root}>
+      <div>
+        <Button
+          buttonRef={node => setAnchorEl(node)}
+          aria-owns={open ? 'menu-list-grow' : undefined}
+          aria-haspopup="true"
+          onClick={toggle}
+        >
+          <AccountCircle />
+        </Button>
+        <Popper open={open} anchorEl={anchorEl} transition disablePortal>
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              id="menu-list-grow"
+              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={close}>
+                  <MenuList>
+                    <Login onClick={close} />
+                    {userExists && <Logout onClick={close} />}
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 ProfileMenu.propTypes = {
