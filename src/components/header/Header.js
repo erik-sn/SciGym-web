@@ -53,13 +53,13 @@ export class Header extends PureComponent {
               SciGym
             </IconButton>
             <Hidden xsDown>
-              <IconButton href="/" color="inherit" style={{backgroundColor: 'transparent', textDecoration: 'none'}}>
+              <IconButton href="/get-started" color="inherit" style={{backgroundColor: 'transparent', textDecoration: 'none'}}>
                 <Star className={classes.leftIcon}/>
                 Get Started
               </IconButton>
             </Hidden>
             <Hidden smUp>
-              <IconButton href="/" color="inherit" style={{backgroundColor: 'transparent', textDecoration: 'none'}}>
+              <IconButton href="/get-started" color="inherit" style={{backgroundColor: 'transparent', textDecoration: 'none'}}>
                 <Star/>
               </IconButton>
             </Hidden>

@@ -12,6 +12,7 @@ import { refreshAuthToken } from "../actions/user";
 import { getEnvironments } from "../actions/environments";
 import Home from "./home/Home";
 import Profile from "./profile/Profile";
+import GetStarted from "./get_started/GetStarted";
 import constants from "../utils/constants";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -34,7 +35,11 @@ export class App extends Component {
 
   render() {
     if (!this.props.appLoaded) {
-      return <h1> <CircularProgress variant="indeterminate"/> Loading</h1>;
+      return(
+      <div style={{ textAlign: 'center' }}>
+        <h1> <CircularProgress variant="indeterminate"/> We are loading</h1>
+      </div>
+      )
     }
 
     const oauthPath = new URL(this.props.githubCallbackUrl).pathname;
@@ -44,6 +49,7 @@ export class App extends Component {
         <Header />
         <Switch>
           <Route path="/profile" component={Profile} />
+          <Route path="/get-started" component={GetStarted} />
           <Route path="*" component={Home} />
         </Switch>
         <UserWatcher />

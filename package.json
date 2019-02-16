@@ -14,11 +14,13 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
+    "markdown-to-jsx": "^6.9.1",
     "redux": "^4.0.1",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
     "uuid": "^3.3.2",
-    "showdown": "^1.9.0"
+    "showdown": "^1.9.0",
+    "react-youtube": "^7.9.0"
   },
   "scripts": {
     "start": "react-scripts start",
