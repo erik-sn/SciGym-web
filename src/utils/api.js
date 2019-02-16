@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 class StadiumApiClient {
   constructor(base, version) {
@@ -49,12 +49,11 @@ class StadiumApiClient {
   }
 
   deleteEnvironment(environment) {
-    return axios.delete(`${this.url}/environments/${environment.id}/`
-    );
+    return axios.delete(`${this.url}/environments/${environment.id}/`);
   }
 
   searchEnvironments(searchPhrases) {
-    return axios.get(`${this.url}/environments/filter/?search=${searchPhrases}`)
+    return axios.get(`${this.url}/environments/filter/?search=${searchPhrases}`);
   }
 
   repositories() {
@@ -70,4 +69,4 @@ class StadiumApiClient {
   }
 }
 
-export default new StadiumApiClient("http://localhost:8000/api", "v1");
+export default new StadiumApiClient('http://localhost:8000/api', 'v1');

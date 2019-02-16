@@ -1,7 +1,7 @@
-import types from "../utils/types";
+import types from '../utils/types';
 
-import api from "../utils/api";
-import { logError } from "../utils/errors";
+import api from '../utils/api';
+import { logError } from '../utils/errors';
 
 export const getApiConfig = () => {
   return dispatch => {
@@ -11,7 +11,7 @@ export const getApiConfig = () => {
       .then(response => {
         dispatch({
           type: types.GET_API_CONFIG_SUCCESS,
-          payload: response.data
+          payload: response.data,
         });
       })
       .catch(error => {
@@ -29,7 +29,7 @@ export const getApiStatus = () => {
       .then(response => {
         dispatch({
           type: types.GET_API_STATUS_SUCCESS,
-          payload: response.data
+          payload: response.data,
         });
       })
       .catch(error => {

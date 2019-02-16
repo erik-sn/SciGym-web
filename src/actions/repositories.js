@@ -1,7 +1,7 @@
-import types from "../utils/types";
+import types from '../utils/types';
 
-import api from "../utils/api";
-import { logError } from "../utils/errors";
+import api from '../utils/api';
+import { logError } from '../utils/errors';
 
 export const _getUserRepositories = dispatch => {
   dispatch({ type: types.GET_USER_REPOSITORIES_LIST });
@@ -10,7 +10,7 @@ export const _getUserRepositories = dispatch => {
     .then(response => {
       dispatch({
         type: types.GET_USER_REPOSITORIES_LIST_SUCCESS,
-        payload: response.data
+        payload: response.data,
       });
     })
     .catch(error => {
@@ -31,7 +31,7 @@ export const findGymRepos = () => {
       .then(response => {
         dispatch({
           type: types.FIND_GYM_REPOS_SUCCESS,
-          payload: response.data
+          payload: response.data,
         });
         _getUserRepositories(dispatch);
       })
@@ -50,7 +50,7 @@ export const getRepositories = () => {
       .then(response => {
         dispatch({
           type: types.GET_REPOSITORIES_SUCCESS,
-          payload: response.data
+          payload: response.data,
         });
       })
       .catch(error => {

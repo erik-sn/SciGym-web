@@ -1,26 +1,26 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
-import { loginUserWithGithub } from "../../actions/user";
+import { loginUserWithGithub } from '../../actions/user';
 
 export class Auth extends Component {
   componentWillMount() {
-    console.log("login user");
-    const code = this.getUrlParams("code");
-    const state = this.getUrlParams("state");
+    console.log('login user');
+    const code = this.getUrlParams('code');
+    const state = this.getUrlParams('state');
     this.props.loginUserWithGithub(code, state);
   }
 
   getUrlParams(prop) {
     var params = {};
     var search = decodeURIComponent(
-      window.location.href.slice(window.location.href.indexOf("?") + 1)
+      window.location.href.slice(window.location.href.indexOf('?') + 1)
     );
-    var definitions = search.split("&");
+    var definitions = search.split('&');
 
     definitions.forEach(function(val, key) {
-      var parts = val.split("=", 2);
+      var parts = val.split('=', 2);
       params[parts[0]] = parts[1];
     });
 

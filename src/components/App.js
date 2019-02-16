@@ -1,20 +1,21 @@
-import React, { Component } from "react";
-import { Route, Switch, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import Auth from "./auth/Auth";
-import UserWatcher from "./auth/UserWatcher";
-import Header from "./header/Header";
-import { getApiConfig, getApiStatus } from "../actions/config";
-import { getRepositories } from "../actions/repositories";
-import { refreshAuthToken } from "../actions/user";
-import { getEnvironments } from "../actions/environments";
-import Home from "./home/Home";
-import Profile from "./profile/Profile";
-import GetStarted from "./get_started/GetStarted";
-import constants from "../utils/constants";
 import CircularProgress from '@material-ui/core/CircularProgress';
+
+import Auth from './auth/Auth';
+import UserWatcher from './auth/UserWatcher';
+import Header from './header/Header';
+import { getApiConfig, getApiStatus } from '../actions/config';
+import { getRepositories } from '../actions/repositories';
+import { refreshAuthToken } from '../actions/user';
+import { getEnvironments } from '../actions/environments';
+import Home from './home/Home';
+import Profile from './profile/Profile';
+import GetStarted from './get_started/GetStarted';
+import constants from '../utils/constants';
 
 export class App extends Component {
   componentDidMount() {
@@ -35,11 +36,14 @@ export class App extends Component {
 
   render() {
     if (!this.props.appLoaded) {
-      return(
-      <div style={{ textAlign: 'center' }}>
-        <h1> <CircularProgress variant="indeterminate"/> We are loading</h1>
-      </div>
-      )
+      return (
+        <div style={{ textAlign: 'center' }}>
+          <h1>
+            {' '}
+            <CircularProgress variant="indeterminate" /> We are loading
+          </h1>
+        </div>
+      );
     }
 
     const oauthPath = new URL(this.props.githubCallbackUrl).pathname;
@@ -59,7 +63,7 @@ export class App extends Component {
 }
 
 App.defaultProps = {
-  githubCallbackUrl: null
+  githubCallbackUrl: null,
 };
 
 App.propTypes = {
@@ -69,12 +73,12 @@ App.propTypes = {
   getRepositories: PropTypes.func.isRequired,
   refreshAuthToken: PropTypes.func.isRequired,
   githubCallbackUrl: PropTypes.string,
-  getEnvironments: PropTypes.func.isRequired
+  getEnvironments: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   githubCallbackUrl: state.config.githubCallbackUrl,
-  appLoaded: state.config.loaded
+  appLoaded: state.config.loaded,
 });
 
 export default withRouter(

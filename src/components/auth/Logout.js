@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { logout } from "../../actions/user";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { logout } from '../../actions/user';
 
 class Logout extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class Logout extends Component {
   render() {
     return (
       <Link onClick={this.logoutUser} to="/">
-       Logout
+        Logout
       </Link>
     );
   }
@@ -28,7 +28,7 @@ Logout.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  appClientId: state.config.appClientId
+  appClientId: state.config.appClientId,
 });
 
 const mapDispatchToProps = { logout };

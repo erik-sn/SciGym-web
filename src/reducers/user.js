@@ -1,4 +1,4 @@
-import types from "../utils/types";
+import types from '../utils/types';
 
 const initialState = {
   accessToken: undefined,
@@ -9,7 +9,7 @@ const initialState = {
   refreshToken: undefined,
   scope: undefined,
   tokenType: undefined,
-  username: undefined
+  username: undefined,
 };
 
 export default (state = initialState, action) => {

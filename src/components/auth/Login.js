@@ -1,22 +1,22 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-import { withStyles } from "@material-ui/core";
+import { withStyles } from '@material-ui/core';
 import { compose } from 'redux';
 
 // import { debounce } from "lodash";
 // import { Intent } from "@blueprintjs/core";
 // import toast from "../../utils/toast";
 
-import "./Login.css";
+import './Login.css';
 
 const styles = {
   linkStyle: {
     textDecoration: 'none',
-  }
-}
+  },
+};
 
 export class Login extends Component {
   // constructor(props) {
@@ -47,11 +47,11 @@ export class Login extends Component {
       githubClientId,
       githubCallbackUrl,
       githubRandomState,
-      userExists
+      userExists,
     } = this.props;
     const github_oauth_link = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${githubCallbackUrl}&state=${githubRandomState}`; //&scope=repo
     return userExists ? (
-      <Link to='/profile' className={classes.linkStyle}>
+      <Link to="/profile" className={classes.linkStyle}>
         My Profile
       </Link>
     ) : (
@@ -67,7 +67,7 @@ Login.propTypes = {
   githubCallbackUrl: PropTypes.string.isRequired,
   githubRandomState: PropTypes.string.isRequired,
   children: PropTypes.any,
-  userExists: PropTypes.bool.isRequired
+  userExists: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => {
@@ -75,11 +75,11 @@ const mapStateToProps = state => {
     githubClientId: state.config.githubClientId,
     githubCallbackUrl: state.config.githubCallbackUrl,
     githubRandomState: state.config.githubRandomState,
-    userExists: Boolean(state.user.accessToken)
+    userExists: Boolean(state.user.accessToken),
   };
 };
 
 export default compose(
-  connect(mapStateToProps), 
+  connect(mapStateToProps),
   withStyles(styles)
 )(Login);

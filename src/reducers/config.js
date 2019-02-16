@@ -1,12 +1,12 @@
-import uuidv4 from "uuid/v4";
+import uuidv4 from 'uuid/v4';
 
-import types from "../utils/types";
+import types from '../utils/types';
 
 const initialState = {
   loaded: false,
   githubRandomState: uuidv4(),
   githubClientId: undefined,
-  githubCallbackUrl: undefined
+  githubCallbackUrl: undefined,
 };
 
 export default (state = initialState, action) => {
@@ -15,7 +15,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         ...action.payload,
-        loaded: true
+        loaded: true,
       };
     }
     default:

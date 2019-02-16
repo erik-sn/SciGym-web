@@ -1,18 +1,18 @@
-import types from "../utils/types";
+import types from '../utils/types';
 
 const initialState = {
   loaders: [],
-  errors: []
+  errors: [],
 };
 
 const setLoading = (state, key) => ({
   ...state,
-  loaders: state.loaders.concat([key])
+  loaders: state.loaders.concat([key]),
 });
 
 const removeLoading = (state, key) => ({
   ...state,
-  loaders: state.loaders.filter(l => l !== key)
+  loaders: state.loaders.filter(l => l !== key),
 });
 
 export default (state = initialState, action) => {

@@ -1,5 +1,5 @@
-import React from "react";
-import { withStyles } from "@material-ui/core";
+import React from 'react';
+import { withStyles } from '@material-ui/core';
 
 const styles = theme => ({
   hero: {
@@ -8,22 +8,21 @@ const styles = theme => ({
     backgroundPosition: '50% 50%',
     backgroundSize: 'cover',
     [theme.breakpoints.down('xs')]: {
-			height: '240px',
-        },
+      height: '240px',
+    },
     [theme.breakpoints.up('lg')]: {
       height: '500px',
-        },
-  }
+    },
+  },
 });
 
 const Hero = props => {
-  const { classes } = props
+  const { classes } = props;
   return (
     <div
       className={classes.hero}
       style={{
-        backgroundImage:
-          "url(http://localhost:8000/static/images/ai_photonics_banner.jpg"
+        backgroundImage: 'url(http://localhost:8000/static/images/ai_photonics_banner.jpg',
       }}
     />
   );

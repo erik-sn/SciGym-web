@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import { getUserRepositories } from "../../actions/repositories";
+import { getUserRepositories } from '../../actions/repositories';
 
 class UserWatcher extends Component {
   componentDidUpdate(prevProps, prevState) {
@@ -14,7 +14,7 @@ class UserWatcher extends Component {
 }
 
 const mapStateToProps = state => ({
-  userExists: Boolean(state.user.accessToken)
+  userExists: Boolean(state.user.accessToken),
 });
 
 const mapDispatchToProps = { getUserRepositories };

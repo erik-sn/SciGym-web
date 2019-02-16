@@ -1,7 +1,7 @@
-import types from "../utils/types";
+import types from '../utils/types';
 
-import api from "../utils/api";
-import { logError } from "../utils/errors";
+import api from '../utils/api';
+import { logError } from '../utils/errors';
 
 export const getEnvironments = params => {
   return dispatch => {
@@ -11,7 +11,7 @@ export const getEnvironments = params => {
       .then(response => {
         dispatch({
           type: types.GET_ENVIRONMENTS_LIST_SUCCESS,
-          payload: response.data
+          payload: response.data,
         });
       })
       .catch(error => {
@@ -29,7 +29,7 @@ export const createEnvironment = (...args) => {
       .then(response => {
         dispatch({
           type: types.CREATE_ENVIRONMENT_SUCCESS,
-          payload: response.data
+          payload: response.data,
         });
       })
       .catch(error => {
@@ -39,51 +39,51 @@ export const createEnvironment = (...args) => {
   };
 };
 
-export const deleteEnvironment = (environment) => {
+export const deleteEnvironment = environment => {
   return dispatch => {
-    dispatch({ 
+    dispatch({
       type: types.DELETE_ENVIRONMENT,
       meta: environment,
     });
     api
-    .deleteEnvironment(environment)
-    .then(response => {
-      dispatch({
-        type: types.DELETE_ENVIRONMENT_SUCCESS,
-        payload: response.data
+      .deleteEnvironment(environment)
+      .then(response => {
+        dispatch({
+          type: types.DELETE_ENVIRONMENT_SUCCESS,
+          payload: response.data,
+        });
+      })
+      .catch(error => {
+        dispatch({ type: types.DELETE_ENVIRONMENT_FAILURE });
+        logError(error);
       });
-    })
-    .catch(error => {
-      dispatch({ type: types.DELETE_ENVIRONMENT_FAILURE });
-      logError(error);
-    });
   };
 };
 
-export const searchEnvironments = (searchPhrases) => {
-  const searchPhrasesSplit = searchPhrases.replace(/[ ,]+/g, ",")
+export const searchEnvironments = searchPhrases => {
+  const searchPhrasesSplit = searchPhrases.replace(/[ ,]+/g, ',');
   return dispatch => {
     dispatch({
       type: types.SEARCH_ENVIRONMENTS,
       payload: searchPhrases,
     });
     api
-    .searchEnvironments(searchPhrasesSplit)
-    .then(response => {
-      dispatch({
-        type: types.SEARCH_ENVIRONMENTS_SUCCESS,
-        payload: response.data
+      .searchEnvironments(searchPhrasesSplit)
+      .then(response => {
+        dispatch({
+          type: types.SEARCH_ENVIRONMENTS_SUCCESS,
+          payload: response.data,
+        });
+      })
+      .catch(error => {
+        dispatch({ type: types.SEARCH_ENVIRONMENTS_FAILURE });
+        logError(error);
       });
-    })
-    .catch(error => {
-      dispatch({ type: types.SEARCH_ENVIRONMENTS_FAILURE });
-      logError(error);
-    });
   };
 };
 
 export const resetSearchedEnvironments = () => {
   return dispatch => {
     dispatch({ type: types.SEARCH_ENVIRONMENTS_RESET });
-  }
-}
+  };
+};

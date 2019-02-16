@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
-import types from "../utils/types";
-import constants from "../utils/constants";
+import types from '../utils/types';
+import constants from '../utils/constants';
 
 /**
  * store the user authentication token in the API

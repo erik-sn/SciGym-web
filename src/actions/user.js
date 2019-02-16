@@ -1,7 +1,7 @@
-import types from "../utils/types";
+import types from '../utils/types';
 
-import api from "../utils/api";
-import { logError } from "../utils/errors";
+import api from '../utils/api';
+import { logError } from '../utils/errors';
 
 export const loginUserWithGithub = (code, state) => {
   return dispatch => {
@@ -11,7 +11,7 @@ export const loginUserWithGithub = (code, state) => {
       .then(response => {
         dispatch({
           type: types.LOGIN_USER_GITHUB_OAUTH_SUCCESS,
-          payload: response.data
+          payload: response.data,
         });
       })
       .catch(error => {
@@ -28,7 +28,7 @@ export const getMyProfile = dispatch => {
     .then(response => {
       dispatch({
         type: types.GET_USER_PROFILE_SUCCESS,
-        payload: response.data
+        payload: response.data,
       });
     })
     .catch(error => {
@@ -45,14 +45,14 @@ export const refreshAuthToken = token => {
       .then(response => {
         dispatch({
           type: types.REFRESH_AUTH_TOKEN_SUCCESS,
-          payload: response.data
+          payload: response.data,
         });
         getMyProfile(dispatch);
       })
       .catch(error => {
         dispatch({
           type: types.REFRESH_AUTH_TOKEN_FAILURE,
-          payload: null
+          payload: null,
         });
         logError(error);
       });
@@ -67,13 +67,13 @@ export const logout = clientId => {
       .then(response => {
         dispatch({
           type: types.LOGOUT_USER_SUCCESS,
-          payload: response.data
+          payload: response.data,
         });
       })
       .catch(error => {
         dispatch({
           type: types.LOGOUT_USER_FAILURE,
-          payload: null
+          payload: null,
         });
         logError(error);
       });

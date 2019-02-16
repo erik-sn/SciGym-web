@@ -1,5 +1,8 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import PropTypes from 'prop-types';
+
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -8,11 +11,10 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { withStyles } from '@material-ui/core/styles';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+
 import Login from '../auth/Login';
 import Logout from '../auth/Logout';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import { connect } from "react-redux";
-import { compose } from 'redux';
 
 const styles = theme => ({
   root: {
@@ -43,7 +45,7 @@ class ProfileMenu extends Component {
   render() {
     const { classes } = this.props;
     const { open } = this.state;
-    const { userExists } = this.props
+    const { userExists } = this.props;
     return (
       <div className={classes.root}>
         <div>
@@ -55,7 +57,7 @@ class ProfileMenu extends Component {
             aria-haspopup="true"
             onClick={this.handleToggle}
           >
-            <AccountCircle/>
+            <AccountCircle />
           </Button>
           <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
             {({ TransitionProps, placement }) => (
@@ -67,11 +69,14 @@ class ProfileMenu extends Component {
                 <Paper>
                   <ClickAwayListener onClickAway={this.handleClose}>
                     <MenuList>
-                      <MenuItem onClick={this.handleClose}><Login/></MenuItem>
+                      <MenuItem onClick={this.handleClose}>
+                        <Login />
+                      </MenuItem>
                       {userExists && (
-                      <MenuItem onClick={this.handleClose}><Logout/></MenuItem>
-                      )
-                    }
+                        <MenuItem onClick={this.handleClose}>
+                          <Logout />
+                        </MenuItem>
+                      )}
                     </MenuList>
                   </ClickAwayListener>
                 </Paper>
@@ -90,10 +95,10 @@ ProfileMenu.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    userExists: Boolean(state.user.accessToken)
-  });
+  userExists: Boolean(state.user.accessToken),
+});
 
-  export default compose(
-    connect(mapStateToProps), 
-    withStyles(styles)
-  )(ProfileMenu);
+export default compose(
+  connect(mapStateToProps),
+  withStyles(styles)
+)(ProfileMenu);

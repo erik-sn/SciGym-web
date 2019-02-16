@@ -1,8 +1,8 @@
-import types from "../utils/types";
+import types from '../utils/types';
 
 const initialState = {
   environments: [],
-  searchedEnvironments: undefined
+  searchedEnvironments: undefined,
 };
 
 export default (state = initialState, action) => {
@@ -10,7 +10,7 @@ export default (state = initialState, action) => {
     case types.GET_ENVIRONMENTS_LIST_SUCCESS: {
       return {
         ...state,
-        environments: action.payload.results
+        environments: action.payload.results,
       };
     }
     case types.DELETE_ENVIRONMENT: {
@@ -23,20 +23,20 @@ export default (state = initialState, action) => {
     case types.SEARCH_ENVIRONMENTS_SUCCESS: {
       return {
         ...state,
-        searchedEnvironments: action.payload
+        searchedEnvironments: action.payload,
       };
     }
     case types.SEARCH_ENVIRONMENTS_FAILURE: {
       return {
         ...state,
-        searchedEnvironments: []
-      }
+        searchedEnvironments: [],
+      };
     }
     case types.SEARCH_ENVIRONMENTS_RESET: {
       return {
         ...state,
-        searchedEnvironments: undefined
-      }
+        searchedEnvironments: undefined,
+      };
     }
     default:
       return state;

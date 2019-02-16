@@ -1,8 +1,8 @@
-import types from "../utils/types";
+import types from '../utils/types';
 
 const initialState = {
   userRepositories: [],
-  repositories: []
+  repositories: [],
 };
 
 export default (state = initialState, action) => {
