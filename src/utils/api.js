@@ -29,6 +29,14 @@ class StadiumApiClient {
     return axios.get(`${this.url}/users/me/`);
   }
 
+  updateMe(form) {
+    return axios.post(`${this.url}/users/update_me/`, form);
+  }
+
+  deleteMe() {
+    return axios.post(`${this.url}/users/delete_me/`);
+  }
+
   status() {
     return axios.get(`${this.base}/watchman/`);
   }

@@ -4,6 +4,7 @@ import config from './config';
 import user from './user';
 import display from './display';
 import environments from './environments';
+import errors from './errors';
 import repositories from './repositories';
 
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   display,
   user,
   environments,
+  errors,
   repositories,
 });
 

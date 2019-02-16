@@ -14,6 +14,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
 
 import types from '../../utils/types';
+import { isLoading } from '../../reducers/display';
 import { SciGymIcon } from '../files/images';
 import ProfileMenu from './ProfileMenu';
 import SearchBar from './SearchBar';
@@ -99,7 +100,7 @@ Header.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  loading: Boolean(state.display.loaders.find(l => l === types.LOGIN_USER_GITHUB_OAUTH)),
+  loading: isLoading(state.display, types.LOGIN_USER_GITHUB_OAUTH),
 });
 
 export default withRouter(

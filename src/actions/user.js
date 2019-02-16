@@ -37,6 +37,42 @@ export const getMyProfile = dispatch => {
     });
 };
 
+export const updateMyProfile = form => {
+  return dispatch => {
+    dispatch({ type: types.UPDATE_USER_PROFILE, payload: null });
+    api
+      .updateMe(form)
+      .then(response => {
+        dispatch({
+          type: types.UPDATE_USER_PROFILE_SUCCESS,
+          payload: response.data,
+        });
+      })
+      .catch(error => {
+        dispatch({ type: types.UPDATE_USER_PROFILE_FAILURE, payload: error });
+        logError(error);
+      });
+  };
+};
+
+export const deleteUser = () => {
+  return dispatch => {
+    dispatch({ type: types.DELETE_USER, payload: null });
+    api
+      .deleteMe()
+      .then(response => {
+        dispatch({
+          type: types.DELETE_USER_SUCCESS,
+          payload: response.data,
+        });
+      })
+      .catch(error => {
+        dispatch({ type: types.DELETE_ENVIRONMENT_FAILURE, payload: error });
+        logError(error);
+      });
+  };
+};
+
 export const refreshAuthToken = token => {
   return dispatch => {
     dispatch({ type: types.REFRESH_AUTH_TOKEN, payload: null });

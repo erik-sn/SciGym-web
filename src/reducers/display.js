@@ -1,18 +1,36 @@
 import types from '../utils/types';
 
 const initialState = {
-  loaders: [],
-  errors: [],
+  notifications: [],
+  loaders: {},
 };
 
-const setLoading = (state, key) => ({
+const notifications = {
+  [types.LOGIN_USER_GITHUB_OAUTH_SUCCESS]: 'Successfully logged in.',
+  [types.LOGIN_USER_GITHUB_OAUTH_FAILURE]: 'Failed to login through github. Please try again later',
+};
+
+function getNotifications(state, actionType) {
+  const message = notifications[actionType];
+  const notification = { key: actionType, message };
+  return message ? state.notifications.concat([notification]) : state.notifications;
+}
+
+const setLoading = (state, key, actionType) => ({
   ...state,
-  loaders: state.loaders.concat([key]),
+  loaders: {
+    ...state.loaders,
+    [key]: true,
+  },
+  notifications: getNotifications(state, actionType),
 });
 
-const removeLoading = (state, key) => ({
-  ...state,
-  loaders: state.loaders.filter(l => l !== key),
+const removeLoading = (state, key, actionType) => ({
+  loaders: {
+    ...state.loaders,
+    [key]: false,
+  },
+  notifications: getNotifications(state, actionType),
 });
 
 export default (state = initialState, action) => {
@@ -20,7 +38,7 @@ export default (state = initialState, action) => {
     case types.LOGIN_USER_GITHUB_OAUTH:
     case types.REFRESH_AUTH_TOKEN:
     case types.GET_USER_PROFILE: {
-      return setLoading(state, types.LOGIN_USER_GITHUB_OAUTH);
+      return setLoading(state, types.LOGIN_USER_GITHUB_OAUTH, action.type);
     }
 
     case types.LOGIN_USER_GITHUB_OAUTH_SUCCESS:
@@ -29,15 +47,23 @@ export default (state = initialState, action) => {
     case types.REFRESH_AUTH_TOKEN_FAILURE:
     case types.GET_USER_PROFILE_SUCCESS:
     case types.GET_USER_PROFILE_FAILURE: {
-      return removeLoading(state, types.LOGIN_USER_GITHUB_OAUTH);
+      return removeLoading(state, types.LOGIN_USER_GITHUB_OAUTH, action.type);
+    }
+
+    case types.UPDATE_USER_PROFILE: {
+      return setLoading(state, types.UPDATE_USER_PROFILE, action.type);
+    }
+    case types.UPDATE_USER_PROFILE_SUCCESS:
+    case types.UPDATE_USER_PROFILE_FAILURE: {
+      return removeLoading(state, types.UPDATE_USER_PROFILE, action.type);
     }
 
     case types.FIND_GYM_REPOS: {
-      return setLoading(state, types.FIND_GYM_REPOS);
+      return setLoading(state, types.FIND_GYM_REPOS, action.type);
     }
     case types.FIND_GYM_REPOS_SUCCESS:
     case types.FIND_GYM_REPOS_FAILURE: {
-      return removeLoading(state, types.FIND_GYM_REPOS);
+      return removeLoading(state, types.FIND_GYM_REPOS, action.type);
     }
     default:
       return state;
@@ -46,5 +72,5 @@ export default (state = initialState, action) => {
 
 /** selectors */
 export function isLoading(state, key) {
-  return Boolean(state.loaders.find(l => l === key));
+  return state.loaders[key] === true;
 }

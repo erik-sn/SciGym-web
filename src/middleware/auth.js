@@ -36,7 +36,7 @@ const AuthMiddleware = () => next => action => {
     const { accessToken, refreshToken } = action.payload;
     setAuthorizationHeader(accessToken, refreshToken);
   }
-  if (action.type === types.LOGOUT_USER_SUCCESS) {
+  if (action.type === types.LOGOUT_USER_SUCCESS || action.type === types.DELETE_USER_SUCCESS) {
     clearAuthorizationHeader();
   }
   next(action);

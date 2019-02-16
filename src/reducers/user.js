@@ -20,6 +20,10 @@ export default (state = initialState, action) => {
     case types.GET_USER_PROFILE_SUCCESS: {
       return { ...state, ...action.payload, exists: true };
     }
+    case types.UPDATE_USER_PROFILE_SUCCESS: {
+      return { ...state, ...action.payload };
+    }
+    case types.DELETE_USER_SUCCESS:
     case types.LOGOUT_USER_SUCCESS: {
       return { ...initialState, exists: false };
     }

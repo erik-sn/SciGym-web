@@ -15,6 +15,7 @@ import { getEnvironments } from '../actions/environments';
 import Home from './home/Home';
 import Profile from './profile/Profile';
 import GetStarted from './get_started/GetStarted';
+import Notifications from './Notifications';
 import constants from '../utils/constants';
 
 export class App extends Component {
@@ -57,6 +58,7 @@ export class App extends Component {
           <Route path="*" component={Home} />
         </Switch>
         <UserWatcher />
+        <Notifications />
       </div>
     );
   }
