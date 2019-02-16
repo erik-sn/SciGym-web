@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+
+import MenuItem from '@material-ui/core/MenuItem';
+
 import { logout } from '../../actions/user';
 
 class Logout extends Component {
@@ -11,20 +14,22 @@ class Logout extends Component {
   }
 
   logoutUser() {
+    this.props.onClick();
     this.props.logout(this.props.appClientId);
   }
 
   render() {
     return (
-      <Link onClick={this.logoutUser} to="/">
+      <MenuItem onClick={this.logoutUser} component={Link} to="/">
         Logout
-      </Link>
+      </MenuItem>
     );
   }
 }
 
 Logout.propTypes = {
   logout: PropTypes.func,
+  onClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

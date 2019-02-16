@@ -5,7 +5,9 @@ import { getUserRepositories } from '../../actions/repositories';
 
 class UserWatcher extends Component {
   componentDidUpdate(prevProps, prevState) {
-    this.props.getUserRepositories();
+    if (!prevProps.userExists && this.props.userExists) {
+      this.props.getUserRepositories();
+    }
   }
 
   render() {
@@ -14,7 +16,7 @@ class UserWatcher extends Component {
 }
 
 const mapStateToProps = state => ({
-  userExists: Boolean(state.user.accessToken),
+  userExists: state.user.exists,
 });
 
 const mapDispatchToProps = { getUserRepositories };

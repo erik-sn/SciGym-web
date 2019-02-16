@@ -10,6 +10,7 @@ const initialState = {
   scope: undefined,
   tokenType: undefined,
   username: undefined,
+  exists: false,
 };
 
 export default (state = initialState, action) => {
@@ -17,10 +18,10 @@ export default (state = initialState, action) => {
     case types.LOGIN_USER_GITHUB_OAUTH_SUCCESS:
     case types.REFRESH_AUTH_TOKEN_SUCCESS:
     case types.GET_USER_PROFILE_SUCCESS: {
-      return { ...state, ...action.payload };
+      return { ...state, ...action.payload, exists: true };
     }
     case types.LOGOUT_USER_SUCCESS: {
-      return { ...initialState };
+      return { ...initialState, exists: false };
     }
     default:
       return state;

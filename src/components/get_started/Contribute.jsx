@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core';
-
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
+
+import constants from '../../utils/constants';
 import Markdown from './Markdown';
 
 const styles = theme => ({
@@ -75,7 +76,7 @@ class Contribute extends Component {
         <Card className={classes.card}>
           <CardMedia
             className={classes.media}
-            image="http://localhost:8000/static/images/RLParadigm.gif"
+            image={`${constants.STATIC_URL}/images/RLParadigm.gif`}
             title="RL Paradigm"
           />
         </Card>

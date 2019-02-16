@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom'; //use Link instead of href?
@@ -49,7 +50,8 @@ export class Header extends PureComponent {
         <Toolbar className={classes.toolBarStyle}>
           <div className={classes.root}>
             <IconButton
-              href="/"
+              component={Link}
+              to="/"
               color="inherit"
               style={{ backgroundColor: 'transparent', textDecoration: 'none' }}
             >
@@ -58,7 +60,8 @@ export class Header extends PureComponent {
             </IconButton>
             <Hidden xsDown>
               <IconButton
-                href="/get-started"
+                component={Link}
+                to="/get-started"
                 color="inherit"
                 style={{ backgroundColor: 'transparent', textDecoration: 'none' }}
               >

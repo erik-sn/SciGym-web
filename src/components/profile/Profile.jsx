@@ -124,7 +124,7 @@ Profile.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  userExists: Boolean(state.user.accessToken),
+  userExists: state.user.exists,
   repositories: state.repositories.userRepositories,
   findGymLoading: isLoading(state.display, types.FIND_GYM_REPOS),
   gymRepo: state.repositories.userRepositories.filter(repo => repo['gym']),

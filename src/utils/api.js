@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { getHost } from './environment';
+
 class StadiumApiClient {
   constructor(base, version) {
     this.base = base;
@@ -69,4 +71,4 @@ class StadiumApiClient {
   }
 }
 
-export default new StadiumApiClient('http://localhost:8000/api', 'v1');
+export default new StadiumApiClient(`${getHost()}/api`, 'v1');

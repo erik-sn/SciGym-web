@@ -8,7 +8,6 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
-import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { withStyles } from '@material-ui/core/styles';
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -26,19 +25,19 @@ const styles = theme => ({
 });
 
 class ProfileMenu extends Component {
-  state = {
-    open: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+    };
+    this.handleClose = this.handleClose.bind(this);
+  }
 
   handleToggle = () => {
     this.setState(state => ({ open: !state.open }));
   };
 
   handleClose = event => {
-    if (this.anchorEl.contains(event.target)) {
-      return;
-    }
-
     this.setState({ open: false });
   };
 
@@ -69,14 +68,8 @@ class ProfileMenu extends Component {
                 <Paper>
                   <ClickAwayListener onClickAway={this.handleClose}>
                     <MenuList>
-                      <MenuItem onClick={this.handleClose}>
-                        <Login />
-                      </MenuItem>
-                      {userExists && (
-                        <MenuItem onClick={this.handleClose}>
-                          <Logout />
-                        </MenuItem>
-                      )}
+                      <Login onClick={this.handleClose} />
+                      {userExists && <Logout onClick={this.handleClose} />}
                     </MenuList>
                   </ClickAwayListener>
                 </Paper>
@@ -95,7 +88,7 @@ ProfileMenu.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  userExists: Boolean(state.user.accessToken),
+  userExists: state.user.exists,
 });
 
 export default compose(

@@ -1,64 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core';
-import { compose } from 'redux';
-
-// import { debounce } from "lodash";
-// import { Intent } from "@blueprintjs/core";
-// import toast from "../../utils/toast";
+import MenuItem from '@material-ui/core/MenuItem';
 
 import './Login.css';
 
-const styles = {
-  linkStyle: {
-    textDecoration: 'none',
-  },
-};
+const styles = {};
 
 export class Login extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.checkUserLoggedIn = debounce(this.checkUserLoggedIn, 300);
-  // }
-
-  // componentDidMount() {
-  //   this.checkUserLoggedIn({}, this.props);
-  // }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   this.checkUserLoggedIn(prevProps, this.props);
-  // }
-
-  // checkUserLoggedIn(prev, now) {
-  //   if (!prev.userExists && now.userExists) {
-  //     toast.show({
-  //       message: "Successfully logged in",
-  //       intent: Intent.SUCCESS
-  //     });
-  //   }
-  // }
+  get githubOauthLink() {
+    const { githubClientId, githubCallbackUrl, githubRandomState } = this.props;
+    return `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${githubCallbackUrl}&state=${githubRandomState}`;
+  }
 
   render() {
-    const {
-      classes,
-      githubClientId,
-      githubCallbackUrl,
-      githubRandomState,
-      userExists,
-    } = this.props;
-    const github_oauth_link = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${githubCallbackUrl}&state=${githubRandomState}`; //&scope=repo
-    return userExists ? (
-      <Link to="/profile" className={classes.linkStyle}>
-        My Profile
-      </Link>
-    ) : (
-      <a href={github_oauth_link} className={classes.linkStyle}>
-        Login
-      </a>
-    );
+    const props = { onClick: this.props.onClick };
+    const { userExists } = this.props;
+    if (userExists) {
+      props.component = Link;
+      props.to = '/profile';
+    } else {
+      props.component = 'a';
+      props.href = this.githubOauthLink;
+    }
+    return <MenuItem {...props}>{userExists ? 'My Profile' : 'Login'}</MenuItem>;
   }
 }
 
@@ -68,6 +37,7 @@ Login.propTypes = {
   githubRandomState: PropTypes.string.isRequired,
   children: PropTypes.any,
   userExists: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
@@ -75,7 +45,7 @@ const mapStateToProps = state => {
     githubClientId: state.config.githubClientId,
     githubCallbackUrl: state.config.githubCallbackUrl,
     githubRandomState: state.config.githubRandomState,
-    userExists: Boolean(state.user.accessToken),
+    userExists: state.user.exists,
   };
 };
 

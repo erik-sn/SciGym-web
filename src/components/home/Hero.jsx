@@ -1,6 +1,8 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core';
 
+import constants from '../../utils/constants';
+
 const styles = theme => ({
   hero: {
     height: '400px',
@@ -22,7 +24,7 @@ const Hero = props => {
     <div
       className={classes.hero}
       style={{
-        backgroundImage: 'url(http://localhost:8000/static/images/ai_photonics_banner.jpg',
+        backgroundImage: `url(${constants.STATIC_URL}/images/ai_photonics_banner.jpg`,
       }}
     />
   );
