@@ -6,6 +6,7 @@ import display from './display';
 import environments from './environments';
 import errors from './errors';
 import repositories from './repositories';
+import topics from './topics';
 
 const rootReducer = combineReducers({
   config,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   environments,
   errors,
   repositories,
+  topics,
 });
 
 export default rootReducer;

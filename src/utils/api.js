@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { getHost } from './environment';
 
-class StadiumApiClient {
+class ScigymApiClient {
   constructor(base, version) {
     this.base = base;
     this.version = version;
@@ -45,12 +45,13 @@ class StadiumApiClient {
     return axios.get(`${this.url}/environments/`);
   }
 
-  createEnvironment(name, description, repositoryId, tags) {
+  createEnvironment(name, description, repositoryId, tags, topicUUID) {
     return axios.post(`${this.url}/environments/`, {
       name: name,
       description: description,
       repository: repositoryId,
       tags: tags,
+      topic: topicUUID,
     });
   }
 
@@ -63,7 +64,15 @@ class StadiumApiClient {
   }
 
   searchEnvironments(searchPhrases) {
-    return axios.get(`${this.url}/environments/filter/?search=${searchPhrases}`);
+    return axios.get(`${this.url}/environments/filter/?search=${searchPhrases}/`);
+  }
+
+  topics() {
+    return axios.get(`${this.url}/topics/`);
+  }
+
+  searchEnvironmentsByTopic(searchTopicUUID) {
+    return axios.get(`${this.url}/environments/filter_topic/?topic=${searchTopicUUID}`);
   }
 
   repositories() {
@@ -79,4 +88,4 @@ class StadiumApiClient {
   }
 }
 
-export default new StadiumApiClient(`${getHost()}/api`, 'v1');
+export default new ScigymApiClient(`${getHost()}/api`, 'v1');

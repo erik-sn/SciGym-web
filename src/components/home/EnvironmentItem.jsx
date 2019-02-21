@@ -90,7 +90,17 @@ const styles = theme => ({
       maxHeight: '320px',
     },
   },
+  listStyle: {
+    minWidth: '770px',
+    [theme.breakpoints.down('xs')]: {
+      minWidth: '0px',
+    },
+    [theme.breakpoints.up('md')]: {
+      minWidth: '950px',
+    },
+  },
 });
+
 class EnvironmentItem extends Component {
   constructor(props) {
     super(props);
@@ -122,7 +132,7 @@ class EnvironmentItem extends Component {
     var converter = new showdown.Converter();
     converter.setFlavor('github');
     return (
-      <ListItem>
+      <ListItem className={classes.listStyle}>
         {/*slide could be better done*/}
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>
           <Card className={classes.cardStyle} raised>
