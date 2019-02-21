@@ -64,7 +64,7 @@ class ScigymApiClient {
   }
 
   searchEnvironments(searchPhrases) {
-    return axios.get(`${this.url}/environments/filter/?search=${searchPhrases}/`);
+    return axios.get(`${this.url}/environments/filter/?search=${searchPhrases}`);
   }
 
   topics() {
