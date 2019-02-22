@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { getHost } from './environment';
 
-class StadiumApiClient {
+class ScigymApiClient {
   constructor(base, version) {
     this.base = base;
     this.version = version;
@@ -79,4 +79,4 @@ class StadiumApiClient {
   }
 }
 
-export default new StadiumApiClient(`${getHost()}/api`, 'v1');
+export default new ScigymApiClient(`${getHost()}/api`, 'v1');
