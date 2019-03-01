@@ -42,14 +42,15 @@ const styles = theme => ({
 class EnvironmentForm extends Component {
   constructor(props) {
     super(props);
+    const { envExists, environment, repository } = props;
     this.state = {
-      id: props.envExists ? props.environment.id : props.repository.id,
-      name: props.envExists ? props.environment.name : props.repository.name,
-      description: props.envExists ? props.environment.description : props.repository.description,
+      id: envExists ? environment.id : repository.id,
+      name: envExists ? environment.name : repository.name,
+      description: envExists ? environment.description : repository.description,
       tag: '',
-      tags: props.envExists && Boolean(props.environment.tags) ? props.environment.tags : [],
+      tags: envExists && Boolean(environment.tags) ? environment.tags : [],
       error: '',
-      topic: props.envExists && Boolean(props.environment.topic) ? props.environment.topic.id : '',
+      topic: envExists && Boolean(environment.topic) ? environment.topic.id : '',
     };
     this.getEnvironments = this.getEnvironments.bind(this);
   }
@@ -124,8 +125,7 @@ class EnvironmentForm extends Component {
 
   render() {
     const { classes, repository, topics } = this.props;
-    const { error } = this.state;
-    const { tags } = this.state;
+    const { error, tags } = this.state;
     return (
       <form className={classes.container}>
         <Dialog onClose={this.handleClose} open={this.props.open} fullWidth>

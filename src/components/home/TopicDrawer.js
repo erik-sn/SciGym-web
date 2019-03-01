@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 
-import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuList from '@material-ui/core/MenuList';
@@ -18,6 +17,7 @@ import Typography from '@material-ui/core/Typography';
 
 import { searchEnvironmentsByTopic, resetSearchedEnvironments } from '../../actions/environments';
 import About from './About';
+import ChildListElement from './ChildListElement';
 
 const drawerWidth = 240;
 
@@ -50,22 +50,18 @@ const styles = theme => ({
 class TopicDrawer extends Component {
   constructor(props) {
     super(props);
-    const topTopics = this.props.topics.filter(topic => !topic.parentTopic);
+    const parentTopics = this.props.topics.filter(topic => !topic.parentTopic);
     this.state = {
-      open: Array.apply(null, Array(topTopics.length)).map(function() {
-        return false;
-      }),
+      open: Array.apply(null, Array(parentTopics.length)).map(() => false),
       error: '',
     };
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.topics !== prevProps.topics) {
-      const topTopics = this.props.topics.filter(topic => !topic.parentTopic);
+    if (this.props.topics.length > prevProps.topics.length) {
+      const parentTopics = this.props.topics.filter(topic => !topic.parentTopic);
       this.setState({
-        open: Array.apply(null, Array(topTopics.length)).map(function() {
-          return false;
-        }),
+        open: Array.apply(null, Array(parentTopics.length)).map(() => false),
       });
     }
   }
@@ -88,8 +84,8 @@ class TopicDrawer extends Component {
   render() {
     const { classes, topics } = this.props;
 
-    const topTopics = topics.filter(topic => !topic.parentTopic);
-    const botTopics = topics.filter(topic => topic.parentTopic);
+    const parentTopics = topics.filter(topic => !topic.parentTopic);
+    const childTopics = topics.filter(topic => topic.parentTopic);
     return (
       <Hidden mdDown>
         <Paper className={classes.drawerPaper}>
@@ -102,7 +98,7 @@ class TopicDrawer extends Component {
               <ListItemText primary={'Recent Environments'} />
             </ListItem>
             <Divider />
-            {topTopics.map((topTopic, index) => (
+            {parentTopics.map((topTopic, index) => (
               <div key={index}>
                 <ListItem
                   button
@@ -113,19 +109,13 @@ class TopicDrawer extends Component {
                   {this.state.open[index] ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse in={this.state.open[index]} timeout="auto" unmountOnExit>
-                  {botTopics.map(
+                  {childTopics.map(
                     topic =>
                       topic.parentTopic.id === topTopic.id && (
-                        <List component="div" disablePadding key={topic.id}>
-                          <ListItem
-                            button
-                            className={classes.nested}
-                            key={topic.id}
-                            onClick={() => this.handleClick(topic.id)}
-                          >
-                            <ListItemText inset primary={topic.name} />
-                          </ListItem>
-                        </List>
+                        <ChildListElement
+                          topic={topic}
+                          handleClick={() => this.handleClick(topic.id)}
+                        />
                       )
                   )}
                 </Collapse>
