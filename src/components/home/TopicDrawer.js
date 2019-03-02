@@ -98,21 +98,22 @@ class TopicDrawer extends Component {
               <ListItemText primary={'Recent Environments'} />
             </ListItem>
             <Divider />
-            {parentTopics.map((topTopic, index) => (
+            {parentTopics.map((parentTopic, index) => (
               <div key={index}>
                 <ListItem
                   button
-                  key={topTopic.id}
-                  onClick={() => this.handleTopClick(index, topTopic.id)}
+                  key={parentTopic.id}
+                  onClick={() => this.handleTopClick(index, parentTopic.id)}
                 >
-                  <ListItemText primary={topTopic.name} />
+                  <ListItemText primary={parentTopic.name} />
                   {this.state.open[index] ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse in={this.state.open[index]} timeout="auto" unmountOnExit>
                   {childTopics.map(
                     topic =>
-                      topic.parentTopic.id === topTopic.id && (
+                      topic.parentTopic.id === parentTopic.id && (
                         <ChildListElement
+                          key={topic.id}
                           topic={topic}
                           handleClick={() => this.handleClick(topic.id)}
                         />
