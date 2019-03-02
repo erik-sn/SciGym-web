@@ -77,6 +77,14 @@ class ScigymApiClient {
   findGymRepos() {
     return axios.post(`${this.url}/repositories/find_gym_repos/`);
   }
+
+  getContributors() {
+    return axios.get(`${this.url}/contributors/`);
+  }
+
+  getProjectAuthors() {
+    return axios.get(`${this.url}/projectauthors/`);
+  }
 }
 
 export default new ScigymApiClient(`${getHost()}/api`, 'v1');
