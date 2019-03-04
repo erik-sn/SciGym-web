@@ -82,6 +82,27 @@ export const searchEnvironments = searchPhrases => {
   };
 };
 
+export const searchEnvironmentsByTopic = searchTopic => {
+  return dispatch => {
+    dispatch({
+      type: types.SEARCH_ENVIRONMENTS,
+      payload: searchTopic,
+    });
+    api
+      .searchEnvironmentsByTopic(searchTopic)
+      .then(response => {
+        dispatch({
+          type: types.SEARCH_ENVIRONMENTS_SUCCESS,
+          payload: response.data,
+        });
+      })
+      .catch(error => {
+        dispatch({ type: types.SEARCH_ENVIRONMENTS_FAILURE });
+        logError(error);
+      });
+  };
+};
+
 export const resetSearchedEnvironments = () => {
   return dispatch => {
     dispatch({ type: types.SEARCH_ENVIRONMENTS_RESET });

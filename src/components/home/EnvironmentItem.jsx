@@ -90,7 +90,17 @@ const styles = theme => ({
       maxHeight: '320px',
     },
   },
+  listStyle: {
+    minWidth: '770px',
+    [theme.breakpoints.down('xs')]: {
+      minWidth: '0px',
+    },
+    [theme.breakpoints.up('md')]: {
+      minWidth: '950px',
+    },
+  },
 });
+
 class EnvironmentItem extends Component {
   constructor(props) {
     super(props);
@@ -118,11 +128,12 @@ class EnvironmentItem extends Component {
   render() {
     const { owner, htmlUrl, readme, gym } = this.props.environment.repository;
     const { name, description, tags } = this.props.environment;
+    const topicName = this.props.environment.topic.name;
     const { classes } = this.props;
     var converter = new showdown.Converter();
     converter.setFlavor('github');
     return (
-      <ListItem>
+      <ListItem className={classes.listStyle}>
         {/*slide could be better done*/}
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>
           <Card className={classes.cardStyle} raised>
@@ -142,6 +153,9 @@ class EnvironmentItem extends Component {
                   <Typography variant="subheading" gutterBottom>
                     Owner:{' '}
                     <a href={'https://github.com/'.concat(owner.username)}> {owner.username} </a>
+                  </Typography>
+                  <Typography variant="subheading" gutterBottom>
+                    Category: <b>{topicName}</b>
                   </Typography>
                   <List>
                     {tags.map(tag => (

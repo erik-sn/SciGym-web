@@ -11,6 +11,9 @@ import { withStyles } from '@material-ui/core';
 
 import EnvironmentItem from './EnvironmentItem';
 import Hero from './Hero';
+import TopicDrawer from './TopicDrawer';
+
+const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
@@ -20,6 +23,20 @@ const styles = theme => ({
   title: {
     margin: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit * 6,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+    flexShrink: 0,
+    height: '100%',
+  },
+  wrapper: {
+    display: 'flex',
+    flexFlow: 'row nowrap',
+  },
+  gridStyle: {
+    [theme.breakpoints.up('lg')]: {
+      width: '75%',
+    },
   },
 });
 
@@ -39,28 +56,31 @@ class Home extends Component {
     return (
       <div className={classes.root}>
         <Hero />
-        <Grid container justify="center">
-          <div>
-            <Typography variant="h4" className={classes.title}>
-              {this.title}
-            </Typography>
-            {empty && (
-              <Typography variant="h6" className={classes.title}>
-                No environments found
+        <div className={classes.wrapper}>
+          <TopicDrawer />
+          <Grid container justify="center" className={classes.gridStyle}>
+            <div>
+              <Typography variant="h4" className={classes.title}>
+                {this.title}
               </Typography>
-            )}
-            {!empty && (
-              <List>
-                {environments.map(env => (
-                  <React.Fragment key={env.id}>
-                    <EnvironmentItem key={env.id} environment={env} />
-                    <Divider />
-                  </React.Fragment>
-                ))}
-              </List>
-            )}
-          </div>
-        </Grid>
+              {empty && (
+                <Typography variant="h6" className={classes.title}>
+                  No environments found
+                </Typography>
+              )}
+              {!empty && (
+                <List>
+                  {environments.map(env => (
+                    <React.Fragment key={env.id}>
+                      <EnvironmentItem key={env.id} environment={env} />
+                      <Divider />
+                    </React.Fragment>
+                  ))}
+                </List>
+              )}
+            </div>
+          </Grid>
+        </div>
       </div>
     );
   }

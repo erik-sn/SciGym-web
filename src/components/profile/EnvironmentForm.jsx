@@ -14,6 +14,8 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
@@ -40,13 +42,15 @@ const styles = theme => ({
 class EnvironmentForm extends Component {
   constructor(props) {
     super(props);
+    const { envExists, environment, repository } = props;
     this.state = {
-      id: props.envExists ? props.environment.id : props.repository.id,
-      name: props.envExists ? props.environment.name : props.repository.name,
-      description: props.envExists ? props.environment.description : props.repository.description,
+      id: envExists ? environment.id : repository.id,
+      name: envExists ? environment.name : repository.name,
+      description: envExists ? environment.description : repository.description,
       tag: '',
-      tags: props.envExists && Boolean(props.environment.tags) ? props.environment.tags : [],
+      tags: envExists && Boolean(environment.tags) ? environment.tags : [],
       error: '',
+      topic: envExists && Boolean(environment.topic) ? environment.topic.id : '',
     };
     this.getEnvironments = this.getEnvironments.bind(this);
   }
@@ -67,9 +71,9 @@ class EnvironmentForm extends Component {
         .then(this.handleSuccess)
         .catch(this.handleFailure);
     } else {
-      const { name, description, id, tags } = this.state;
+      const { name, description, id, tags, topic } = this.state;
       api
-        .createEnvironment(name, description, id, tags)
+        .createEnvironment(name, description, id, tags, topic)
         .then(this.handleSuccess)
         .catch(this.handleFailure);
     }
@@ -115,11 +119,13 @@ class EnvironmentForm extends Component {
     });
   };
 
+  handleChangeTopic = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
   render() {
-    const { classes } = this.props;
-    const { repository } = this.props;
-    const { error } = this.state;
-    const { tags } = this.state;
+    const { classes, repository, topics } = this.props;
+    const { error, tags } = this.state;
     return (
       <form className={classes.container}>
         <Dialog onClose={this.handleClose} open={this.props.open} fullWidth>
@@ -157,6 +163,26 @@ class EnvironmentForm extends Component {
             margin="normal"
             variant="filled"
           />
+          <FormControl className={classes.textField}>
+            <InputLabel htmlFor="topic">Category</InputLabel>
+            <Select
+              value={this.state.topic}
+              onChange={this.handleChangeTopic}
+              inputProps={{
+                name: 'topic',
+                id: 'topicsSelect',
+              }}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {topics.map(topic => (
+                <MenuItem key={topic.id} value={topic.id}>
+                  {topic.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <FormControl className={classes.textField}>
             <InputLabel htmlFor="adornment-tag">Add a Tag</InputLabel>
             <Input
@@ -205,9 +231,13 @@ EnvironmentForm.propTypes = {
   environment: PropTypes.object,
   open: PropTypes.bool.isRequired,
   envExists: PropTypes.bool.isRequired,
+  topics: PropTypes.arrayOf(PropTypes.object),
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  topics: state.topics.topics,
+});
+
 const mapDispatchToProps = {
   getEnvironments,
 };

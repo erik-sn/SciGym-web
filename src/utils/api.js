@@ -45,12 +45,13 @@ class ScigymApiClient {
     return axios.get(`${this.url}/environments/`);
   }
 
-  createEnvironment(name, description, repositoryId, tags) {
+  createEnvironment(name, description, repositoryId, tags, topicUUID) {
     return axios.post(`${this.url}/environments/`, {
       name: name,
       description: description,
       repository: repositoryId,
       tags: tags,
+      topic: topicUUID,
     });
   }
 
@@ -64,6 +65,14 @@ class ScigymApiClient {
 
   searchEnvironments(searchPhrases) {
     return axios.get(`${this.url}/environments/filter/?search=${searchPhrases}`);
+  }
+
+  topics() {
+    return axios.get(`${this.url}/topics/`);
+  }
+
+  searchEnvironmentsByTopic(searchTopicUUID) {
+    return axios.get(`${this.url}/environments/filter_topic/?topic=${searchTopicUUID}`);
   }
 
   repositories() {
