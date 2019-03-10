@@ -19,7 +19,8 @@ import List from '@material-ui/core/List';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Slide from '@material-ui/core/Slide';
 
-import { SciGymLogo, GithubIcon } from '../files/images';
+import { GithubIcon } from '../files/images';
+import constants from '../../utils/constants';
 
 const styles = theme => ({
   root: {
@@ -106,7 +107,6 @@ class EnvironmentItem extends Component {
     super(props);
     this.state = {
       open: false,
-      error: '',
     };
   }
 
@@ -121,15 +121,14 @@ class EnvironmentItem extends Component {
     this.setState({ open: false });
   };
 
-  handleFailure = () => {
-    this.setState({ error: 'Problems!' });
-  };
-
   render() {
     const { owner, htmlUrl, readme, gym } = this.props.environment.repository;
-    const { name, description, tags } = this.props.environment;
-    const topicName = this.props.environment.topic.name;
+    const { name, description, tags, topic, currentAvatar } = this.props.environment;
     const { classes } = this.props;
+    var filePath = '/icons/scigym-logo.png';
+    if (currentAvatar != null) {
+      filePath = currentAvatar.filePath.replace(constants.UPLOAD_URL, '');
+    }
     var converter = new showdown.Converter();
     converter.setFlavor('github');
     return (
@@ -139,8 +138,7 @@ class EnvironmentItem extends Component {
           <Card className={classes.cardStyle} raised>
             <div className={classes.root}>
               <div className={classes.logoStyle}>
-                {/* add pictures */}
-                <SciGymLogo />
+                <img src={constants.STATIC_URL.concat(filePath)} height="150" width="150" alt="" />
               </div>
               <div className={classes.cardContentStyle}>
                 <CardContent>
@@ -155,7 +153,7 @@ class EnvironmentItem extends Component {
                     <a href={'https://github.com/'.concat(owner.username)}> {owner.username} </a>
                   </Typography>
                   <Typography variant="subheading" gutterBottom>
-                    Category: <b>{topicName}</b>
+                    Category: {topic ? <b>{topic.name}</b> : <b> None </b>}
                   </Typography>
                   <List>
                     {tags.map(tag => (
