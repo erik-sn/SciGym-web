@@ -58,7 +58,7 @@ class Images extends Component {
 
   handleDelete = image => {
     api
-      .deleteImage(image) //this should not be an API call but an action
+      .deleteImage(image) // TODO: this should not be an API call but an action
       .then(this.handleSuccess)
       .catch(this.handleFailure);
     this.setState({

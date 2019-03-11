@@ -2,6 +2,7 @@ import types from '../utils/types';
 
 const initialState = {
   userImages: [],
+  imageConfig: [],
 };
 
 export default (state = initialState, action) => {
@@ -13,8 +14,11 @@ export default (state = initialState, action) => {
       const imageId = action.meta.id;
       return {
         ...state,
-        images: state.userImages.filter(image => image.id !== imageId),
+        userImages: state.userImages.filter(image => image.id !== imageId),
       };
+    }
+    case types.GET_IMAGE_CONFIG_LIST_SUCCESS: {
+      return { ...state, imageConfig: action.payload };
     }
     default:
       return state;

@@ -94,6 +94,10 @@ class ScigymApiClient {
     return axios.delete(`${this.url}/images/${image.id}/`);
   }
 
+  imageConfig() {
+    return axios.get(`${this.url}/image_config/`);
+  }
+
   repositories() {
     return axios.get(`${this.url}/repositories/`);
   }

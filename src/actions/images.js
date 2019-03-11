@@ -23,6 +23,27 @@ export const getUserImages = () => {
   return _getUserImages;
 };
 
+export const _getImageConfig = dispatch => {
+  dispatch({ type: types.GET_IMAGE_CONFIG_LIST });
+  api
+    .imageConfig()
+    .then(response => {
+      console.log(response.data);
+      dispatch({
+        type: types.GET_IMAGE_CONFIG_LIST_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch(error => {
+      dispatch({ type: types.GET_IMAGE_CONFIG_LIST_FAILURE });
+      logError(error);
+    });
+};
+
+export const getImageConfig = () => {
+  return _getImageConfig;
+};
+
 export const createImage = (...args) => {
   return dispatch => {
     dispatch({ type: types.CREATE_IMAGE });

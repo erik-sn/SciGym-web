@@ -82,7 +82,7 @@ class ImagePopContent extends Component {
               <Card className={classes.cardStyle}>
                 <CardMedia
                   className={classes.mediaStyle}
-                  image={constants.STATIC_URL.concat('/icons/scigym-logo.png')}
+                  image={constants.STATIC_URL.concat(constants.SCIGYM_LOGO)}
                 >
                   <Radio
                     checked={this.state.selectedAvatar === null}

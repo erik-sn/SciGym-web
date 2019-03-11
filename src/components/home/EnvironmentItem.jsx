@@ -125,7 +125,7 @@ class EnvironmentItem extends Component {
     const { owner, htmlUrl, readme, gym, fork } = this.props.environment.repository;
     const { name, description, scigym, tags, topic, currentAvatar } = this.props.environment;
     const { classes } = this.props;
-    var filePath = '/icons/scigym-logo.png';
+    var filePath = constants.SCIGYM_LOGO;
     if (currentAvatar != null) {
       filePath = currentAvatar.filePath.replace(constants.UPLOAD_URL, '');
     }

@@ -39,11 +39,10 @@ const styles = theme => ({
   },
 });
 
-const FILE_EXTENSIONS = ['png', 'jpg', 'jpeg']; // TODO: get this from API
 class ImagePreview extends Component {
   constructor(props) {
     super(props);
-    var filePath = '/icons/scigym-logo.png';
+    var filePath = constants.SCIGYM_LOGO;
     if (props.avatar != null) {
       filePath = props.avatar.filePath.replace(constants.UPLOAD_URL, '');
     }
@@ -59,7 +58,7 @@ class ImagePreview extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.avatar !== this.props.avatar) {
-      var filePath = '/icons/scigym-logo.png';
+      var filePath = constants.SCIGYM_LOGO;
       if (this.props.avatar != null) {
         filePath = this.props.avatar.filePath.replace(constants.UPLOAD_URL, '');
       }
@@ -91,12 +90,12 @@ class ImagePreview extends Component {
     this.props.handleSelect(selectedAvatar);
   };
 
-  handleChange(event) {
+  handleChange = imageConfig => event => {
     event.preventDefault();
     const uploadedFile = event.target.files[0];
     const fileExtension = uploadedFile.name.split('.').pop();
     //2MB limit & specific file extension
-    if (uploadedFile.size < 2000000 && FILE_EXTENSIONS.includes(fileExtension)) {
+    if (uploadedFile.size < 2000000 && imageConfig.includes('.'.concat(fileExtension))) {
       //upload image
       api
         .createImage(uploadedFile)
@@ -104,14 +103,14 @@ class ImagePreview extends Component {
         .catch(this.handleFailure);
     } else {
       this.setState({
-        error: `Sorry, avatar size is limited to 2MB and we only accept PNG, JPG, JPEG`,
+        error: `Sorry, avatar size is limited to 2MB and we only accept ${imageConfig.join()}`,
       });
     }
-  }
+  };
 
   render() {
     const { error, anchorEl } = this.state;
-    const { classes, userImages } = this.props;
+    const { classes, userImages, imageConfig } = this.props;
     const open = Boolean(anchorEl);
     return (
       <div className={classes.root}>
@@ -131,7 +130,7 @@ class ImagePreview extends Component {
           <Typography className={classes.imageUploadText} variant="h6">
             Upload new image
           </Typography>
-          <input type="file" onChange={this.handleChange} />
+          <input type="file" onChange={this.handleChange(imageConfig)} />
         </div>
         <Popover
           id="userImages-popper"
@@ -168,10 +167,12 @@ ImagePreview.propTypes = {
   userImages: PropTypes.arrayOf(PropTypes.object),
   handleSuccess: PropTypes.func.isRequired,
   handleSelect: PropTypes.func.isRequired,
+  imageConfig: PropTypes.arrayOf(PropTypes.string),
 };
 
 const mapStateToProps = state => ({
-  userImages: state.images.userImages, //TODO: image selection
+  userImages: state.images.userImages,
+  imageConfig: state.images.imageConfig,
 });
 
 export default compose(

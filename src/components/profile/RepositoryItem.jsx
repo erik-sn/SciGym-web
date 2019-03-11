@@ -80,7 +80,7 @@ class RepositoryItem extends Component {
 
   handleDelete = () => {
     api
-      .deleteEnvironment(this.props.environment) //this should not be an API call but an action
+      .deleteEnvironment(this.props.environment) //TODO: this should not be an API call but an action
       .then(this.handleSuccess)
       .catch(this.handleFailure);
   };
