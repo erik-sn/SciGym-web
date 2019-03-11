@@ -5,9 +5,12 @@ import { compose } from 'redux';
 
 import { withStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import Popover from '@material-ui/core/Popover';
+import Button from '@material-ui/core/Button';
 
 import api from '../../utils/api';
 import constants from '../../utils/constants';
+import ImagePopContent from './ImagePopContent';
 
 const styles = theme => ({
   root: {
@@ -24,8 +27,9 @@ const styles = theme => ({
   contentStyle: {
     margin: theme.spacing.unit,
   },
-  inputStyle: {
-    marginTop: theme.spacing.unit * 15,
+  imageUploadText: {
+    marginTop: theme.spacing.unit * 6,
+    marginBottom: theme.spacing.unit,
     [theme.breakpoints.down('xs')]: {
       margin: theme.spacing.unit,
     },
@@ -47,6 +51,7 @@ class ImagePreview extends Component {
       avatar: props.avatar,
       avatarURL: constants.STATIC_URL.concat(filePath),
       error: null,
+      anchorEl: null,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -66,8 +71,24 @@ class ImagePreview extends Component {
     }
   }
 
+  handleClick = event => {
+    this.setState({
+      anchorEl: event.currentTarget,
+    });
+  };
+
+  handleClose = () => {
+    this.setState({
+      anchorEl: null,
+    });
+  };
+
   handleFailure = () => {
     this.setState({ error: 'Sorry, upload did NOT succeed!' });
+  };
+
+  handleSelect = selectedAvatar => {
+    this.props.handleSelect(selectedAvatar);
   };
 
   handleChange(event) {
@@ -89,18 +110,51 @@ class ImagePreview extends Component {
   }
 
   render() {
-    const { error } = this.state;
-    const { classes } = this.props;
+    const { error, anchorEl } = this.state;
+    const { classes, userImages } = this.props;
+    const open = Boolean(anchorEl);
     return (
       <div className={classes.root}>
         <div className={classes.logoStyle}>
           <img src={this.state.avatarURL} height="150" width="150" alt="" />
         </div>
         <div className={classes.contentStyle}>
-          <input type="file" onChange={this.handleChange} className={classes.inputStyle} />
+          <Button
+            color="primary"
+            aria-owns={open ? 'simple-popper' : undefined}
+            aria-haspopup="true"
+            variant="contained"
+            onClick={this.handleClick}
+          >
+            My Images
+          </Button>
+          <Typography className={classes.imageUploadText} variant="h6">
+            Upload new image
+          </Typography>
+          <input type="file" onChange={this.handleChange} />
         </div>
+        <Popover
+          id="userImages-popper"
+          open={open}
+          anchorEl={anchorEl}
+          onClose={this.handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+        >
+          <ImagePopContent
+            userImages={userImages}
+            avatar={this.state.avatar}
+            handleSelect={this.handleSelect}
+          />
+        </Popover>
         {error ? (
-          <Typography variant="h8" color="error" className={classes.errorStyle}>
+          <Typography variant="subtitle1" color="error" className={classes.errorStyle}>
             {error}
           </Typography>
         ) : null}
@@ -110,13 +164,14 @@ class ImagePreview extends Component {
 }
 
 ImagePreview.propTypes = {
-  avatar: PropTypes.any,
+  avatar: PropTypes.any, // this is null or an object
   userImages: PropTypes.arrayOf(PropTypes.object),
   handleSuccess: PropTypes.func.isRequired,
+  handleSelect: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  userImages: state.userImages, //TODO: image selection
+  userImages: state.images.userImages, //TODO: image selection
 });
 
 export default compose(

@@ -62,6 +62,7 @@ class EnvironmentForm extends Component {
     };
     this.getEnvironments = this.getEnvironments.bind(this);
     this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
   }
 
   getEnvironments() {
@@ -79,6 +80,20 @@ class EnvironmentForm extends Component {
       avatar: response.data,
       avatarId: response.data.id,
     });
+  };
+
+  handleSelect = selectedAvatar => {
+    if (selectedAvatar !== null) {
+      this.setState({
+        avatar: selectedAvatar,
+        avatarId: selectedAvatar.id,
+      });
+    } else {
+      this.setState({
+        avatar: selectedAvatar,
+        avatarId: null,
+      });
+    }
   };
 
   handleSubmit = event => {
@@ -150,7 +165,11 @@ class EnvironmentForm extends Component {
           <DialogTitle>
             {this.props.envExists ? 'Edit Environment' : 'Create Environment'}
           </DialogTitle>
-          <ImagePreview avatar={this.state.avatar} handleSuccess={this.handleUploadSuccess} />
+          <ImagePreview
+            avatar={this.state.avatar}
+            handleSuccess={this.handleUploadSuccess}
+            handleSelect={this.handleSelect}
+          />
           <TextField
             id="filled-name"
             label="Name"
@@ -233,7 +252,7 @@ class EnvironmentForm extends Component {
           )}
           <Button onClick={this.handleSubmit}>Submit</Button>
           {error ? (
-            <Typography variant="h8" color="error" className={classes.errorStyle}>
+            <Typography variant="subtitle1" color="error" className={classes.errorStyle}>
               {error}
             </Typography>
           ) : null}
