@@ -40,3 +40,24 @@ export const createImage = (...args) => {
       });
   };
 };
+
+export const deleteImage = image => {
+  return dispatch => {
+    dispatch({
+      type: types.DELETE_IMAGE,
+      meta: image,
+    });
+    api
+      .deleteImage(image)
+      .then(response => {
+        dispatch({
+          type: types.DELETE_IMAGE_SUCCESS,
+          payload: response.data,
+        });
+      })
+      .catch(error => {
+        dispatch({ type: types.DELETE_IMAGE_FAILURE });
+        logError(error);
+      });
+  };
+};

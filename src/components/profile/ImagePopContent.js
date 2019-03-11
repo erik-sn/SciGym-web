@@ -41,9 +41,6 @@ const styles = theme => ({
   mediaStyle: {
     height: '100px',
   },
-  radioStyle: {
-    bottom: '0px',
-  },
   textStyle: {
     margin: theme.spacing.unit,
   },

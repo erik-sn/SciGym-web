@@ -80,7 +80,7 @@ class RepositoryItem extends Component {
 
   handleDelete = () => {
     api
-      .deleteEnvironment(this.props.environment)
+      .deleteEnvironment(this.props.environment) //this should not be an API call but an action
       .then(this.handleSuccess)
       .catch(this.handleFailure);
   };
@@ -91,6 +91,7 @@ class RepositoryItem extends Component {
       this.setState({
         envExists: !this.state.envExists,
         openDelete: false,
+        error: '',
       });
     });
   };
@@ -114,7 +115,6 @@ class RepositoryItem extends Component {
         <Card className={classes.cardStyle} raised>
           <div className={classes.root}>
             <div className={classes.logoStyle}>
-              {/* add pictures */}
               <SciGymLogo />
             </div>
             <div className={classes.cardContentStyle}>

@@ -10,6 +10,7 @@ import Account from './Account';
 import Groups from './Groups';
 import Settings from './Settings';
 import Repositories from './Repositories';
+import Images from './Images';
 
 const styles = theme => ({
   root: {
@@ -29,6 +30,7 @@ const Profile = ({ classes, userExists }) => {
       <Switch>
         <Route path="/profile/account" component={Account} />
         <Route path="/profile/groups" component={Groups} />
+        <Route path="/profile/images" component={Images} />
         <Route path="*" component={Repositories} />
       </Switch>
     </div>
