@@ -122,8 +122,8 @@ class EnvironmentItem extends Component {
   };
 
   render() {
-    const { owner, htmlUrl, readme, gym } = this.props.environment.repository;
-    const { name, description, tags, topic, currentAvatar } = this.props.environment;
+    const { owner, htmlUrl, readme, gym, fork } = this.props.environment.repository;
+    const { name, description, scigym, tags, topic, currentAvatar } = this.props.environment;
     const { classes } = this.props;
     var filePath = '/icons/scigym-logo.png';
     if (currentAvatar != null) {
@@ -150,7 +150,8 @@ class EnvironmentItem extends Component {
                   </Typography>
                   <Typography variant="subheading" gutterBottom>
                     Owner:{' '}
-                    <a href={'https://github.com/'.concat(owner.username)}> {owner.username} </a>
+                    <a href={'https://github.com/'.concat(owner.username)}> {owner.username} </a>{' '}
+                    {fork ? <b> (forked)</b> : ''}
                   </Typography>
                   <Typography variant="subheading" gutterBottom>
                     Category: {topic ? <b>{topic.name}</b> : <b> None </b>}
@@ -182,13 +183,23 @@ class EnvironmentItem extends Component {
                   >
                     <ExpandMoreIcon />
                   </IconButton>
-                  {gym ? (
+                  {scigym ? (
+                    <div className={classes.chipPosition}>
+                      <Chip
+                        icon={<Done />}
+                        label="SciGym Native"
+                        className={classes.tagStyle}
+                        color="primary"
+                      />
+                    </div>
+                  ) : gym ? (
                     <div className={classes.chipPosition}>
                       <Chip
                         icon={<Done />}
                         label="Gym Verified"
                         className={classes.tagStyle}
                         color="primary"
+                        variant="outlined"
                       />
                     </div>
                   ) : (
@@ -198,6 +209,7 @@ class EnvironmentItem extends Component {
                         label="Gym Unverified"
                         className={classes.tagStyle}
                         color="secondary"
+                        variant="outlined"
                       />
                     </div>
                   )}
