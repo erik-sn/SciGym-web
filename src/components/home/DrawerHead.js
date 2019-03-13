@@ -24,7 +24,7 @@ const styles = theme => ({
   },
 });
 
-const About = props => {
+const DrawerHead = props => {
   const { classes } = props;
   return (
     <div className={classes.root}>
@@ -34,13 +34,9 @@ const About = props => {
       <Button className={classes.logoStyle}>
         <SciGymLogo />
       </Button>
-      <Typography variant="subheading" className={classes.text}>
-        Welcome to <b>SciGym</b>, the open source library for reinforcement learning environments in
-        science.
-      </Typography>
       <Divider />
     </div>
   );
 };
 
-export default withStyles(styles)(About);
+export default withStyles(styles)(DrawerHead);

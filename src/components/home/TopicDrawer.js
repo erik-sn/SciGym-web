@@ -16,7 +16,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Typography from '@material-ui/core/Typography';
 
 import { searchEnvironmentsByTopic, resetSearchedEnvironments } from '../../actions/environments';
-import About from './About';
+import DrawerHead from './DrawerHead';
 import ChildListElement from './ChildListElement';
 
 const drawerWidth = 240;
@@ -89,7 +89,7 @@ class TopicDrawer extends Component {
     return (
       <Hidden mdDown>
         <Paper className={classes.drawerPaper}>
-          <About />
+          <DrawerHead />
           <Typography variant="h5" className={classes.title}>
             Search Categories
           </Typography>

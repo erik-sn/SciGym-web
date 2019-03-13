@@ -72,7 +72,7 @@ export class Header extends PureComponent {
             </Hidden>
             <Hidden smUp>
               <IconButton
-                href="/get-started"
+                to="/get-started"
                 color="inherit"
                 style={{ backgroundColor: 'transparent', textDecoration: 'none' }}
               >
