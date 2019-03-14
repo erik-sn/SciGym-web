@@ -61,10 +61,14 @@ class Home extends Component {
           <TopicDrawer />
           <Grid container justify="center" className={classes.gridStyle}>
             <div>
-              <Typography variant="h4" className={classes.title}>
-                Features & Goals
-              </Typography>
-              <FeatureCards />
+              {!this.props.searchedEnvironments && (
+                <div>
+                  <Typography variant="h4" className={classes.title}>
+                    Features & Goals
+                  </Typography>
+                  <FeatureCards />
+                </div>
+              )}
               <Typography variant="h4" className={classes.title}>
                 {this.title}
               </Typography>

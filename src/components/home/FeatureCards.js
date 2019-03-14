@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import Hidden from '@material-ui/core/Hidden';
 
 import constants from '../../utils/constants';
 
@@ -56,12 +58,15 @@ class FeatureCards extends Component {
             <div className={classes.mediaStyle}>
               <img
                 className={classes.imgStyle}
-                src={`${constants.STATIC_URL}/icons/scigym-logo.png`}
+                src={`${constants.STATIC_URL}/icons/scigym-logo.png`} // update with constants
                 height="150"
                 width="150"
                 alt=""
               />
             </div>
+            <Hidden smUp>
+              <Divider />
+            </Hidden>
           </div>
         </Grid>
         <Grid key="2" item spacing={32}>
@@ -77,12 +82,15 @@ class FeatureCards extends Component {
             </div>
             <div className={classes.mediaStyle}>
               <img
-                src={`${constants.STATIC_URL}/icons/scigym-logo.png`}
+                src={`${constants.STATIC_URL}/icons/scigym-logo.png`} // update with constants
                 height="150"
                 width="150"
                 alt=""
               />
             </div>
+            <Hidden smUp>
+              <Divider />
+            </Hidden>
           </div>
         </Grid>
         <Grid key="3" item spacing={32}>
@@ -98,7 +106,7 @@ class FeatureCards extends Component {
             </div>
             <div className={classes.mediaStyle}>
               <img
-                src={`${constants.STATIC_URL}/icons/scigym-logo.png`}
+                src={`${constants.STATIC_URL}/icons/scigym-logo.png`} // update with constants
                 height="150"
                 width="150"
                 alt=""
