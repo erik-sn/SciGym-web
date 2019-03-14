@@ -127,8 +127,7 @@ class EnvironmentItem extends Component {
 
   render() {
     const { owner, htmlUrl, readme, gym } = this.props.environment.repository;
-    const { name, description, tags } = this.props.environment;
-    const topicName = this.props.environment.topic.name;
+    const { name, description, tags, topic } = this.props.environment;
     const { classes } = this.props;
     var converter = new showdown.Converter();
     converter.setFlavor('github');
@@ -147,15 +146,15 @@ class EnvironmentItem extends Component {
                   <Typography variant="h5" component="h2" gutterBottom>
                     {name}
                   </Typography>
-                  <Typography variant="subheading" gutterBottom>
+                  <Typography variant="subtitle1" gutterBottom>
                     {description}
                   </Typography>
-                  <Typography variant="subheading" gutterBottom>
+                  <Typography variant="subtitle1" gutterBottom>
                     Owner:{' '}
                     <a href={'https://github.com/'.concat(owner.username)}> {owner.username} </a>
                   </Typography>
-                  <Typography variant="subheading" gutterBottom>
-                    Category: <b>{topicName}</b>
+                  <Typography variant="subtitle1" gutterBottom>
+                    Category: {topic ? <b>{topic.name}</b> : <b> None </b>}
                   </Typography>
                   <List>
                     {tags.map(tag => (

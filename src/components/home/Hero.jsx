@@ -6,11 +6,13 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import Hidden from '@material-ui/core/Hidden';
 import InfoIcon from '@material-ui/icons/Info';
 import Popover from '@material-ui/core/Popover';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 
 import constants from '../../utils/constants';
+import { TwitterIcon, GithubIcon } from '../files/images';
 
 const defaultTheme = createMuiTheme();
 const { breakpoints } = defaultTheme;
@@ -74,6 +76,9 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     right: '20px',
   },
+  mediaButtons: {
+    position: 'absolute',
+  },
   iconStyle: {
     position: 'absolute',
     right: '10px',
@@ -115,10 +120,28 @@ class Hero extends Component {
             <Typography variant="h4" className={classes.titleStyle}>
               Reinforcement Learning for Science
             </Typography>
-            <Typography variant="p" className={classes.textStyle}>
-              Welcome to <b>SciGym</b>, the open source library for reinforcement learning
-              environments in science.
-            </Typography>
+            <Hidden smUp>
+              <Typography variant="subtitle2" className={classes.textStyle}>
+                Welcome to <b>SciGym</b>, the open source library for reinforcement learning
+                environments in science.
+              </Typography>
+            </Hidden>
+            <Hidden xsDown>
+              <Typography variant="subtitle1" className={classes.textStyle}>
+                Welcome to <b>SciGym</b>, the open source library for reinforcement learning
+                environments in science.
+              </Typography>
+            </Hidden>
+            <Hidden xsDown>
+              <div className={classes.mediaButtons}>
+                <Button href="https://github.com/hendrikpn/scigym">
+                  <GithubIcon />
+                </Button>
+                <Button href="https://twitter.com/scigym_ai">
+                  <TwitterIcon />
+                </Button>
+              </div>
+            </Hidden>
             <Button
               component={Link}
               to="/get-started"

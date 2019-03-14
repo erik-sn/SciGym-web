@@ -9,14 +9,6 @@ import Hidden from '@material-ui/core/Hidden';
 import constants from '../../utils/constants';
 
 const styles = theme => ({
-  root: {
-    ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 3,
-    marginLeft: theme.spacing.unit * 2,
-    display: 'flex',
-    flexFlow: 'row nowrap',
-  },
   cardStyle: {
     width: '300px',
     marginLeft: theme.spacing.unit * 2,
@@ -43,14 +35,14 @@ class FeatureCards extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <Grid clasName={classes.root} container spacing={32} justify="flex-start">
-        <Grid key="1" item spacing={32}>
+      <Grid container spacing={32} justify="flex-start">
+        <Grid key="1" item>
           <div className={classes.cardStyle}>
             <div className={classes.contentStyle}>
               <Typography variant="h6" className={classes.titleStyle}>
                 Science Problems packaged as APIs
               </Typography>
-              <Typography variant="p">
+              <Typography variant="subtitle1">
                 In Reinforcement Learning an agent interacts with an environment to achieve some
                 goal. Our environments encode problems in science packaged as APIs.
               </Typography>
@@ -69,13 +61,13 @@ class FeatureCards extends Component {
             </Hidden>
           </div>
         </Grid>
-        <Grid key="2" item spacing={32}>
+        <Grid key="2" item>
           <div className={classes.cardStyle}>
             <div className={classes.contentStyle}>
               <Typography variant="h6" className={classes.titleStyle}>
                 Reinforcement Learning for Science
               </Typography>
-              <Typography variant="p">
+              <Typography variant="subtitle1">
                 SciGym is a resource for facilitating the development of reinforcement learning
                 based solutions to problems in physics and other sciences.
               </Typography>
@@ -93,13 +85,13 @@ class FeatureCards extends Component {
             </Hidden>
           </div>
         </Grid>
-        <Grid key="3" item spacing={32}>
+        <Grid key="3" item>
           <div className={classes.cardStyle}>
             <div className={classes.contentStyle}>
               <Typography variant="h6" className={classes.titleStyle}>
                 Connecting Computer Science and other Disciplines
               </Typography>
-              <Typography variant="p">
+              <Typography variant="subtitle1">
                 SciGym is an attempt to stimulate an open and meaningful exchange between computer
                 scientists and researchers in other disciplines.
               </Typography>

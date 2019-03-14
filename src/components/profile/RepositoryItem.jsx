@@ -122,10 +122,10 @@ class RepositoryItem extends Component {
                 <Typography variant="h5" component="h2" gutterBottom>
                   {name}
                 </Typography>
-                <Typography variant="subheading" gutterBottom>
+                <Typography variant="subtitle1" gutterBottom>
                   {description}
                 </Typography>
-                <Typography variant="subheading" gutterBottom>
+                <Typography variant="subtitle1" gutterBottom>
                   Owner:{' '}
                   <a href={'https://github.com/'.concat(owner.username)}> {owner.username} </a>
                 </Typography>

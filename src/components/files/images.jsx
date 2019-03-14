@@ -25,6 +25,9 @@ export const SciGymIcon = () => (
     style={{ padding: '5px' }}
   />
 );
+export const TwitterIcon = () => (
+  <img src={`${constants.STATIC_URL}/icons/twitter-logo.png`} height="48" width="48" alt="" /> // constants
+);
 export const RLParadigm = () => (
   <img src={`${constants.STATIC_URL}/images/RLParadigm.gif`} height="360" width="480" alt="" />
 );
