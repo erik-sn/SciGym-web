@@ -46,8 +46,7 @@ const styles = theme => ({
     paddingLeft: theme.spacing.unit * 10,
     paddingTop: theme.spacing.unit * 6,
     paddingBottom: theme.spacing.unit * 10,
-    backgroundColor: 'white',
-    opacity: '0.6',
+    background: 'rgba(255, 255, 255, 0.6)',
     top: '50px',
     [theme.breakpoints.down('xs')]: {
       top: '25px',

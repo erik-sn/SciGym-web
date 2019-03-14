@@ -12,6 +12,7 @@ import { withStyles } from '@material-ui/core';
 import EnvironmentItem from './EnvironmentItem';
 import Hero from './Hero';
 import TopicDrawer from './TopicDrawer';
+import FeatureCards from './FeatureCards';
 
 const drawerWidth = 240;
 
@@ -60,6 +61,10 @@ class Home extends Component {
           <TopicDrawer />
           <Grid container justify="center" className={classes.gridStyle}>
             <div>
+              <Typography variant="h4" className={classes.title}>
+                Features & Goals
+              </Typography>
+              <FeatureCards />
               <Typography variant="h4" className={classes.title}>
                 {this.title}
               </Typography>
