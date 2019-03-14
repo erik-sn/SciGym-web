@@ -61,15 +61,16 @@ function Impressum(props) {
       </Typography>
       <Typography variant="subtitle1" className={classes.paragraph}>
         Hendrik Poulsen Nautrup <br />
-        Ryan Sweke <br />
-        Petru Tighineanu <br />
         Erik Niehaus <br />
+        Petru Tighineanu <br />
+        Ryan Sweke <br />
       </Typography>
       <Typography variant="h5" className={classes.title}>
         Contact Us
       </Typography>
       <Typography variant="subtitle1" className={classes.paragraph}>
-        If you have any questions or ideas, contact us at info@scigym.ai
+        If you have any questions or ideas, contact us at info@scigym.ai, or find us on{' '}
+        <a href="https://twitter.com/scigym_ai">Twitter</a>
       </Typography>
       <Typography variant="h5" className={classes.title}>
         Supporters
@@ -103,18 +104,10 @@ function Impressum(props) {
             <ContributorCard contributor={contributor} />
           </Grid>
         ))}
-        ;
       </Grid>
       <Typography variant="subtitle1" className={classes.paragraph}>
         <b>Thanks to everyone who contributed!</b>
       </Typography>
-      {/* <Typography variant="h5" className={classes.title}>
-          Special Thanks
-        </Typography>
-        <Typography variant="subtitle1" className={classes.paragraph}>
-          Lea Trenkwalder <br />
-          Prof. Hans Briegel <br />
-        </Typography> */}
     </div>
   );
 }
