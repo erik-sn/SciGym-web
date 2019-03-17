@@ -22,6 +22,8 @@ import Typography from '@material-ui/core/Typography';
 
 import api from '../../utils/api';
 import { getEnvironments } from '../../actions/environments';
+import { getUserImages } from '../../actions/images';
+import ImagePreview from './ImagePreview';
 
 const styles = theme => ({
   root: {
@@ -37,6 +39,9 @@ const styles = theme => ({
   tagStyle: {
     margin: theme.spacing.unit,
   },
+  errorStyle: {
+    margin: theme.spacing.unit * 2,
+  },
 });
 
 class EnvironmentForm extends Component {
@@ -51,8 +56,13 @@ class EnvironmentForm extends Component {
       tags: envExists && Boolean(environment.tags) ? environment.tags : [],
       error: '',
       topic: envExists && Boolean(environment.topic) ? environment.topic.id : '',
+      avatar: envExists ? environment.currentAvatar : null,
+      avatarId:
+        envExists && Boolean(environment.currentAvatar) ? environment.currentAvatar.id : null,
     };
     this.getEnvironments = this.getEnvironments.bind(this);
+    this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
   }
 
   getEnvironments() {
@@ -63,6 +73,29 @@ class EnvironmentForm extends Component {
     this.props.onClose();
   };
 
+  //set state.avatar to image
+  handleUploadSuccess = response => {
+    this.props.getUserImages();
+    this.setState({
+      avatar: response.data,
+      avatarId: response.data.id,
+    });
+  };
+
+  handleSelect = selectedAvatar => {
+    if (selectedAvatar !== null) {
+      this.setState({
+        avatar: selectedAvatar,
+        avatarId: selectedAvatar.id,
+      });
+    } else {
+      this.setState({
+        avatar: selectedAvatar,
+        avatarId: null,
+      });
+    }
+  };
+
   handleSubmit = event => {
     event.preventDefault();
     if (this.props.envExists) {
@@ -71,9 +104,9 @@ class EnvironmentForm extends Component {
         .then(this.handleSuccess)
         .catch(this.handleFailure);
     } else {
-      const { name, description, id, tags, topic } = this.state;
+      const { name, description, id, tags, topic, avatarId } = this.state;
       api
-        .createEnvironment(name, description, id, tags, topic)
+        .createEnvironment(name, description, id, tags, topic, avatarId)
         .then(this.handleSuccess)
         .catch(this.handleFailure);
     }
@@ -87,7 +120,7 @@ class EnvironmentForm extends Component {
   };
 
   handleFailure = () => {
-    this.setState({ error: 'Request did NOT succeed!' });
+    this.setState({ error: 'Sorry, submission did NOT succeed!' });
   };
 
   handleChange = name => event => {
@@ -132,6 +165,11 @@ class EnvironmentForm extends Component {
           <DialogTitle>
             {this.props.envExists ? 'Edit Environment' : 'Create Environment'}
           </DialogTitle>
+          <ImagePreview
+            avatar={this.state.avatar}
+            handleSuccess={this.handleUploadSuccess}
+            handleSelect={this.handleSelect}
+          />
           <TextField
             id="filled-name"
             label="Name"
@@ -214,7 +252,7 @@ class EnvironmentForm extends Component {
           )}
           <Button onClick={this.handleSubmit}>Submit</Button>
           {error ? (
-            <Typography variant="h6" color="error">
+            <Typography variant="subtitle1" color="error" className={classes.errorStyle}>
               {error}
             </Typography>
           ) : null}
@@ -226,6 +264,7 @@ class EnvironmentForm extends Component {
 
 EnvironmentForm.propTypes = {
   getEnvironments: PropTypes.func.isRequired,
+  getUserImages: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   repository: PropTypes.object.isRequired,
   environment: PropTypes.object,
@@ -240,6 +279,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getEnvironments,
+  getUserImages,
 };
 
 export default compose(

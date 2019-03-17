@@ -19,7 +19,8 @@ import List from '@material-ui/core/List';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Slide from '@material-ui/core/Slide';
 
-import { SciGymLogo, GithubIcon } from '../files/images';
+import { GithubIcon } from '../files/images';
+import constants from '../../utils/constants';
 
 const styles = theme => ({
   root: {
@@ -106,7 +107,6 @@ class EnvironmentItem extends Component {
     super(props);
     this.state = {
       open: false,
-      error: '',
     };
   }
 
@@ -121,15 +121,14 @@ class EnvironmentItem extends Component {
     this.setState({ open: false });
   };
 
-  handleFailure = () => {
-    this.setState({ error: 'Problems!' });
-  };
-
   render() {
-    const { owner, htmlUrl, readme, gym } = this.props.environment.repository;
-    const { name, description, tags } = this.props.environment;
-    const topicName = this.props.environment.topic.name;
+    const { owner, htmlUrl, readme, gym, fork } = this.props.environment.repository;
+    const { name, description, scigym, tags, topic, currentAvatar } = this.props.environment;
     const { classes } = this.props;
+    var filePath = constants.SCIGYM_LOGO;
+    if (currentAvatar != null) {
+      filePath = currentAvatar.filePath.replace(constants.UPLOAD_URL, '');
+    }
     var converter = new showdown.Converter();
     converter.setFlavor('github');
     return (
@@ -139,8 +138,7 @@ class EnvironmentItem extends Component {
           <Card className={classes.cardStyle} raised>
             <div className={classes.root}>
               <div className={classes.logoStyle}>
-                {/* add pictures */}
-                <SciGymLogo />
+                <img src={constants.STATIC_URL.concat(filePath)} height="150" width="150" alt="" />
               </div>
               <div className={classes.cardContentStyle}>
                 <CardContent>
@@ -152,10 +150,11 @@ class EnvironmentItem extends Component {
                   </Typography>
                   <Typography variant="subheading" gutterBottom>
                     Owner:{' '}
-                    <a href={'https://github.com/'.concat(owner.username)}> {owner.username} </a>
+                    <a href={'https://github.com/'.concat(owner.username)}> {owner.username} </a>{' '}
+                    {fork ? <b> (forked)</b> : ''}
                   </Typography>
                   <Typography variant="subheading" gutterBottom>
-                    Category: <b>{topicName}</b>
+                    Category: {topic ? <b>{topic.name}</b> : <b> None </b>}
                   </Typography>
                   <List>
                     {tags.map(tag => (
@@ -184,13 +183,23 @@ class EnvironmentItem extends Component {
                   >
                     <ExpandMoreIcon />
                   </IconButton>
-                  {gym ? (
+                  {scigym ? (
+                    <div className={classes.chipPosition}>
+                      <Chip
+                        icon={<Done />}
+                        label="SciGym Native"
+                        className={classes.tagStyle}
+                        color="primary"
+                      />
+                    </div>
+                  ) : gym ? (
                     <div className={classes.chipPosition}>
                       <Chip
                         icon={<Done />}
                         label="Gym Verified"
                         className={classes.tagStyle}
                         color="primary"
+                        variant="outlined"
                       />
                     </div>
                   ) : (
@@ -200,6 +209,7 @@ class EnvironmentItem extends Component {
                         label="Gym Unverified"
                         className={classes.tagStyle}
                         color="secondary"
+                        variant="outlined"
                       />
                     </div>
                   )}

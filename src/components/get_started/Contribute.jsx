@@ -76,7 +76,7 @@ class Contribute extends Component {
         <Card className={classes.card}>
           <CardMedia
             className={classes.media}
-            image={`${constants.STATIC_URL}/images/RLParadigm.gif`}
+            image={constants.STATIC_URL.concat(constants.RL_PARADIGM)}
             title="RL Paradigm"
           />
         </Card>

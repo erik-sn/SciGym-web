@@ -14,21 +14,21 @@ const styles = theme => ({
   },
 });
 
-class DeleteEnvironment extends Component {
+class DeleteImage extends Component {
   render() {
-    const { classes, openDelete, handleCloseDelete, error, handleDelete, environment } = this.props;
+    const { classes, openDelete, handleCloseDelete, error, handleDelete, image } = this.props;
     return (
       <Dialog open={openDelete} onClose={handleCloseDelete}>
         <DialogTitle>
-          Are you sure you want to delete the environment "{environment.name}"?
+          Are you sure you want to delete the image?
           {error ? (
             <Typography color="error" className={classes.errorStyle}>
-              {error}
+              {'error'}
             </Typography>
           ) : null}
         </DialogTitle>
         <DialogActions>
-          <Button onClick={handleDelete} color="secondary">
+          <Button onClick={() => handleDelete(image)} color="secondary">
             Delete
           </Button>
           <Button onClick={handleCloseDelete} color="primary">
@@ -40,12 +40,12 @@ class DeleteEnvironment extends Component {
   }
 }
 
-DeleteEnvironment.propTypes = {
+DeleteImage.propTypes = {
   handleCloseDelete: PropTypes.func.isRequired,
-  environment: PropTypes.object,
+  image: PropTypes.object.isRequired,
   openDelete: PropTypes.bool.isRequired,
   handleDelete: PropTypes.func.isRequired,
   error: PropTypes.string.isRequired,
 };
 
-export default withStyles(styles)(DeleteEnvironment);
+export default withStyles(styles)(DeleteImage);

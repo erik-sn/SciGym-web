@@ -7,6 +7,7 @@ import environments from './environments';
 import errors from './errors';
 import repositories from './repositories';
 import topics from './topics';
+import images from './images';
 
 const rootReducer = combineReducers({
   config,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   errors,
   repositories,
   topics,
+  images,
 });
 
 export default rootReducer;
