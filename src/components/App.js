@@ -13,6 +13,7 @@ import { getRepositories } from '../actions/repositories';
 import { refreshAuthToken } from '../actions/user';
 import { getEnvironments } from '../actions/environments';
 import { getTopics } from '../actions/topics';
+import { getImageConfig } from '../actions/images';
 import Home from './home/Home';
 import Profile from './profile/Profile';
 import GetStarted from './get_started/GetStarted';
@@ -27,6 +28,7 @@ export class App extends Component {
     this.props.getRepositories();
     this.props.getEnvironments();
     this.props.getTopics();
+    this.props.getImageConfig();
     window.setTimeout(this.props.getApiStatus, 30000); // do we need this?
   }
 
@@ -79,6 +81,7 @@ App.propTypes = {
   githubCallbackUrl: PropTypes.string,
   getEnvironments: PropTypes.func.isRequired,
   getTopics: PropTypes.func.isRequired,
+  getImageConfig: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -89,6 +92,14 @@ const mapStateToProps = state => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { getApiConfig, getApiStatus, refreshAuthToken, getRepositories, getEnvironments, getTopics }
+    {
+      getApiConfig,
+      getApiStatus,
+      refreshAuthToken,
+      getRepositories,
+      getEnvironments,
+      getTopics,
+      getImageConfig,
+    }
   )(App)
 );

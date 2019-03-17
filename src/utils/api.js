@@ -45,13 +45,14 @@ class ScigymApiClient {
     return axios.get(`${this.url}/environments/`);
   }
 
-  createEnvironment(name, description, repositoryId, tags, topicUUID) {
+  createEnvironment(name, description, repositoryId, tags, topicUUID, avatarUUID) {
     return axios.post(`${this.url}/environments/`, {
       name: name,
       description: description,
       repository: repositoryId,
       tags: tags,
       topic: topicUUID,
+      avatar: avatarUUID,
     });
   }
 
@@ -73,6 +74,28 @@ class ScigymApiClient {
 
   searchEnvironmentsByTopic(searchTopicUUID) {
     return axios.get(`${this.url}/environments/filter_topic/?topic=${searchTopicUUID}`);
+  }
+
+  createImage(file) {
+    let formData = new FormData();
+    formData.append('file', file);
+    return axios.post(`${this.url}/images/`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  }
+
+  myImages() {
+    return axios.get(`${this.url}/images/mine/`);
+  }
+
+  deleteImage(image) {
+    return axios.delete(`${this.url}/images/${image.id}/`);
+  }
+
+  imageConfig() {
+    return axios.get(`${this.url}/image_config/`);
   }
 
   repositories() {
