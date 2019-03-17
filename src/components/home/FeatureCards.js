@@ -27,7 +27,8 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit,
   },
   imgStyle: {
-    margin: 'auto',
+    height: '150px',
+    width: '200px',
   },
 });
 
@@ -50,9 +51,7 @@ class FeatureCards extends Component {
             <div className={classes.mediaStyle}>
               <img
                 className={classes.imgStyle}
-                src={`${constants.STATIC_URL}/icons/scigym-logo.png`} // update with constants
-                height="150"
-                width="150"
+                src={constants.STATIC_URL.concat(constants.SCIENCE_API)}
                 alt=""
               />
             </div>
@@ -74,9 +73,8 @@ class FeatureCards extends Component {
             </div>
             <div className={classes.mediaStyle}>
               <img
-                src={`${constants.STATIC_URL}/icons/scigym-logo.png`} // update with constants
-                height="150"
-                width="150"
+                className={classes.imgStyle}
+                src={constants.STATIC_URL.concat(constants.SCIENCE_RL)}
                 alt=""
               />
             </div>
@@ -98,9 +96,8 @@ class FeatureCards extends Component {
             </div>
             <div className={classes.mediaStyle}>
               <img
-                src={`${constants.STATIC_URL}/icons/scigym-logo.png`} // update with constants
-                height="150"
-                width="150"
+                className={classes.imgStyle}
+                src={constants.STATIC_URL.concat(constants.SCIENCE_CPU)}
                 alt=""
               />
             </div>

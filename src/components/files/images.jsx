@@ -21,7 +21,7 @@ export const SciGymIcon = () => (
   />
 );
 export const TwitterIcon = () => (
-  <img src={`${constants.STATIC_URL}/icons/twitter-logo.png`} height="48" width="48" alt="" /> // constants
+  <img src={constants.STATIC_URL.concat(constants.TWITTER_LOGO)} height="48" width="48" alt="" />
 );
 export const RLParadigm = () => (
   <img src={constants.STATIC_URL.concat(constants.RL_PARADIGM)} height="360" width="480" alt="" />
