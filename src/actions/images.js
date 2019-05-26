@@ -28,7 +28,6 @@ export const _getImageConfig = dispatch => {
   api
     .imageConfig()
     .then(response => {
-      console.log(response.data);
       dispatch({
         type: types.GET_IMAGE_CONFIG_LIST_SUCCESS,
         payload: response.data,

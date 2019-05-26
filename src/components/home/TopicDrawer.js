@@ -15,7 +15,10 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
 import Typography from '@material-ui/core/Typography';
 
-import { searchEnvironmentsByTopic, resetSearchedEnvironments } from '../../actions/environments';
+import {
+  searchEnvironmentsByTopic,
+  resetCategorizedEnvironments,
+} from '../../actions/environments';
 import DrawerHead from './DrawerHead';
 import ChildListElement from './ChildListElement';
 
@@ -66,19 +69,19 @@ class TopicDrawer extends Component {
     }
   }
 
-  handleTopClick = (index, id) => {
+  handleTopClick = (index, id, name) => {
     //TODO: handle FAILURE
     const openList = this.state.open;
     openList[index] = !openList[index];
     this.setState({ open: openList });
-    this.props.searchEnvironmentsByTopic(id);
+    this.props.searchEnvironmentsByTopic(id, name);
   };
 
-  handleClick = id => {
+  handleClick = (id, name) => {
     //TODO: handle FAILURE
     if (id === 'all') {
-      this.props.resetSearchedEnvironments();
-    } else this.props.searchEnvironmentsByTopic(id);
+      this.props.resetCategorizedEnvironments();
+    } else this.props.searchEnvironmentsByTopic(id, name);
   };
 
   render() {
@@ -94,8 +97,8 @@ class TopicDrawer extends Component {
             Search Categories
           </Typography>
           <MenuList>
-            <ListItem button key={'all'} onClick={() => this.handleClick('all')}>
-              <ListItemText primary={'Recent Environments'} />
+            <ListItem button key={'all'} onClick={() => this.handleClick('all', undefined)}>
+              <ListItemText primary={'Home'} />
             </ListItem>
             <Divider />
             {parentTopics.map((parentTopic, index) => (
@@ -103,7 +106,7 @@ class TopicDrawer extends Component {
                 <ListItem
                   button
                   key={parentTopic.id}
-                  onClick={() => this.handleTopClick(index, parentTopic.id)}
+                  onClick={() => this.handleTopClick(index, parentTopic.id, parentTopic.name)}
                 >
                   <ListItemText primary={parentTopic.name} />
                   {this.state.open[index] ? <ExpandLess /> : <ExpandMore />}
@@ -115,7 +118,7 @@ class TopicDrawer extends Component {
                         <ChildListElement
                           key={topic.id}
                           topic={topic}
-                          handleClick={() => this.handleClick(topic.id)}
+                          handleClick={() => this.handleClick(topic.id, topic.name)}
                         />
                       )
                   )}
@@ -133,7 +136,7 @@ class TopicDrawer extends Component {
 TopicDrawer.propTypes = {
   topics: PropTypes.arrayOf(PropTypes.object),
   searchEnvironmentsByTopic: PropTypes.func.isRequired,
-  resetSearchedEnvironments: PropTypes.func.isRequired,
+  resetCategorizedEnvironments: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -142,7 +145,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   searchEnvironmentsByTopic,
-  resetSearchedEnvironments,
+  resetCategorizedEnvironments,
 };
 
 export default compose(

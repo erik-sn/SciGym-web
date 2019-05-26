@@ -7,13 +7,17 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
 import EnvironmentItem from './EnvironmentItem';
 import Hero from './Hero';
 import TopicDrawer from './TopicDrawer';
 import FeatureCards from './FeatureCards';
 
+const modDisplay = 10;
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -39,21 +43,65 @@ const styles = theme => ({
       width: '75%',
     },
   },
+  emptyStyle: {
+    minWidth: '770px',
+    [theme.breakpoints.down('xs')]: {
+      minWidth: '0px',
+    },
+    [theme.breakpoints.up('md')]: {
+      minWidth: '950px',
+    },
+  },
+  buttonStyle: {
+    left: '40%',
+  },
+  buttonPos: {
+    minWidth: '770px',
+    [theme.breakpoints.down('xs')]: {
+      minWidth: '0px',
+    },
+    [theme.breakpoints.up('md')]: {
+      minWidth: '950px',
+    },
+  },
 });
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      shownEnv: modDisplay,
+    };
+  }
+
+  handleExpandMore = () => {
+    var showMore = this.state.shownEnv;
+    showMore += modDisplay;
+    this.setState({ shownEnv: showMore });
+  };
+
+  handleExpandLess = () => {
+    var showLess = this.state.shownEnv;
+    showLess -= modDisplay;
+    this.setState({ shownEnv: showLess });
+  };
+
   get title() {
-    if (this.props.searchedEnvironments) {
-      return 'Search results';
+    if (this.props.categorizedEnvironments) {
+      const title = this.props.searchedTopic.name;
+      return title;
     }
     return 'Recent environments';
   }
   render() {
     const { classes } = this.props;
-    const environments = this.props.searchedEnvironments
-      ? this.props.searchedEnvironments
+    var environments = this.props.categorizedEnvironments
+      ? this.props.categorizedEnvironments
       : this.props.environments;
     const empty = environments.length === 0;
+    const all = true ? this.state.shownEnv >= environments.length : false;
+    const none = true ? this.state.shownEnv <= modDisplay : false;
+    environments = environments.slice(0, this.state.shownEnv);
     return (
       <div className={classes.root}>
         <Hero />
@@ -61,7 +109,7 @@ class Home extends Component {
           <TopicDrawer />
           <Grid container justify="center" className={classes.gridStyle}>
             <div>
-              {!this.props.searchedEnvironments && (
+              {!this.props.categorizedEnvironments && (
                 <div>
                   <Typography variant="h4" className={classes.title}>
                     Features & Goals
@@ -73,9 +121,11 @@ class Home extends Component {
                 {this.title}
               </Typography>
               {empty && (
-                <Typography variant="h6" className={classes.title}>
-                  No environments found
-                </Typography>
+                <div className={classes.emptyStyle}>
+                  <Typography variant="h6" className={classes.title}>
+                    No environments found
+                  </Typography>
+                </div>
               )}
               {!empty && (
                 <List>
@@ -87,6 +137,44 @@ class Home extends Component {
                   ))}
                 </List>
               )}
+              <div className={classes.buttonPos}>
+                {all ? (
+                  <IconButton
+                    disabled
+                    variant="contained"
+                    className={classes.buttonStyle}
+                    onClick={this.handleExpandMore}
+                  >
+                    <ExpandMoreIcon />
+                  </IconButton>
+                ) : (
+                  <IconButton
+                    variant="contained"
+                    className={classes.buttonStyle}
+                    onClick={this.handleExpandMore}
+                  >
+                    <ExpandMoreIcon />
+                  </IconButton>
+                )}
+                {none ? (
+                  <IconButton
+                    disabled
+                    variant="contained"
+                    className={classes.buttonStyle}
+                    onClick={this.handleExpandLess}
+                  >
+                    <ExpandLessIcon />
+                  </IconButton>
+                ) : (
+                  <IconButton
+                    variant="contained"
+                    className={classes.buttonStyle}
+                    onClick={this.handleExpandLess}
+                  >
+                    <ExpandLessIcon />
+                  </IconButton>
+                )}
+              </div>
             </div>
           </Grid>
         </div>
@@ -98,13 +186,15 @@ class Home extends Component {
 Home.propTypes = {
   repositories: PropTypes.arrayOf(PropTypes.object),
   environments: PropTypes.arrayOf(PropTypes.object),
-  searchedEnvironments: PropTypes.arrayOf(PropTypes.object),
+  categorizedEnvironments: PropTypes.arrayOf(PropTypes.object),
+  searchedTopics: PropTypes.arrayOf(PropTypes.object),
 };
 
 const mapStateToProps = state => ({
   repositories: state.repositories.repositories,
   environments: state.environments.environments,
-  searchedEnvironments: state.environments.searchedEnvironments,
+  categorizedEnvironments: state.environments.categorizedEnvironments,
+  searchedTopic: state.environments.searchedTopic,
 });
 
 export default compose(

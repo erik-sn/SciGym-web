@@ -175,7 +175,7 @@ class Hero extends Component {
             }}
           >
             <Typography className={classes.popContentStyle}>
-              Image Credit: University of Innsbruck/Hans Briegel
+              Image Credit: University of Innsbruck/Harald Ritsch
             </Typography>
           </Popover>
         </div>

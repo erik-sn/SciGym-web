@@ -3,6 +3,8 @@ import types from '../utils/types';
 const initialState = {
   environments: [],
   searchedEnvironments: undefined,
+  categorizedEnvironments: undefined,
+  searchedTopic: undefined,
 };
 
 export default (state = initialState, action) => {
@@ -36,6 +38,26 @@ export default (state = initialState, action) => {
       return {
         ...state,
         searchedEnvironments: undefined,
+      };
+    }
+    case types.CATEGORIZE_ENVIRONMENTS_SUCCESS: {
+      return {
+        ...state,
+        categorizedEnvironments: action.environment,
+        searchedTopic: action.topic,
+      };
+    }
+    case types.CATEGORIZE_ENVIRONMENTS_FAILURE: {
+      return {
+        ...state,
+        categorizedEnvironments: [],
+      };
+    }
+    case types.CATEGORIZE_ENVIRONMENTS_RESET: {
+      return {
+        ...state,
+        categorizedEnvironments: undefined,
+        searchedTopic: undefined,
       };
     }
     default:

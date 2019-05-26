@@ -19,6 +19,7 @@ import Profile from './profile/Profile';
 import GetStarted from './get_started/GetStarted';
 import Notifications from './Notifications';
 import constants from '../utils/constants';
+import EnvironmentDetail from './environment/EnvironmentDetail';
 
 export class App extends Component {
   componentDidMount() {
@@ -59,6 +60,7 @@ export class App extends Component {
         <Switch>
           <Route path="/profile" component={Profile} />
           <Route path="/get-started" component={GetStarted} />
+          <Route path="/env/:env_name" component={EnvironmentDetail} />
           <Route path="*" component={Home} />
         </Switch>
         <UserWatcher />

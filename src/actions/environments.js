@@ -82,29 +82,36 @@ export const searchEnvironments = searchPhrases => {
   };
 };
 
-export const searchEnvironmentsByTopic = searchTopic => {
+export const resetSearchedEnvironments = () => {
+  return dispatch => {
+    dispatch({ type: types.SEARCH_ENVIRONMENTS_RESET });
+  };
+};
+
+export const searchEnvironmentsByTopic = (searchTopic, topicName) => {
   return dispatch => {
     dispatch({
-      type: types.SEARCH_ENVIRONMENTS,
+      type: types.CATEGORIZE_ENVIRONMENTS,
       payload: searchTopic,
     });
     api
       .searchEnvironmentsByTopic(searchTopic)
       .then(response => {
         dispatch({
-          type: types.SEARCH_ENVIRONMENTS_SUCCESS,
-          payload: response.data,
+          type: types.CATEGORIZE_ENVIRONMENTS_SUCCESS,
+          environment: response.data,
+          topic: { id: searchTopic, name: topicName },
         });
       })
       .catch(error => {
-        dispatch({ type: types.SEARCH_ENVIRONMENTS_FAILURE });
+        dispatch({ type: types.CATEGORIZE_ENVIRONMENTS_FAILURE });
         logError(error);
       });
   };
 };
 
-export const resetSearchedEnvironments = () => {
+export const resetCategorizedEnvironments = () => {
   return dispatch => {
-    dispatch({ type: types.SEARCH_ENVIRONMENTS_RESET });
+    dispatch({ type: types.CATEGORIZE_ENVIRONMENTS_RESET });
   };
 };

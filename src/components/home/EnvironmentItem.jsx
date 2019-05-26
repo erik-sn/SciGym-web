@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import showdown from 'showdown';
-import classnames from 'classnames';
+import { Link } from 'react-router-dom';
 
 import ListItem from '@material-ui/core/ListItem';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Paper from '@material-ui/core/Paper';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { withStyles, Collapse, IconButton } from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
 import LocalOffer from '@material-ui/icons/LocalOffer';
 import ErrorOutline from '@material-ui/icons/ErrorOutline';
 import Done from '@material-ui/icons/Done';
 import Chip from '@material-ui/core/Chip';
 import List from '@material-ui/core/List';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Slide from '@material-ui/core/Slide';
 
 import { GithubIcon } from '../files/images';
@@ -52,45 +51,6 @@ const styles = theme => ({
       margin: '0',
     },
   },
-  buttonPosition: {
-    position: 'absolute',
-    right: '40px',
-    bottom: '25px',
-  },
-  readmeStyle: {
-    margin: theme.spacing.unit,
-    textAlign: 'left',
-  },
-  expandPosition: {
-    position: 'absolute',
-    right: '40px',
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-    position: 'absolute',
-    right: '40px',
-    [theme.breakpoints.down('xs')]: {
-      right: '30px',
-    },
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  paperStyle: {
-    maxHeight: '500px',
-    overflow: 'scroll',
-    maxWidth: '800px',
-    align: 'center',
-    margin: 'auto',
-    textAlign: 'center',
-    [theme.breakpoints.down('xs')]: {
-      maxWidth: '320px',
-      maxHeight: '320px',
-    },
-  },
   listStyle: {
     minWidth: '770px',
     [theme.breakpoints.down('xs')]: {
@@ -122,7 +82,7 @@ class EnvironmentItem extends Component {
   };
 
   render() {
-    const { owner, htmlUrl, readme, gym, fork } = this.props.environment.repository;
+    const { owner, htmlUrl, gym, fork } = this.props.environment.repository;
     const { name, description, scigym, tags, topic, currentAvatar } = this.props.environment;
     const { classes } = this.props;
     var filePath = constants.SCIGYM_LOGO;
@@ -133,7 +93,6 @@ class EnvironmentItem extends Component {
     converter.setFlavor('github');
     return (
       <ListItem className={classes.listStyle}>
-        {/*slide could be better done*/}
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>
           <Card className={classes.cardStyle} raised>
             <div className={classes.root}>
@@ -141,48 +100,40 @@ class EnvironmentItem extends Component {
                 <img src={constants.STATIC_URL.concat(filePath)} height="150" width="150" alt="" />
               </div>
               <div className={classes.cardContentStyle}>
-                <CardContent>
-                  <Typography variant="h5" component="h2" gutterBottom>
-                    {name}
-                  </Typography>
-                  <Typography variant="subtitle1" gutterBottom>
-                    {description}
-                  </Typography>
-                  <Typography variant="subtitle1" gutterBottom>
-                    Owner:{' '}
-                    <a href={'https://github.com/'.concat(owner.username)}> {owner.username} </a>{' '}
-                    {fork ? <b> (forked)</b> : ''}
-                  </Typography>
-                  <Typography variant="subheading" gutterBottom>
-                    Category: {topic ? <b>{topic.name}</b> : <b> None </b>}
-                  </Typography>
-                  <List>
-                    {tags.map(tag => (
-                      <Chip
-                        icon={<LocalOffer />}
-                        label={tag}
-                        key={tag}
-                        clickable
-                        className={classes.tagStyle}
-                        color="primary"
-                        variant="outlined"
-                      />
-                    ))}
-                  </List>
-                </CardContent>
+                <CardActionArea component={Link} to={'/env/' + name}>
+                  <CardContent>
+                    <Typography variant="h5" component="h2" gutterBottom>
+                      {name}
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      {description}
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Owner: {owner.username} {fork ? <b> (forked)</b> : ''}
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Category: {topic ? <b>{topic.name}</b> : <b> None </b>}
+                    </Typography>
+                    <List>
+                      {tags.map(tag => (
+                        <Chip
+                          icon={<LocalOffer />}
+                          label={tag}
+                          key={tag}
+                          clickable
+                          className={classes.tagStyle}
+                          color="primary"
+                          variant="outlined"
+                        />
+                      ))}
+                    </List>
+                  </CardContent>
+                </CardActionArea>
                 <CardActions>
                   <Button href={htmlUrl} className={classes.buttonStyle}>
                     <GithubIcon />
                     Github
                   </Button>
-                  <IconButton
-                    onClick={this.handleClickOpen}
-                    className={classnames(classes.expand, {
-                      [classes.expandOpen]: this.state.open,
-                    })}
-                  >
-                    <ExpandMoreIcon />
-                  </IconButton>
                   {scigym ? (
                     <div className={classes.chipPosition}>
                       <Chip
@@ -216,14 +167,6 @@ class EnvironmentItem extends Component {
                 </CardActions>
               </div>
             </div>
-            <Collapse in={this.state.open} timeout="auto" unmountOnExit stile={{ width: '500px' }}>
-              <Paper className={classes.paperStyle}>
-                <div
-                  dangerouslySetInnerHTML={{ __html: converter.makeHtml(atob(readme)) }}
-                  className={classes.readmeStyle}
-                />
-              </Paper>
-            </Collapse>
           </Card>
         </Slide>
       </ListItem>

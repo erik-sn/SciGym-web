@@ -26,9 +26,6 @@ import { getUserImages } from '../../actions/images';
 import ImagePreview from './ImagePreview';
 
 const styles = theme => ({
-  root: {
-    flex: 1,
-  },
   container: {
     display: 'flex',
     flexWrap: 'wrap',
