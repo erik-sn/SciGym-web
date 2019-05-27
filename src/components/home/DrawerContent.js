@@ -78,7 +78,6 @@ class DrawerContent extends Component {
         <Hidden smUp>
           <SearchBar />
         </Hidden>
-
         <Typography variant="h5" className={classes.title}>
           Search Categories
         </Typography>

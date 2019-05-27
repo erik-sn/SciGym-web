@@ -16,7 +16,7 @@ const styles = theme => ({
   root: {
     display: 'flex',
     flexFlow: 'row nowrap',
-    height: 'calc(100vh - 60px)',
+    height: '100%',
   },
 });
 

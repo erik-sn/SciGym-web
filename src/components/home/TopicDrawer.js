@@ -12,7 +12,7 @@ import DrawerContent from './DrawerContent';
 
 const drawerWidth = 240;
 
-const styles = theme => ({
+const styles = () => ({
   drawerPaper: {
     width: drawerWidth,
     flexShrink: 0,
@@ -40,7 +40,7 @@ class TopicDrawer extends Component {
   render() {
     const { classes, topics } = this.props;
     return (
-      <div className={classes.root}>
+      <div>
         <Hidden mdDown>
           <Paper className={classes.drawerPaper}>
             <DrawerContent topics={topics} />
@@ -51,7 +51,6 @@ class TopicDrawer extends Component {
             open={this.state.openDrawer}
             onClose={this.toggleDrawer(false)}
             onOpen={this.toggleDrawer(true)}
-            className={classes.drawerPaper}
           >
             <DrawerContent topics={topics} />
           </SwipeableDrawer>

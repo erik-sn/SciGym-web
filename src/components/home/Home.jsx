@@ -18,7 +18,6 @@ import TopicDrawer from './TopicDrawer';
 import FeatureCards from './FeatureCards';
 
 const modDisplay = 10;
-const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
@@ -29,18 +28,13 @@ const styles = theme => ({
     margin: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit * 6,
   },
-  drawerPaper: {
-    width: drawerWidth,
-    flexShrink: 0,
-    height: '100%',
-  },
   wrapper: {
     display: 'flex',
     flexFlow: 'row nowrap',
   },
   gridStyle: {
     [theme.breakpoints.up('lg')]: {
-      width: '75%',
+      width: '80%',
     },
   },
   emptyStyle: {
