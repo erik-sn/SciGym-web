@@ -34,11 +34,14 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    visibility: 'hidden',
-    [theme.breakpoints.up('sm')]: {
-      visibility: 'visible',
-      marginLeft: theme.spacing.unit * 6,
-      width: 'auto',
+    marginLeft: theme.spacing.unit * 6,
+    width: 'auto',
+    [theme.breakpoints.down('xs')]: {
+      backgroundColor: fade(theme.palette.primary.main, 0.15),
+      '&:hover': {
+        backgroundColor: fade(theme.palette.primary.main, 0.25),
+      },
+      margin: theme.spacing.unit * 2,
     },
   },
   searchIcon: {
@@ -49,6 +52,9 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    [theme.breakpoints.down('xs')]: {
+      width: theme.spacing.unit * 4,
+    },
   },
   inputRoot: {
     color: 'inherit',
@@ -64,15 +70,19 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       width: 200,
     },
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: theme.spacing.unit * 4,
+    },
   },
   menuStyle: {
+    zIndex: 1,
     minWidth: '200px',
     maxHeight: '200px',
     overflow: 'auto',
   },
 });
 
-export class SearchBar extends Component {
+class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -146,7 +156,7 @@ export class SearchBar extends Component {
                     transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
                   }}
                 >
-                  <Paper className={classes.menuStyle}>
+                  <Paper className={classes.menuStyle} elevation={20}>
                     <MenuList
                       subheader={
                         <ListSubheader disableSticky component="div">
@@ -207,6 +217,8 @@ export class SearchBar extends Component {
 SearchBar.propTypes = {
   searchEnvironments: PropTypes.func.isRequired,
   resetSearchedEnvironments: PropTypes.func.isRequired,
+  environments: PropTypes.arrayOf(PropTypes.object),
+  environsearchedEnvironmentsments: PropTypes.arrayOf(PropTypes.object),
 };
 
 const mapDispatchToProps = {

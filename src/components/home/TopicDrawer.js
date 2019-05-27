@@ -26,8 +26,7 @@ class TopicDrawer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      openDrawer: true,
-      error: '',
+      openDrawer: false,
     };
   }
 

@@ -73,12 +73,19 @@ export class Header extends PureComponent {
               </IconButton>
             </Hidden>
             <Hidden smUp>
-              <IconButton to="/get-started" color="inherit" className={classes.iconButtonStyle}>
+              <IconButton
+                component={Link}
+                to="/get-started"
+                color="inherit"
+                className={classes.iconButtonStyle}
+              >
                 <Star />
               </IconButton>
             </Hidden>
           </div>
-          <SearchBar />
+          <Hidden xsDown>
+            <SearchBar />
+          </Hidden>
           <div className={classes.grow} />
           <div className={classes.menuButton}>
             {loading ? (

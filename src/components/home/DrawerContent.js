@@ -12,6 +12,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
 import Typography from '@material-ui/core/Typography';
+import Hidden from '@material-ui/core/Hidden';
 
 import {
   searchEnvironmentsByTopic,
@@ -19,6 +20,7 @@ import {
 } from '../../actions/environments';
 import DrawerHead from './DrawerHead';
 import ChildListElement from './ChildListElement';
+import SearchBar from '../header/SearchBar';
 
 const drawerWidth = 240;
 const styles = theme => ({
@@ -68,12 +70,15 @@ class DrawerContent extends Component {
   };
   render() {
     const { classes, topics } = this.props;
-
     const parentTopics = topics.filter(topic => !topic.parentTopic);
     const childTopics = topics.filter(topic => topic.parentTopic);
     return (
       <div className={classes.root}>
         <DrawerHead />
+        <Hidden smUp>
+          <SearchBar />
+        </Hidden>
+
         <Typography variant="h5" className={classes.title}>
           Search Categories
         </Typography>
@@ -117,6 +122,10 @@ DrawerContent.propTypes = {
   searchEnvironmentsByTopic: PropTypes.func.isRequired,
   resetCategorizedEnvironments: PropTypes.func.isRequired,
 };
+
+// const mapStateToProps = state => ({
+//   environments: state.environments.environments,
+// });
 
 const mapDispatchToProps = {
   searchEnvironmentsByTopic,
