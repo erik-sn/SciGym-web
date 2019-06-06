@@ -8,7 +8,7 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import Radio from '@material-ui/core/Radio';
 
-import constants from '../../utils/constants';
+import constants from '../../../utils/constants';
 
 const styles = theme => ({
   root: {

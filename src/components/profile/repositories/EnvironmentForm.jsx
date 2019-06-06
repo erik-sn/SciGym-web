@@ -6,24 +6,17 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 
-import api from '../../utils/api';
-import { getEnvironments } from '../../actions/environments';
-import { getUserImages } from '../../actions/images';
+import api from '../../../utils/api';
+import { getEnvironments } from '../../../actions/environments';
+import { getUserImages } from '../../../actions/images';
 import ImagePreview from './ImagePreview';
+import EnvironmentFormText from './EnvironmentFormText';
+import EnvironmentFormControl from './EnvironmentFormControl';
 
 const styles = theme => ({
   container: {
@@ -167,72 +160,20 @@ class EnvironmentForm extends Component {
             handleSuccess={this.handleUploadSuccess}
             handleSelect={this.handleSelect}
           />
-          <TextField
-            id="filled-name"
-            label="Name"
-            className={classes.textField}
-            value={this.state.name}
-            onChange={this.handleChange('name')}
-            margin="normal"
-            variant="filled"
+          <EnvironmentFormText
+            name={this.state.name}
+            description={this.state.description}
+            repository={repository}
+            handleChange={this.handleChange}
           />
-          <TextField
-            id="filled-full-description"
-            label="Description"
-            className={classes.textField}
-            value={Boolean(this.state.description) ? this.state.description : ''}
-            onChange={this.handleChange('description')}
-            multiline
-            margin="normal"
-            variant="filled"
-            InputLabelProps={{
-              shrink: true,
-            }}
+          <EnvironmentFormControl
+            topics={topics}
+            topic={this.state.topic}
+            tag={this.state.tag}
+            handleChangeTopic={this.handleChangeTopic}
+            handleChange={this.handleChange}
+            handleAddTag={this.handleAddTag}
           />
-          <TextField
-            disabled
-            id="filled-disabled-owner"
-            label="Owner"
-            className={classes.textField}
-            defaultValue={repository.owner.username}
-            margin="normal"
-            variant="filled"
-          />
-          <FormControl className={classes.textField}>
-            <InputLabel htmlFor="topic">Category</InputLabel>
-            <Select
-              value={this.state.topic}
-              onChange={this.handleChangeTopic}
-              inputProps={{
-                name: 'topic',
-                id: 'topicsSelect',
-              }}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              {topics.map(topic => (
-                <MenuItem key={topic.id} value={topic.id}>
-                  {topic.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl className={classes.textField}>
-            <InputLabel htmlFor="adornment-tag">Add a Tag</InputLabel>
-            <Input
-              id="adornment-tag"
-              value={this.state.tag}
-              onChange={this.handleChange('tag')}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton aria-label="Add tag" onClick={this.handleAddTag}>
-                    <AddIcon />
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
           {tags.length > 0 && (
             <List>
               {tags.map(tag => (

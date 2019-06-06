@@ -12,7 +12,7 @@ import Hidden from '@material-ui/core/Hidden';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 
 import SettingsItem from './SettingsItem';
-import DrawerHead from '../home/DrawerHead';
+import DrawerHead from '../home/drawer/DrawerHead';
 
 const drawerWidth = 240;
 const styles = theme => ({

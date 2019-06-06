@@ -8,19 +8,16 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuList from '@material-ui/core/MenuList';
 import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import Collapse from '@material-ui/core/Collapse';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 
 import {
   searchEnvironmentsByTopic,
   resetCategorizedEnvironments,
-} from '../../actions/environments';
+} from '../../../actions/environments';
 import DrawerHead from './DrawerHead';
-import ChildListElement from './ChildListElement';
-import SearchBar from '../header/SearchBar';
+import SearchBar from '../../header/SearchBar';
+import DrawerContentTopics from './DrawerContentTopics';
 
 const drawerWidth = 240;
 const styles = theme => ({
@@ -86,31 +83,13 @@ class DrawerContent extends Component {
             <ListItemText primary={'Home'} />
           </ListItem>
           <Divider />
-          {parentTopics.map((parentTopic, index) => (
-            <div key={index}>
-              <ListItem
-                button
-                key={parentTopic.id}
-                onClick={() => this.handleTopClick(index, parentTopic.id, parentTopic.name)}
-              >
-                <ListItemText primary={parentTopic.name} />
-                {this.state.open[index] ? <ExpandLess /> : <ExpandMore />}
-              </ListItem>
-              <Collapse in={this.state.open[index]} timeout="auto" unmountOnExit>
-                {childTopics.map(
-                  topic =>
-                    topic.parentTopic.id === parentTopic.id && (
-                      <ChildListElement
-                        key={topic.id}
-                        topic={topic}
-                        handleClick={() => this.handleClick(topic.id, topic.name)}
-                      />
-                    )
-                )}
-              </Collapse>
-              <Divider />
-            </div>
-          ))}
+          <DrawerContentTopics
+            parentTopics={parentTopics}
+            childTopics={childTopics}
+            open={this.state.open}
+            handleTopClick={this.handleTopClick}
+            handleClick={this.handleClick}
+          />
         </MenuList>
       </div>
     );
@@ -121,10 +100,6 @@ DrawerContent.propTypes = {
   searchEnvironmentsByTopic: PropTypes.func.isRequired,
   resetCategorizedEnvironments: PropTypes.func.isRequired,
 };
-
-// const mapStateToProps = state => ({
-//   environments: state.environments.environments,
-// });
 
 const mapDispatchToProps = {
   searchEnvironmentsByTopic,

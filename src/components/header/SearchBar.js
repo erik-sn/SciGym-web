@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
@@ -10,19 +9,13 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-
 import { debounce } from '../../utils/debounce';
 import { searchEnvironments, resetSearchedEnvironments } from '../../actions/environments';
+import ExpandMoreLess from '../ExpandMoreLess';
+import SearchBarEnvList from './SearchBarEnvList';
 
 const modDisplay = 10;
 
@@ -157,52 +150,14 @@ class SearchBar extends Component {
                   }}
                 >
                   <Paper className={classes.menuStyle} elevation={20}>
-                    <MenuList
-                      subheader={
-                        <ListSubheader disableSticky component="div">
-                          Environment names
-                        </ListSubheader>
-                      }
-                    >
-                      <Divider />
-                      {environments.length === 0 && (
-                        <MenuItem disabled key="0">
-                          No environment found
-                        </MenuItem>
-                      )}
-                      {environments.length > 0 &&
-                        environments.map(env => (
-                          <MenuItem
-                            key={env.id}
-                            value={env.name}
-                            component={Link}
-                            to={'/env/' + env.name}
-                            onClick={this.handleClose}
-                          >
-                            {env.name}
-                          </MenuItem>
-                        ))}
-                    </MenuList>
-                    <div>
-                      {all ? (
-                        <IconButton disabled variant="contained" onClick={this.handleExpandMore}>
-                          <ExpandMoreIcon />
-                        </IconButton>
-                      ) : (
-                        <IconButton variant="contained" onClick={this.handleExpandMore}>
-                          <ExpandMoreIcon />
-                        </IconButton>
-                      )}
-                      {none ? (
-                        <IconButton disabled variant="contained" onClick={this.handleExpandLess}>
-                          <ExpandLessIcon />
-                        </IconButton>
-                      ) : (
-                        <IconButton variant="contained" onClick={this.handleExpandLess}>
-                          <ExpandLessIcon />
-                        </IconButton>
-                      )}
-                    </div>
+                    <SearchBarEnvList environments={environments} handleCLose={this.handleClose} />
+                    <ExpandMoreLess
+                      classes={classes}
+                      allEnvVisible={all}
+                      noEnvVisible={none}
+                      handleExpandMore={this.handleExpandMore}
+                      handleExpandLess={this.handleExpandLess}
+                    />
                   </Paper>
                 </Grow>
               )}

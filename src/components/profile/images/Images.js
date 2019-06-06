@@ -6,15 +6,10 @@ import { compose } from 'redux';
 import { withStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import Fab from '@material-ui/core/Fab';
-import Delete from '@material-ui/icons/Delete';
 
-import api from '../../utils/api';
-import constants from '../../utils/constants';
-import DeleteImage from './DeleteImage';
-import { getUserImages } from '../../actions/images';
+import api from '../../../utils/api';
+import { getUserImages } from '../../../actions/images';
+import ImageCard from './ImageCard';
 
 const styles = theme => ({
   root: {
@@ -100,33 +95,15 @@ class Images extends Component {
           >
             {userImages.map(image => (
               <Grid key={image.id} item>
-                <Card className={classes.cardStyle}>
-                  <CardMedia
-                    className={classes.mediaStyle}
-                    image={constants.STATIC_URL.concat(
-                      image.filePath.replace(constants.UPLOAD_URL, '')
-                    )}
-                  >
-                    <div>
-                      <Fab
-                        size="small"
-                        color="secondary"
-                        onClick={this.handleClickDelete}
-                        className={classes.buttonStyle}
-                      >
-                        <Delete />
-                      </Fab>
-                      <DeleteImage
-                        handleCloseDelete={this.handleCloseDelete}
-                        openDelete={this.state.openDelete}
-                        image={image}
-                        handleDelete={this.handleDelete}
-                        error={error}
-                        key={image.id}
-                      />
-                    </div>
-                  </CardMedia>
-                </Card>
+                <ImageCard
+                  classes={classes}
+                  image={image}
+                  error={error}
+                  handleClickDelete={this.handleClickDelete}
+                  handleCloseDelete={this.handleCloseDelete}
+                  handleDelete={this.handleDelete}
+                  openDelete={this.state.openDelete}
+                />
               </Grid>
             ))}
           </Grid>

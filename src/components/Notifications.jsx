@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 
 import { withStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -64,5 +65,7 @@ Notifications.propTypes = {
 const mapStateToProps = state => ({
   notifications: state.display.notifications,
 });
-
-export default connect(mapStateToProps)(Notifications);
+export default compose(
+  connect(mapStateToProps),
+  withStyles(styles)
+)(Notifications);

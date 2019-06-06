@@ -6,20 +6,15 @@ import { Link } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core';
-import LocalOffer from '@material-ui/icons/LocalOffer';
-import ErrorOutline from '@material-ui/icons/ErrorOutline';
-import Done from '@material-ui/icons/Done';
-import Chip from '@material-ui/core/Chip';
-import List from '@material-ui/core/List';
 import Slide from '@material-ui/core/Slide';
 
-import { GithubIcon } from '../files/images';
-import constants from '../../utils/constants';
+import { GithubIcon } from '../../files/images';
+import constants from '../../../utils/constants';
+import VerificationChip from '../../VerificationChip';
+import EnvironmentItemContent from './EnvironmentItemContent';
 
 const styles = theme => ({
   root: {
@@ -101,69 +96,22 @@ class EnvironmentItem extends Component {
               </div>
               <div className={classes.cardContentStyle}>
                 <CardActionArea component={Link} to={'/env/' + name}>
-                  <CardContent>
-                    <Typography variant="h5" component="h2" gutterBottom>
-                      {name}
-                    </Typography>
-                    <Typography variant="subtitle1" gutterBottom>
-                      {description}
-                    </Typography>
-                    <Typography variant="subtitle1" gutterBottom>
-                      Owner: {owner.username} {fork ? <b> (forked)</b> : ''}
-                    </Typography>
-                    <Typography variant="subtitle1" gutterBottom>
-                      Category: {topic ? <b>{topic.name}</b> : <b> None </b>}
-                    </Typography>
-                    <List>
-                      {tags.map(tag => (
-                        <Chip
-                          icon={<LocalOffer />}
-                          label={tag}
-                          key={tag}
-                          clickable
-                          className={classes.tagStyle}
-                          color="primary"
-                          variant="outlined"
-                        />
-                      ))}
-                    </List>
-                  </CardContent>
+                  <EnvironmentItemContent
+                    classes={classes}
+                    name={name}
+                    description={description}
+                    fork={fork}
+                    owner={owner}
+                    topic={topic}
+                    tags={tags}
+                  />
                 </CardActionArea>
                 <CardActions>
                   <Button href={htmlUrl} className={classes.buttonStyle}>
                     <GithubIcon />
                     Github
                   </Button>
-                  {scigym ? (
-                    <div className={classes.chipPosition}>
-                      <Chip
-                        icon={<Done />}
-                        label="SciGym Native"
-                        className={classes.tagStyle}
-                        color="primary"
-                      />
-                    </div>
-                  ) : gym ? (
-                    <div className={classes.chipPosition}>
-                      <Chip
-                        icon={<Done />}
-                        label="Gym Verified"
-                        className={classes.tagStyle}
-                        color="primary"
-                        variant="outlined"
-                      />
-                    </div>
-                  ) : (
-                    <div className={classes.chipPosition}>
-                      <Chip
-                        icon={<ErrorOutline />}
-                        label="Gym Unverified"
-                        className={classes.tagStyle}
-                        color="secondary"
-                        variant="outlined"
-                      />
-                    </div>
-                  )}
+                  <VerificationChip classes={classes} scigym={scigym} gym={gym} />
                 </CardActions>
               </div>
             </div>

@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 
-import { SciGymLogo } from '../files/images';
+import { SciGymLogo } from '../../files/images';
 
 const styles = theme => ({
   root: {

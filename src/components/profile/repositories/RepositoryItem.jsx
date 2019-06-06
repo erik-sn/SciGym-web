@@ -3,9 +3,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 
-import AddIcon from '@material-ui/icons/Add';
-import Edit from '@material-ui/icons/Edit';
-import Delete from '@material-ui/icons/Delete';
 import { withStyles } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem';
 import Card from '@material-ui/core/Card';
@@ -13,13 +10,13 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
 
-import { SciGymLogo, GithubIcon } from '../files/images';
+import { SciGymLogo, GithubIcon } from '../../files/images';
 import EnvironmentForm from './EnvironmentForm';
 import DeleteEnvironment from './DeleteEnvironment';
-import api from '../../utils/api';
-import { getEnvironments } from '../../actions/environments';
+import api from '../../../utils/api';
+import { getEnvironments } from '../../../actions/environments';
+import RepositoryItemFormArea from './RepositoryItemFormArea';
 
 const styles = theme => ({
   root: {
@@ -136,45 +133,23 @@ class RepositoryItem extends Component {
                   Github
                 </Button>
               </CardActions>
-              {this.state.envExists ? (
-                <div className={classes.buttonPosition}>
-                  <Fab
-                    size="small"
-                    color="secondary"
-                    onClick={this.handleClickDelete}
-                    className={classes.buttonStyle}
-                  >
-                    <Delete />
-                  </Fab>
-                  <Fab
-                    size="small"
-                    color="primary"
-                    onClick={this.handleClickOpen}
-                    className={classes.buttonStyle}
-                  >
-                    <Edit />
-                  </Fab>
-                  <DeleteEnvironment
-                    handleCloseDelete={this.handleCloseDelete}
-                    openDelete={this.state.openDelete}
-                    environment={this.props.environment}
-                    handleDelete={this.handleDelete}
-                    error={this.state.error}
-                    key={keyId}
-                  />
-                </div>
-              ) : (
-                <Fab
-                  size="medium"
-                  className={classes.buttonPosition}
-                  color="primary"
-                  onClick={this.handleClickOpen}
-                >
-                  <AddIcon />
-                </Fab>
-              )}
+              <RepositoryItemFormArea
+                classes={classes}
+                envExists={this.state.envExists}
+                handleClickDelete={this.handleClickDelete}
+                handleClickOpen={this.handleClickOpen}
+              />
             </div>
           </div>
+          {this.state.envExists && (
+            <DeleteEnvironment
+              handleCloseDelete={this.handleCloseDelete}
+              openDelete={this.state.openDelete}
+              environment={this.props.environment}
+              handleDelete={this.handleDelete}
+              error={this.state.error}
+            />
+          )}
           <EnvironmentForm
             repository={this.props.repository}
             onClose={this.handleClose}

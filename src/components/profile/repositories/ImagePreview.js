@@ -8,8 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 
-import api from '../../utils/api';
-import constants from '../../utils/constants';
+import api from '../../../utils/api';
+import constants from '../../../utils/constants';
 import ImagePopContent from './ImagePopContent';
 
 const styles = theme => ({

@@ -7,15 +7,13 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
-import EnvironmentItem from './EnvironmentItem';
-import Hero from './Hero';
-import TopicDrawer from './TopicDrawer';
-import FeatureCards from './FeatureCards';
+import EnvironmentItem from './environment_item/EnvironmentItem';
+import Hero from './hero/Hero';
+import TopicDrawer from './drawer/TopicDrawer';
+import FeatureCards from './feature_cards/FeatureCards';
+import ExpandMoreLess from '../ExpandMoreLess';
 
 const modDisplay = 10;
 
@@ -131,44 +129,13 @@ class Home extends Component {
                   ))}
                 </List>
               )}
-              <div className={classes.buttonPos}>
-                {all ? (
-                  <IconButton
-                    disabled
-                    variant="contained"
-                    className={classes.buttonStyle}
-                    onClick={this.handleExpandMore}
-                  >
-                    <ExpandMoreIcon />
-                  </IconButton>
-                ) : (
-                  <IconButton
-                    variant="contained"
-                    className={classes.buttonStyle}
-                    onClick={this.handleExpandMore}
-                  >
-                    <ExpandMoreIcon />
-                  </IconButton>
-                )}
-                {none ? (
-                  <IconButton
-                    disabled
-                    variant="contained"
-                    className={classes.buttonStyle}
-                    onClick={this.handleExpandLess}
-                  >
-                    <ExpandLessIcon />
-                  </IconButton>
-                ) : (
-                  <IconButton
-                    variant="contained"
-                    className={classes.buttonStyle}
-                    onClick={this.handleExpandLess}
-                  >
-                    <ExpandLessIcon />
-                  </IconButton>
-                )}
-              </div>
+              <ExpandMoreLess
+                classes={classes}
+                allEnvVisible={all}
+                noEnvVisible={none}
+                handleExpandMore={this.handleExpandMore}
+                handleExpandLess={this.handleExpandLess}
+              />
             </div>
           </Grid>
         </div>
