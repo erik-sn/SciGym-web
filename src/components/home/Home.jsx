@@ -62,20 +62,16 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      shownEnv: modDisplay,
+      visibleEnvironmentCount: modDisplay,
     };
   }
 
   handleExpandMore = () => {
-    var showMore = this.state.shownEnv;
-    showMore += modDisplay;
-    this.setState({ shownEnv: showMore });
+    this.setState({ visibleEnvironmentCount: this.state.visibleEnvironmentCount + modDisplay });
   };
 
   handleExpandLess = () => {
-    var showLess = this.state.shownEnv;
-    showLess -= modDisplay;
-    this.setState({ shownEnv: showLess });
+    this.setState({ visibleEnvironmentCount: this.state.visibleEnvironmentCount - modDisplay });
   };
 
   get title() {
@@ -87,13 +83,13 @@ class Home extends Component {
   }
   render() {
     const { classes } = this.props;
-    var environments = this.props.categorizedEnvironments
+    const environments = this.props.categorizedEnvironments
       ? this.props.categorizedEnvironments
       : this.props.environments;
     const empty = environments.length === 0;
-    const all = true ? this.state.shownEnv >= environments.length : false;
-    const none = true ? this.state.shownEnv <= modDisplay : false;
-    environments = environments.slice(0, this.state.shownEnv);
+    const all = true ? this.state.visibleEnvironmentCount >= environments.length : false;
+    const none = true ? this.state.visibleEnvironmentCount <= modDisplay : false;
+    const visibleEnvironments = environments.slice(0, this.state.visibleEnvironmentCount);
     return (
       <div className={classes.root}>
         <Hero />
@@ -121,7 +117,7 @@ class Home extends Component {
               )}
               {!empty && (
                 <List>
-                  {environments.map(env => (
+                  {visibleEnvironments.map(env => (
                     <React.Fragment key={env.id}>
                       <EnvironmentItem key={env.id} environment={env} />
                       <Divider />

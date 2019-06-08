@@ -114,6 +114,8 @@ class EnvironmentDetail extends Component {
     this.state = {
       openReadme: false,
     };
+    this.converter = new showdown.Converter();
+    this.converter.setFlavor('github');
   }
 
   handleClickOpen = () => {
@@ -129,17 +131,15 @@ class EnvironmentDetail extends Component {
 
   render() {
     const { classes, environment } = this.props;
-    var readme = '';
+    let readme = '';
+    let filePath = constants.SCIGYM_LOGO;
     if (!(environment === undefined)) {
       readme = this.props.environment.repository.readme;
       const { currentAvatar } = this.props.environment;
-      var filePath = constants.SCIGYM_LOGO;
       if (currentAvatar != null) {
         filePath = currentAvatar.filePath.replace(constants.UPLOAD_URL, '');
       }
     }
-    var converter = new showdown.Converter();
-    converter.setFlavor('github');
     return (
       <div>
         <div className={classes.root}>
@@ -178,7 +178,7 @@ class EnvironmentDetail extends Component {
           <Collapse in={this.state.openReadme} timeout="auto" unmountOnExit>
             <Paper className={classes.readmePaperStyle}>
               <div
-                dangerouslySetInnerHTML={{ __html: converter.makeHtml(atob(readme)) }}
+                dangerouslySetInnerHTML={{ __html: this.converter.makeHtml(atob(readme)) }}
                 className={classes.readmeStyle}
               />
             </Paper>

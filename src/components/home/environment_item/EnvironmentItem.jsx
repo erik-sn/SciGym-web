@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import showdown from 'showdown';
 import { Link } from 'react-router-dom';
 
 import ListItem from '@material-ui/core/ListItem';
@@ -80,12 +79,10 @@ class EnvironmentItem extends Component {
     const { owner, htmlUrl, gym, fork } = this.props.environment.repository;
     const { name, description, scigym, tags, topic, currentAvatar } = this.props.environment;
     const { classes } = this.props;
-    var filePath = constants.SCIGYM_LOGO;
+    let filePath = constants.SCIGYM_LOGO;
     if (currentAvatar != null) {
       filePath = currentAvatar.filePath.replace(constants.UPLOAD_URL, '');
     }
-    var converter = new showdown.Converter();
-    converter.setFlavor('github');
     return (
       <ListItem className={classes.listStyle}>
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>

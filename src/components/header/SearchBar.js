@@ -81,7 +81,7 @@ class SearchBar extends Component {
     this.state = {
       searchValue: '',
       open: false,
-      shownEnv: modDisplay,
+      visibleEnvironmentCount: modDisplay,
     };
     this.handleSearch = this.handleSearch.bind(this);
     this.delayedSearch = debounce(this.props.searchEnvironments, 500);
@@ -89,15 +89,11 @@ class SearchBar extends Component {
   }
 
   handleExpandMore = () => {
-    var showMore = this.state.shownEnv;
-    showMore += modDisplay;
-    this.setState({ shownEnv: showMore });
+    this.setState({ visibleEnvironmentCount: this.state.visibleEnvironmentCount + modDisplay });
   };
 
   handleExpandLess = () => {
-    var showLess = this.state.shownEnv;
-    showLess -= modDisplay;
-    this.setState({ shownEnv: showLess });
+    this.setState({ visibleEnvironmentCount: this.state.visibleEnvironmentCount - modDisplay });
   };
 
   handleSearch(event) {
@@ -117,12 +113,12 @@ class SearchBar extends Component {
   render() {
     const { searchValue, open } = this.state;
     const { classes } = this.props;
-    var environments = this.props.searchedEnvironments
+    const environments = this.props.searchedEnvironments
       ? this.props.searchedEnvironments
       : this.props.environments;
-    const all = true ? this.state.shownEnv >= environments.length : false;
-    const none = true ? this.state.shownEnv <= modDisplay : false;
-    environments = environments.slice(0, this.state.shownEnv);
+    const all = true ? this.state.visibleEnvironmentCount >= environments.length : false;
+    const none = true ? this.state.visibleEnvironmentCount <= modDisplay : false;
+    const visibleEnvironments = environments.slice(0, this.state.visibleEnvironmentCount);
     return (
       <div className={classes.search}>
         <ClickAwayListener onClickAway={this.handleClose}>
@@ -150,7 +146,10 @@ class SearchBar extends Component {
                   }}
                 >
                   <Paper className={classes.menuStyle} elevation={20}>
-                    <SearchBarEnvList environments={environments} handleCLose={this.handleClose} />
+                    <SearchBarEnvList
+                      environments={visibleEnvironments}
+                      handleClose={this.handleClose}
+                    />
                     <ExpandMoreLess
                       classes={classes}
                       allEnvVisible={all}

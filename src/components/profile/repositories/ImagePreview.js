@@ -42,7 +42,7 @@ const styles = theme => ({
 class ImagePreview extends Component {
   constructor(props) {
     super(props);
-    var filePath = constants.SCIGYM_LOGO;
+    let filePath = constants.SCIGYM_LOGO;
     if (props.avatar != null) {
       filePath = props.avatar.filePath.replace(constants.UPLOAD_URL, '');
     }
@@ -58,7 +58,7 @@ class ImagePreview extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.avatar !== this.props.avatar) {
-      var filePath = constants.SCIGYM_LOGO;
+      let filePath = constants.SCIGYM_LOGO;
       if (this.props.avatar != null) {
         filePath = this.props.avatar.filePath.replace(constants.UPLOAD_URL, '');
       }

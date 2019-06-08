@@ -38,7 +38,7 @@ class DrawerContent extends Component {
     super(props);
     const parentTopics = this.props.topics.filter(topic => !topic.parentTopic);
     this.state = {
-      open: Array.apply(null, Array(parentTopics.length)).map(() => false),
+      openTopicList: Array.apply(null, Array(parentTopics.length)).map(() => false),
       error: '',
     };
   }
@@ -46,16 +46,16 @@ class DrawerContent extends Component {
     if (this.props.topics.length > prevProps.topics.length) {
       const parentTopics = this.props.topics.filter(topic => !topic.parentTopic);
       this.setState({
-        open: Array.apply(null, Array(parentTopics.length)).map(() => false),
+        openTopicList: Array.apply(null, Array(parentTopics.length)).map(() => false),
       });
     }
   }
 
   handleTopClick = (index, id, name) => {
     //TODO: handle FAILURE
-    const openList = this.state.open;
+    const openList = this.state.openTopicList;
     openList[index] = !openList[index];
-    this.setState({ open: openList });
+    this.setState({ openTopicList: openList });
     this.props.searchEnvironmentsByTopic(id, name);
   };
 
@@ -86,7 +86,7 @@ class DrawerContent extends Component {
           <DrawerContentTopics
             parentTopics={parentTopics}
             childTopics={childTopics}
-            open={this.state.open}
+            open={this.state.openTopicList}
             handleTopClick={this.handleTopClick}
             handleClick={this.handleClick}
           />
