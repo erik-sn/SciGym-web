@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
@@ -22,7 +23,7 @@ const DrawerHead = props => {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <Button className={classes.logoStyle}>
+      <Button className={classes.logoStyle} component={Link} to="/impressum">
         <SciGymLogo />
       </Button>
       <Divider />

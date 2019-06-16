@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -9,6 +10,7 @@ import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuList from '@material-ui/core/MenuList';
+import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
@@ -52,6 +54,9 @@ function ProfileMenu({ classes, userExists }) {
                   <MenuList>
                     <Login onClick={close} />
                     {userExists && <Logout onClick={close} />}
+                    <MenuItem onClick={close} component={Link} to="/impressum">
+                      About Us
+                    </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

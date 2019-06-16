@@ -14,9 +14,11 @@ import { refreshAuthToken } from '../actions/user';
 import { getEnvironments } from '../actions/environments';
 import { getTopics } from '../actions/topics';
 import { getImageConfig } from '../actions/images';
+import { getContributors } from '../actions/contributors';
 import Home from './home/Home';
 import Profile from './profile/Profile';
 import GetStarted from './get_started/GetStarted';
+import Impressum from './impressum/Impressum';
 import Notifications from './Notifications';
 import constants from '../utils/constants';
 import EnvironmentDetail from './environment/EnvironmentDetail';
@@ -30,6 +32,7 @@ export class App extends Component {
     this.props.getEnvironments();
     this.props.getTopics();
     this.props.getImageConfig();
+    this.props.getContributors();
     window.setTimeout(this.props.getApiStatus, 30000); // do we need this?
   }
 
@@ -61,6 +64,7 @@ export class App extends Component {
           <Route path="/profile" component={Profile} />
           <Route path="/get-started" component={GetStarted} />
           <Route path="/env/:env_name" component={EnvironmentDetail} />
+          <Route path="/impressum" component={Impressum} />
           <Route path="*" component={Home} />
         </Switch>
         <UserWatcher />
@@ -84,6 +88,7 @@ App.propTypes = {
   getEnvironments: PropTypes.func.isRequired,
   getTopics: PropTypes.func.isRequired,
   getImageConfig: PropTypes.func.isRequired,
+  getContributors: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -102,6 +107,7 @@ export default withRouter(
       getEnvironments,
       getTopics,
       getImageConfig,
+      getContributors,
     }
   )(App)
 );
