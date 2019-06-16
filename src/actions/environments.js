@@ -87,3 +87,31 @@ export const resetSearchedEnvironments = () => {
     dispatch({ type: types.SEARCH_ENVIRONMENTS_RESET });
   };
 };
+
+export const searchEnvironmentsByTopic = (searchTopic, topicName) => {
+  return dispatch => {
+    dispatch({
+      type: types.CATEGORIZE_ENVIRONMENTS,
+      payload: searchTopic,
+    });
+    api
+      .searchEnvironmentsByTopic(searchTopic)
+      .then(response => {
+        dispatch({
+          type: types.CATEGORIZE_ENVIRONMENTS_SUCCESS,
+          environment: response.data,
+          topic: { id: searchTopic, name: topicName },
+        });
+      })
+      .catch(error => {
+        dispatch({ type: types.CATEGORIZE_ENVIRONMENTS_FAILURE });
+        logError(error);
+      });
+  };
+};
+
+export const resetCategorizedEnvironments = () => {
+  return dispatch => {
+    dispatch({ type: types.CATEGORIZE_ENVIRONMENTS_RESET });
+  };
+};

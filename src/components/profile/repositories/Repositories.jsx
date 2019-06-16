@@ -4,18 +4,16 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import Refresh from '@material-ui/icons/Refresh';
 import Typography from '@material-ui/core/Typography';
 
-import types from '../../utils/types';
-import { isLoading } from '../../reducers/display';
-import { findGymRepos, getUserRepositories } from '../../actions/repositories';
-import RepositoryItem from './RepositoryItem';
+import types from '../../../utils/types';
+import { isLoading } from '../../../reducers/display';
+import { findGymRepos, getUserRepositories } from '../../../actions/repositories';
+import RepositoryList from './RepositoryList';
 
 const styles = theme => ({
   root: {
@@ -80,35 +78,12 @@ class Repositories extends Component {
               </Typography>
             )}
             {!empty && (
-              <List>
-                <Typography variant="h6" className={classes.title}>
-                  OpenAI Gym Repositories
-                </Typography>
-                {!emptyGym ? (
-                  gymRepo.map(r => (
-                    <React.Fragment key={r.id}>
-                      <RepositoryItem key={r.id} repository={r} />
-                      <Divider />
-                    </React.Fragment>
-                  ))
-                ) : (
-                  <React.Fragment>
-                    <Typography variant="h6" className={classes.title}>
-                      You don't have any Gym Repositories!
-                    </Typography>
-                    <Divider />
-                  </React.Fragment>
-                )}
-                <Typography variant="h6" className={classes.title}>
-                  Other Repositories
-                </Typography>
-                {notGymRepo.map(r => (
-                  <React.Fragment key={r.id}>
-                    <RepositoryItem key={r.id} repository={r} />
-                    <Divider />
-                  </React.Fragment>
-                ))}
-              </List>
+              <RepositoryList
+                classes={classes}
+                emptyGym={emptyGym}
+                gymRepo={gymRepo}
+                notGymRepo={notGymRepo}
+              />
             )}
           </div>
         </Grid>

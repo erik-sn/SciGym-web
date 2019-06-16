@@ -40,6 +40,13 @@ const styles = theme => ({
   toolBarStyle: {
     backgroundColor: '#82B1FF',
   },
+  iconButtonStyle: {
+    borderRadius: '0',
+    backgroundColor: 'transparent',
+    textDecoration: 'none',
+    paddingBottom: '0',
+    paddingTop: '0',
+  },
 });
 
 export class Header extends PureComponent {
@@ -50,12 +57,7 @@ export class Header extends PureComponent {
       <AppBar position="sticky" color="inherit">
         <Toolbar className={classes.toolBarStyle}>
           <div className={classes.root}>
-            <IconButton
-              component={Link}
-              to="/"
-              color="inherit"
-              style={{ backgroundColor: 'transparent', textDecoration: 'none' }}
-            >
+            <IconButton component={Link} to="/" color="inherit" className={classes.iconButtonStyle}>
               <SciGymIcon />
               SciGym
             </IconButton>
@@ -64,7 +66,7 @@ export class Header extends PureComponent {
                 component={Link}
                 to="/get-started"
                 color="inherit"
-                style={{ backgroundColor: 'transparent', textDecoration: 'none' }}
+                className={classes.iconButtonStyle}
               >
                 <Star className={classes.leftIcon} />
                 Get Started
@@ -72,15 +74,18 @@ export class Header extends PureComponent {
             </Hidden>
             <Hidden smUp>
               <IconButton
-                href="/get-started"
+                component={Link}
+                to="/get-started"
                 color="inherit"
-                style={{ backgroundColor: 'transparent', textDecoration: 'none' }}
+                className={classes.iconButtonStyle}
               >
                 <Star />
               </IconButton>
             </Hidden>
           </div>
-          <SearchBar />
+          <Hidden xsDown>
+            <SearchBar />
+          </Hidden>
           <div className={classes.grow} />
           <div className={classes.menuButton}>
             {loading ? (

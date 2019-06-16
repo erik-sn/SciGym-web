@@ -6,25 +6,19 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import FormControl from '@material-ui/core/FormControl';
 import Chip from '@material-ui/core/Chip';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 
-import api from '../../utils/api';
-import { getEnvironments } from '../../actions/environments';
+import api from '../../../utils/api';
+import { getEnvironments } from '../../../actions/environments';
+import { getUserImages } from '../../../actions/images';
+import ImagePreview from './ImagePreview';
+import EnvironmentFormText from './EnvironmentFormText';
+import EnvironmentFormControl from './EnvironmentFormControl';
 
 const styles = theme => ({
-  root: {
-    flex: 1,
-  },
   container: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -35,20 +29,30 @@ const styles = theme => ({
   tagStyle: {
     margin: theme.spacing.unit,
   },
+  errorStyle: {
+    margin: theme.spacing.unit * 2,
+  },
 });
 
 class EnvironmentForm extends Component {
   constructor(props) {
     super(props);
+    const { envExists, environment, repository } = props;
     this.state = {
-      id: props.envExists ? props.environment.id : props.repository.id,
-      name: props.envExists ? props.environment.name : props.repository.name,
-      description: props.envExists ? props.environment.description : props.repository.description,
+      id: envExists ? environment.id : repository.id,
+      name: envExists ? environment.name : repository.name,
+      description: envExists ? environment.description : repository.description,
       tag: '',
-      tags: props.envExists && Boolean(props.environment.tags) ? props.environment.tags : [],
+      tags: envExists && Boolean(environment.tags) ? environment.tags : [],
       error: '',
+      topic: envExists && Boolean(environment.topic) ? environment.topic.id : '',
+      avatar: envExists ? environment.currentAvatar : null,
+      avatarId:
+        envExists && Boolean(environment.currentAvatar) ? environment.currentAvatar.id : null,
     };
     this.getEnvironments = this.getEnvironments.bind(this);
+    this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
   }
 
   getEnvironments() {
@@ -59,6 +63,29 @@ class EnvironmentForm extends Component {
     this.props.onClose();
   };
 
+  //set state.avatar to image
+  handleUploadSuccess = response => {
+    this.props.getUserImages();
+    this.setState({
+      avatar: response.data,
+      avatarId: response.data.id,
+    });
+  };
+
+  handleSelect = selectedAvatar => {
+    if (selectedAvatar !== null) {
+      this.setState({
+        avatar: selectedAvatar,
+        avatarId: selectedAvatar.id,
+      });
+    } else {
+      this.setState({
+        avatar: selectedAvatar,
+        avatarId: null,
+      });
+    }
+  };
+
   handleSubmit = event => {
     event.preventDefault();
     if (this.props.envExists) {
@@ -67,9 +94,9 @@ class EnvironmentForm extends Component {
         .then(this.handleSuccess)
         .catch(this.handleFailure);
     } else {
-      const { name, description, id, tags } = this.state;
+      const { name, description, id, tags, topic, avatarId } = this.state;
       api
-        .createEnvironment(name, description, id, tags)
+        .createEnvironment(name, description, id, tags, topic, avatarId)
         .then(this.handleSuccess)
         .catch(this.handleFailure);
     }
@@ -83,7 +110,7 @@ class EnvironmentForm extends Component {
   };
 
   handleFailure = () => {
-    this.setState({ error: 'Request did NOT succeed!' });
+    this.setState({ error: 'Sorry, submission did NOT succeed!' });
   };
 
   handleChange = name => event => {
@@ -115,63 +142,38 @@ class EnvironmentForm extends Component {
     });
   };
 
+  handleChangeTopic = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
   render() {
-    const { classes } = this.props;
-    const { repository } = this.props;
-    const { error } = this.state;
-    const { tags } = this.state;
+    const { classes, repository, topics } = this.props;
+    const { error, tags } = this.state;
     return (
       <form className={classes.container}>
         <Dialog onClose={this.handleClose} open={this.props.open} fullWidth>
           <DialogTitle>
             {this.props.envExists ? 'Edit Environment' : 'Create Environment'}
           </DialogTitle>
-          <TextField
-            id="filled-name"
-            label="Name"
-            className={classes.textField}
-            value={this.state.name}
-            onChange={this.handleChange('name')}
-            margin="normal"
-            variant="filled"
+          <ImagePreview
+            avatar={this.state.avatar}
+            handleSuccess={this.handleUploadSuccess}
+            handleSelect={this.handleSelect}
           />
-          <TextField
-            id="filled-full-description"
-            label="Description"
-            className={classes.textField}
-            value={Boolean(this.state.description) ? this.state.description : ''}
-            onChange={this.handleChange('description')}
-            multiline
-            margin="normal"
-            variant="filled"
-            InputLabelProps={{
-              shrink: true,
-            }}
+          <EnvironmentFormText
+            name={this.state.name}
+            description={this.state.description}
+            repository={repository}
+            handleChange={this.handleChange}
           />
-          <TextField
-            disabled
-            id="filled-disabled-owner"
-            label="Owner"
-            className={classes.textField}
-            defaultValue={repository.owner.username}
-            margin="normal"
-            variant="filled"
+          <EnvironmentFormControl
+            topics={topics}
+            topic={this.state.topic}
+            tag={this.state.tag}
+            handleChangeTopic={this.handleChangeTopic}
+            handleChange={this.handleChange}
+            handleAddTag={this.handleAddTag}
           />
-          <FormControl className={classes.textField}>
-            <InputLabel htmlFor="adornment-tag">Add a Tag</InputLabel>
-            <Input
-              id="adornment-tag"
-              value={this.state.tag}
-              onChange={this.handleChange('tag')}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton aria-label="Add tag" onClick={this.handleAddTag}>
-                    <AddIcon />
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
           {tags.length > 0 && (
             <List>
               {tags.map(tag => (
@@ -188,7 +190,7 @@ class EnvironmentForm extends Component {
           )}
           <Button onClick={this.handleSubmit}>Submit</Button>
           {error ? (
-            <Typography variant="h6" color="error">
+            <Typography variant="subtitle1" color="error" className={classes.errorStyle}>
               {error}
             </Typography>
           ) : null}
@@ -200,16 +202,22 @@ class EnvironmentForm extends Component {
 
 EnvironmentForm.propTypes = {
   getEnvironments: PropTypes.func.isRequired,
+  getUserImages: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   repository: PropTypes.object.isRequired,
   environment: PropTypes.object,
   open: PropTypes.bool.isRequired,
   envExists: PropTypes.bool.isRequired,
+  topics: PropTypes.arrayOf(PropTypes.object),
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  topics: state.topics.topics,
+});
+
 const mapDispatchToProps = {
   getEnvironments,
+  getUserImages,
 };
 
 export default compose(

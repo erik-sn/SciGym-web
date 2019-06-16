@@ -9,7 +9,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import { deleteUser } from '../../actions/user';
+import { deleteUser } from '../../../actions/user';
 
 const AccountDelete = ({ userName, open, handleClose, deleteUser }) => {
   const [confirmationUserName, setConfirmationUsername] = useState('');

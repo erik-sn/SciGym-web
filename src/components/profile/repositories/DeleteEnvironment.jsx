@@ -6,27 +6,32 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core';
+
+const styles = theme => ({
+  errorStyle: {
+    margin: theme.spacing.unit,
+  },
+});
 
 class DeleteEnvironment extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: props.environment.name,
-    };
-  }
-
   render() {
+    const { classes, openDelete, handleCloseDelete, error, handleDelete, environment } = this.props;
     return (
-      <Dialog open={this.props.openDelete} onClose={this.props.handleCloseDelete}>
+      <Dialog open={openDelete} onClose={handleCloseDelete}>
         <DialogTitle>
-          Are you sure you want to delete the environment "{this.state.name}"?
-          {this.props.error ? <Typography color="error">{this.props.error}</Typography> : null}
+          Are you sure you want to delete the environment "{environment.name}"?
+          {error ? (
+            <Typography color="error" className={classes.errorStyle}>
+              {error}
+            </Typography>
+          ) : null}
         </DialogTitle>
         <DialogActions>
-          <Button onClick={this.props.handleDelete} color="secondary">
+          <Button onClick={handleDelete} color="secondary">
             Delete
           </Button>
-          <Button onClick={this.props.handleCloseDelete} color="primary">
+          <Button onClick={handleCloseDelete} color="primary">
             Cancel
           </Button>
         </DialogActions>
@@ -43,4 +48,4 @@ DeleteEnvironment.propTypes = {
   error: PropTypes.string.isRequired,
 };
 
-export default DeleteEnvironment;
+export default withStyles(styles)(DeleteEnvironment);
