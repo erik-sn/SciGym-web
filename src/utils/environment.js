@@ -7,5 +7,5 @@ export function getHost() {
   }
   // we assume in test/production environments we are just using
   // the root URL
-  return hostName;
+  return '';
 }
