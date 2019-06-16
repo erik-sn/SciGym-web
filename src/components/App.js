@@ -107,7 +107,7 @@ export default withRouter(
       getEnvironments,
       getTopics,
       getImageConfig,
-    }
       getContributors,
+    }
   )(App)
 );
