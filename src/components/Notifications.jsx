@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -66,5 +65,7 @@ Notifications.propTypes = {
 const mapStateToProps = state => ({
   notifications: state.display.notifications,
 });
-
-export default connect(mapStateToProps)(Notifications);
+export default compose(
+  connect(mapStateToProps),
+  withStyles(styles)
+)(Notifications);

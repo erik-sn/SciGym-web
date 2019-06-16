@@ -6,21 +6,20 @@ import { loginUserWithGithub } from '../../actions/user';
 
 export class Auth extends Component {
   componentWillMount() {
-    console.log('login user');
     const code = this.getUrlParams('code');
     const state = this.getUrlParams('state');
     this.props.loginUserWithGithub(code, state);
   }
 
   getUrlParams(prop) {
-    var params = {};
-    var search = decodeURIComponent(
+    let params = {};
+    let search = decodeURIComponent(
       window.location.href.slice(window.location.href.indexOf('?') + 1)
     );
-    var definitions = search.split('&');
+    let definitions = search.split('&');
 
     definitions.forEach(function(val, key) {
-      var parts = val.split('=', 2);
+      let parts = val.split('=', 2);
       params[parts[0]] = parts[1];
     });
 

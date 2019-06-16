@@ -9,11 +9,13 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core';
 
-import EnvironmentItem from './EnvironmentItem';
-import Hero from './Hero';
-import TopicDrawer from './TopicDrawer';
+import EnvironmentItem from './environment_item/EnvironmentItem';
+import Hero from './hero/Hero';
+import TopicDrawer from './drawer/TopicDrawer';
+import FeatureCards from './feature_cards/FeatureCards';
+import ExpandMoreLess from '../ExpandMoreLess';
 
-const drawerWidth = 240;
+const modDisplay = 10;
 
 const styles = theme => ({
   root: {
@@ -24,35 +26,70 @@ const styles = theme => ({
     margin: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit * 6,
   },
-  drawerPaper: {
-    width: drawerWidth,
-    flexShrink: 0,
-    height: '100%',
-  },
   wrapper: {
     display: 'flex',
     flexFlow: 'row nowrap',
   },
   gridStyle: {
     [theme.breakpoints.up('lg')]: {
-      width: '75%',
+      width: '80%',
+    },
+  },
+  emptyStyle: {
+    minWidth: '770px',
+    [theme.breakpoints.down('xs')]: {
+      minWidth: '0px',
+    },
+    [theme.breakpoints.up('md')]: {
+      minWidth: '950px',
+    },
+  },
+  buttonStyle: {
+    left: '40%',
+  },
+  buttonPos: {
+    minWidth: '770px',
+    [theme.breakpoints.down('xs')]: {
+      minWidth: '0px',
+    },
+    [theme.breakpoints.up('md')]: {
+      minWidth: '950px',
     },
   },
 });
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      visibleEnvironmentCount: modDisplay,
+    };
+  }
+
+  handleExpandMore = () => {
+    this.setState({ visibleEnvironmentCount: this.state.visibleEnvironmentCount + modDisplay });
+  };
+
+  handleExpandLess = () => {
+    this.setState({ visibleEnvironmentCount: this.state.visibleEnvironmentCount - modDisplay });
+  };
+
   get title() {
-    if (this.props.searchedEnvironments) {
-      return 'Search results';
+    if (this.props.categorizedEnvironments) {
+      const title = this.props.searchedTopic.name;
+      return title;
     }
     return 'Recent environments';
   }
   render() {
     const { classes } = this.props;
-    const environments = this.props.searchedEnvironments
-      ? this.props.searchedEnvironments
+    const environments = this.props.categorizedEnvironments
+      ? this.props.categorizedEnvironments
       : this.props.environments;
     const empty = environments.length === 0;
+    const all = true ? this.state.visibleEnvironmentCount >= environments.length : false;
+    const none = true ? this.state.visibleEnvironmentCount <= modDisplay : false;
+    const visibleEnvironments = environments.slice(0, this.state.visibleEnvironmentCount);
     return (
       <div className={classes.root}>
         <Hero />
@@ -60,17 +97,27 @@ class Home extends Component {
           <TopicDrawer />
           <Grid container justify="center" className={classes.gridStyle}>
             <div>
+              {!this.props.categorizedEnvironments && (
+                <div>
+                  <Typography variant="h4" className={classes.title}>
+                    Features & Goals
+                  </Typography>
+                  <FeatureCards />
+                </div>
+              )}
               <Typography variant="h4" className={classes.title}>
                 {this.title}
               </Typography>
               {empty && (
-                <Typography variant="h6" className={classes.title}>
-                  No environments found
-                </Typography>
+                <div className={classes.emptyStyle}>
+                  <Typography variant="h6" className={classes.title}>
+                    No environments found
+                  </Typography>
+                </div>
               )}
               {!empty && (
                 <List>
-                  {environments.map(env => (
+                  {visibleEnvironments.map(env => (
                     <React.Fragment key={env.id}>
                       <EnvironmentItem key={env.id} environment={env} />
                       <Divider />
@@ -78,6 +125,13 @@ class Home extends Component {
                   ))}
                 </List>
               )}
+              <ExpandMoreLess
+                classes={classes}
+                allEnvVisible={all}
+                noEnvVisible={none}
+                handleExpandMore={this.handleExpandMore}
+                handleExpandLess={this.handleExpandLess}
+              />
             </div>
           </Grid>
         </div>
@@ -89,13 +143,15 @@ class Home extends Component {
 Home.propTypes = {
   repositories: PropTypes.arrayOf(PropTypes.object),
   environments: PropTypes.arrayOf(PropTypes.object),
-  searchedEnvironments: PropTypes.arrayOf(PropTypes.object),
+  categorizedEnvironments: PropTypes.arrayOf(PropTypes.object),
+  searchedTopics: PropTypes.arrayOf(PropTypes.object),
 };
 
 const mapStateToProps = state => ({
   repositories: state.repositories.repositories,
   environments: state.environments.environments,
-  searchedEnvironments: state.environments.searchedEnvironments,
+  categorizedEnvironments: state.environments.categorizedEnvironments,
+  searchedTopic: state.environments.searchedTopic,
 });
 
 export default compose(

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -12,6 +13,11 @@ const ChildListElement = ({ topic, handleClick }) => {
       </ListItem>
     </List>
   );
+};
+
+ChildListElement.propTypes = {
+  topic: PropTypes.object,
+  handleClick: PropTypes.func.isRequired,
 };
 
 export default ChildListElement;

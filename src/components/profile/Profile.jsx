@@ -6,17 +6,17 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core';
 
-import Account from './Account';
-import Groups from './Groups';
+import Account from './account/Account';
+import Groups from './groups/Groups';
 import Settings from './Settings';
-import Repositories from './Repositories';
-import Images from './Images';
+import Repositories from './repositories/Repositories';
+import Images from './images/Images';
 
 const styles = theme => ({
   root: {
     display: 'flex',
     flexFlow: 'row nowrap',
-    height: 'calc(100vh - 60px)',
+    height: '100%',
   },
 });
 

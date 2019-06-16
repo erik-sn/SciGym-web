@@ -8,8 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 
-import api from '../../utils/api';
-import constants from '../../utils/constants';
+import api from '../../../utils/api';
+import constants from '../../../utils/constants';
 import ImagePopContent from './ImagePopContent';
 
 const styles = theme => ({
@@ -42,7 +42,7 @@ const styles = theme => ({
 class ImagePreview extends Component {
   constructor(props) {
     super(props);
-    var filePath = constants.SCIGYM_LOGO;
+    let filePath = constants.SCIGYM_LOGO;
     if (props.avatar != null) {
       filePath = props.avatar.filePath.replace(constants.UPLOAD_URL, '');
     }
@@ -58,7 +58,7 @@ class ImagePreview extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.avatar !== this.props.avatar) {
-      var filePath = constants.SCIGYM_LOGO;
+      let filePath = constants.SCIGYM_LOGO;
       if (this.props.avatar != null) {
         filePath = this.props.avatar.filePath.replace(constants.UPLOAD_URL, '');
       }

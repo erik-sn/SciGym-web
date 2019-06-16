@@ -8,10 +8,10 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
 
-import types from '../../utils/types';
-import { isLoading } from '../../reducers/display';
-import { getErrors } from '../../reducers/errors';
-import { updateMyProfile } from '../../actions/user';
+import types from '../../../utils/types';
+import { isLoading } from '../../../reducers/display';
+import { getErrors } from '../../../reducers/errors';
+import { updateMyProfile } from '../../../actions/user';
 
 const styles = theme => ({
   root: {
