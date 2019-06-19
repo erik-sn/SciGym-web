@@ -12,8 +12,23 @@ const styles = theme => ({
 
 const options = {
   overrides: {
-    pre: { props: { style: { backgroundColor: '#f5f5f5', padding: '10px' } } },
-    code: { props: { style: { backgroundColor: '#f5f5f5', padding: '3px' } } },
+    pre: {
+      props: {
+        style: {
+          backgroundColor: '#f5f5f5',
+          padding: '10px',
+          overflowX: 'auto',
+        },
+      },
+    },
+    code: {
+      props: {
+        style: {
+          backgroundColor: '#f5f5f5',
+          padding: '3px',
+        },
+      },
+    },
     h1: { component: props => <Typography gutterBottom variant="h4" {...props} /> },
     h2: { component: props => <Typography gutterBottom variant="h6" {...props} /> },
     h3: { component: props => <Typography gutterBottom variant="subtitle1" {...props} /> },
