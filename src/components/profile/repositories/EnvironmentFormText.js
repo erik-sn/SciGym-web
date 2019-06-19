@@ -64,7 +64,7 @@ const EnvironmentFormText = ({ classes, name, description, repository, handleCha
 EnvironmentFormText.propTypes = {
   classes: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   repository: PropTypes.object.isRequired,
   handleChange: PropTypes.func.isRequired,
 };

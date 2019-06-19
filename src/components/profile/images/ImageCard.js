@@ -55,7 +55,7 @@ ImageCard.propTypes = {
   handleClickDelete: PropTypes.func.isRequired,
   handleCloseDelete: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
-  openDelete: PropTypes.func.isRequired,
+  openDelete: PropTypes.bool.isRequired,
 };
 
 export default ImageCard;
