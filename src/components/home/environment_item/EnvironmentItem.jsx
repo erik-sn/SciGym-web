@@ -81,7 +81,7 @@ class EnvironmentItem extends Component {
     const { classes } = this.props;
     let filePath = constants.SCIGYM_LOGO;
     if (currentAvatar != null) {
-      filePath = currentAvatar.filePath.replace(constants.UPLOAD_URL, '');
+      filePath = currentAvatar.uploadPath;
     }
     return (
       <ListItem className={classes.listStyle}>

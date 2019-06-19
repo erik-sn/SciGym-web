@@ -137,7 +137,7 @@ class EnvironmentDetail extends Component {
       readme = this.props.environment.repository.readme;
       const { currentAvatar } = this.props.environment;
       if (currentAvatar != null) {
-        filePath = currentAvatar.filePath.replace(constants.UPLOAD_URL, '');
+        filePath = currentAvatar.uploadPath;
       }
     }
     return (
