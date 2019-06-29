@@ -100,9 +100,7 @@ class ImagePopContent extends Component {
                 <Card className={classes.cardStyle}>
                   <CardMedia
                     className={classes.mediaStyle}
-                    image={constants.STATIC_URL.concat(
-                      image.filePath.replace(constants.UPLOAD_URL, '')
-                    )}
+                    image={constants.STATIC_URL.concat(image.uploadPath)}
                   >
                     <Radio
                       checked={

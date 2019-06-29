@@ -44,7 +44,7 @@ class ImagePreview extends Component {
     super(props);
     let filePath = constants.SCIGYM_LOGO;
     if (props.avatar != null) {
-      filePath = props.avatar.filePath.replace(constants.UPLOAD_URL, '');
+      filePath = props.avatar.uploadPath;
     }
     this.state = {
       avatar: props.avatar,
@@ -60,7 +60,7 @@ class ImagePreview extends Component {
     if (prevProps.avatar !== this.props.avatar) {
       let filePath = constants.SCIGYM_LOGO;
       if (this.props.avatar != null) {
-        filePath = this.props.avatar.filePath.replace(constants.UPLOAD_URL, '');
+        filePath = this.props.avatar.uploadPath;
       }
       this.setState({
         avatar: this.props.avatar,

@@ -23,7 +23,7 @@ const ImageCard = ({
     <Card className={classes.cardStyle}>
       <CardMedia
         className={classes.mediaStyle}
-        image={constants.STATIC_URL.concat(image.filePath.replace(constants.UPLOAD_URL, ''))}
+        image={constants.STATIC_URL.concat(image.uploadPath)}
       >
         <div>
           <Fab
@@ -55,7 +55,7 @@ ImageCard.propTypes = {
   handleClickDelete: PropTypes.func.isRequired,
   handleCloseDelete: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
-  openDelete: PropTypes.func.isRequired,
+  openDelete: PropTypes.bool.isRequired,
 };
 
 export default ImageCard;
