@@ -14,8 +14,7 @@ import Button from '@material-ui/core/Button';
 import { SciGymLogo, GithubIcon } from '../../files/images';
 import EnvironmentForm from './EnvironmentForm';
 import DeleteEnvironment from './DeleteEnvironment';
-import api from '../../../utils/api';
-import { getEnvironments } from '../../../actions/environments';
+import { getEnvironments, deleteEnvironment } from '../../../actions/environments';
 import RepositoryItemFormArea from './RepositoryItemFormArea';
 
 const styles = theme => ({
@@ -51,9 +50,7 @@ class RepositoryItem extends Component {
     super(props);
     this.state = {
       open: false,
-      envExists: Boolean(props.environment),
       openDelete: false,
-      error: '',
     };
   }
 
@@ -76,37 +73,18 @@ class RepositoryItem extends Component {
   };
 
   handleDelete = () => {
-    api
-      .deleteEnvironment(this.props.environment) //TODO: this should not be an API call but an action
-      .then(this.handleSuccess)
-      .catch(this.handleFailure);
-  };
-
-  handleSuccess = () => {
-    api.environments().then(json => {
-      this.props.getEnvironments(json.data);
-      this.setState({
-        envExists: !this.state.envExists,
-        openDelete: false,
-        error: '',
-      });
+    this.props.deleteEnvironment(this.props.environment);
+    this.setState({
+      openDelete: false,
     });
   };
-
-  handleFailure = () => {
-    this.setState({ error: "Can't be deleted!" });
-  };
-
-  componentDidUpdate(prevProps) {
-    if (this.props.environment !== prevProps.environment) {
-      this.setState({ envExists: Boolean(this.props.environment) });
-    }
-  }
 
   render() {
     const { name, description, owner, htmlUrl } = this.props.repository;
     const { classes } = this.props;
-    const keyId = this.state.envExists ? this.props.environment.id : this.props.repository.id;
+    const keyId = Boolean(this.props.environment)
+      ? this.props.environment.id
+      : this.props.repository.id;
     return (
       <ListItem>
         <Card className={classes.cardStyle} raised>
@@ -135,19 +113,18 @@ class RepositoryItem extends Component {
               </CardActions>
               <RepositoryItemFormArea
                 classes={classes}
-                envExists={this.state.envExists}
+                envExists={Boolean(this.props.environment)}
                 handleClickDelete={this.handleClickDelete}
                 handleClickOpen={this.handleClickOpen}
               />
             </div>
           </div>
-          {this.state.envExists && (
+          {Boolean(this.props.environment) && (
             <DeleteEnvironment
               handleCloseDelete={this.handleCloseDelete}
               openDelete={this.state.openDelete}
               environment={this.props.environment}
               handleDelete={this.handleDelete}
-              error={this.state.error}
             />
           )}
           <EnvironmentForm
@@ -155,7 +132,7 @@ class RepositoryItem extends Component {
             onClose={this.handleClose}
             open={this.state.open}
             environment={this.props.environment}
-            envExists={this.state.envExists}
+            envExists={Boolean(this.props.environment)}
             key={keyId}
           />
         </Card>
@@ -168,6 +145,7 @@ RepositoryItem.propTypes = {
   key: PropTypes.string,
   repository: PropTypes.object.isRequired,
   getEnvironments: PropTypes.func.isRequired,
+  deleteEnvironment: PropTypes.func.isRequired,
   environment: PropTypes.object,
 };
 
@@ -181,6 +159,7 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = {
   getEnvironments,
+  deleteEnvironment,
 };
 
 export default compose(

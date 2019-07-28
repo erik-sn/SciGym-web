@@ -90,7 +90,7 @@ class EnvironmentForm extends Component {
     event.preventDefault();
     if (this.props.envExists) {
       api
-        .editEnvironment(this.state)
+        .editEnvironment(this.state) //TODO: this should not be an api call but an action
         .then(this.handleSuccess)
         .catch(this.handleFailure);
     } else {

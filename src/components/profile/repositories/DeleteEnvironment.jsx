@@ -1,36 +1,37 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-const styles = theme => ({
-  errorStyle: {
-    margin: theme.spacing.unit,
-  },
-});
+import types from '../../../utils/types';
+import { isLoading } from '../../../reducers/display';
+
+const styles = theme => ({});
 
 class DeleteEnvironment extends Component {
   render() {
-    const { classes, openDelete, handleCloseDelete, error, handleDelete, environment } = this.props;
+    const { openDelete, handleCloseDelete, handleDelete, environment, loading } = this.props;
+    const open = loading ? true : openDelete;
     return (
-      <Dialog open={openDelete} onClose={handleCloseDelete}>
+      <Dialog open={open} onClose={handleCloseDelete}>
         <DialogTitle>
           Are you sure you want to delete the environment "{environment.name}"?
-          {error ? (
-            <Typography color="error" className={classes.errorStyle}>
-              {error}
-            </Typography>
-          ) : null}
         </DialogTitle>
         <DialogActions>
-          <Button onClick={handleDelete} color="secondary">
-            Delete
-          </Button>
+          {loading ? (
+            <CircularProgress size={30} disableShrink color="secondary" />
+          ) : (
+            <Button onClick={handleDelete} color="secondary">
+              Delete
+            </Button>
+          )}
           <Button onClick={handleCloseDelete} color="primary">
             Cancel
           </Button>
@@ -45,7 +46,14 @@ DeleteEnvironment.propTypes = {
   environment: PropTypes.object,
   openDelete: PropTypes.bool.isRequired,
   handleDelete: PropTypes.func.isRequired,
-  error: PropTypes.string.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
-export default withStyles(styles)(DeleteEnvironment);
+const mapStateToProps = state => ({
+  loading: isLoading(state.display, types.DELETE_ENVIRONMENT),
+});
+
+export default compose(
+  connect(mapStateToProps),
+  withStyles(styles)
+)(DeleteEnvironment);

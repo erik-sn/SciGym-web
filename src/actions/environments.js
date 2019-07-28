@@ -52,6 +52,9 @@ export const deleteEnvironment = environment => {
           type: types.DELETE_ENVIRONMENT_SUCCESS,
           payload: response.data,
         });
+        api.environments().then(json => {
+          dispatch(getEnvironments(json.data));
+        });
       })
       .catch(error => {
         dispatch({ type: types.DELETE_ENVIRONMENT_FAILURE });

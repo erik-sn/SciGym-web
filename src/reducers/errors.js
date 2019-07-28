@@ -18,6 +18,13 @@ export default (state = initialState, action) => {
     case types.UPDATE_USER_PROFILE_FAILURE: {
       return { ...state, [types.UPDATE_USER_PROFILE]: _parseApiError(action.payload) };
     }
+    case types.CREATE_ENVIRONMENT:
+    case types.CREATE_ENVIRONMENT_SUCCESS: {
+      return { ...state, [types.CREATE_ENVIRONMENT]: null };
+    }
+    case types.CREATE_ENVIRONMENT_FAILURE: {
+      return { ...state, [types.CREATE_ENVIRONMENT]: _parseApiError(action.payload) };
+    }
     default:
       return state;
   }
