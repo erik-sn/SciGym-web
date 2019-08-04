@@ -10,25 +10,49 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import types from '../../../utils/types';
+import { deleteEnvironment, resetEnvironmentsProps } from '../../../actions/environments';
 import { isLoading } from '../../../reducers/display';
+import types from '../../../utils/types';
 
-const styles = theme => ({});
+const styles = theme => ({
+  loadingStyle: {
+    marginRight: '20px',
+  },
+});
 
 class DeleteEnvironment extends Component {
+  constructor(props) {
+    super(props);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+  handleDelete = () => {
+    this.props.deleteEnvironment(this.props.environment);
+  };
+  componentDidUpdate(prevProps) {
+    if (prevProps.deleteSuccess !== this.props.deleteSuccess && this.props.deleteSuccess) {
+      // this is called many times in a row because the update is not fast enough
+      this.props.handleCloseDelete();
+      this.props.resetEnvironmentsProps();
+    }
+  }
+
   render() {
-    const { openDelete, handleCloseDelete, handleDelete, environment, loading } = this.props;
-    const open = loading ? true : openDelete;
+    const { classes, openDelete, handleCloseDelete, environment, loading } = this.props;
     return (
-      <Dialog open={open} onClose={handleCloseDelete}>
+      <Dialog open={openDelete} onClose={handleCloseDelete}>
         <DialogTitle>
           Are you sure you want to delete the environment "{environment.name}"?
         </DialogTitle>
         <DialogActions>
           {loading ? (
-            <CircularProgress size={30} disableShrink color="secondary" />
+            <CircularProgress
+              className={classes.loadingStyle}
+              size={30}
+              disableShrink
+              color="secondary"
+            />
           ) : (
-            <Button onClick={handleDelete} color="secondary">
+            <Button onClick={this.handleDelete} color="secondary">
               Delete
             </Button>
           )}
@@ -45,15 +69,23 @@ DeleteEnvironment.propTypes = {
   handleCloseDelete: PropTypes.func.isRequired,
   environment: PropTypes.object,
   openDelete: PropTypes.bool.isRequired,
-  handleDelete: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
+  deleteSuccess: state.environments.deleteSuccess,
   loading: isLoading(state.display, types.DELETE_ENVIRONMENT),
 });
 
+const mapDispatchToProps = {
+  deleteEnvironment,
+  resetEnvironmentsProps,
+};
+
 export default compose(
-  connect(mapStateToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   withStyles(styles)
 )(DeleteEnvironment);

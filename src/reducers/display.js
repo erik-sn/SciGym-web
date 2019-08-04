@@ -18,6 +18,8 @@ const notifications = {
   [types.LOGOUT_USER_FAILURE]: 'Failed to log out. Please try again later.',
   [types.CREATE_ENVIRONMENT_SUCCESS]: 'Successfully uploaded environment.',
   [types.CREATE_ENVIRONMENT_FAILURE]: 'Failed to upload environment. Please try again later.',
+  [types.EDIT_ENVIRONMENT_SUCCESS]: 'Successfully updated environment.',
+  [types.EDIT_ENVIRONMENT_FAILURE]: 'Failed to update environment. Please try again later.',
   [types.DELETE_ENVIRONMENT_SUCCESS]: 'Successfully deleted environment.',
   [types.DELETE_ENVIRONMENT_FAILURE]: 'Failed to delete environment. Please try again later.',
   [types.CREATE_IMAGE_SUCCESS]: 'Successfully uploaded image.',
@@ -85,9 +87,24 @@ export default (state = initialState, action) => {
     case types.FIND_GYM_REPOS_FAILURE: {
       return removeLoading(state, types.FIND_GYM_REPOS, action.type);
     }
-    case types.CREATE_ENVIRONMENT:
-    case types.CREATE_ENVIRONMENT_SUCCESS:
-    case types.CREATE_ENVIRONMENT_FAILURE:
+    case types.CREATE_ENVIRONMENT: {
+      return setLoading(state, types.CREATE_ENVIRONMENT, action.type);
+    }
+    case types.CREATE_ENVIRONMENT_SUCCESS: {
+      return removeLoading(state, types.CREATE_ENVIRONMENT, action.type);
+    }
+    case types.CREATE_ENVIRONMENT_FAILURE: {
+      return removeLoading(state, types.CREATE_ENVIRONMENT, action.type);
+    }
+    case types.EDIT_ENVIRONMENT: {
+      return setLoading(state, types.EDIT_ENVIRONMENT, action.type);
+    }
+    case types.EDIT_ENVIRONMENT_SUCCESS: {
+      return removeLoading(state, types.EDIT_ENVIRONMENT, action.type);
+    }
+    case types.EDIT_ENVIRONMENT_FAILURE: {
+      return removeLoading(state, types.EDIT_ENVIRONMENT, action.type);
+    }
     case types.DELETE_ENVIRONMENT: {
       return setLoading(state, types.DELETE_ENVIRONMENT, action.type);
     }

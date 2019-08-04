@@ -14,8 +14,10 @@ import Button from '@material-ui/core/Button';
 import { SciGymLogo, GithubIcon } from '../../files/images';
 import EnvironmentForm from './EnvironmentForm';
 import DeleteEnvironment from './DeleteEnvironment';
-import { getEnvironments, deleteEnvironment } from '../../../actions/environments';
+import { resetEnvironmentsErrors } from '../../../actions/environments';
 import RepositoryItemFormArea from './RepositoryItemFormArea';
+import types from '../../../utils/types';
+import { getErrors } from '../../../reducers/errors';
 
 const styles = theme => ({
   root: {
@@ -50,8 +52,12 @@ class RepositoryItem extends Component {
     super(props);
     this.state = {
       open: false,
-      openDelete: false,
+      openDelete: false, // WHATS WRONG WITHT THIS STATE????
     };
+    this.handleClickOpen = this.handleClickOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleClickDelete = this.handleClickDelete.bind(this);
+    this.handleCloseDelete = this.handleCloseDelete.bind(this);
   }
 
   handleClickOpen = () => {
@@ -62,6 +68,7 @@ class RepositoryItem extends Component {
 
   handleClose = () => {
     this.setState({ open: false });
+    this.props.resetEnvironmentsErrors();
   };
 
   handleClickDelete = () => {
@@ -69,19 +76,14 @@ class RepositoryItem extends Component {
   };
 
   handleCloseDelete = () => {
-    this.setState({ openDelete: false });
-  };
-
-  handleDelete = () => {
-    this.props.deleteEnvironment(this.props.environment);
-    this.setState({
-      openDelete: false,
-    });
+    this.setState({ openDelete: false }); // ADD Errors?
   };
 
   render() {
+    const { classes, errorsCreate, errorsEdit } = this.props;
+    const errors = Boolean(errorsCreate) ? errorsCreate : Boolean(errorsEdit) && errorsEdit;
     const { name, description, owner, htmlUrl } = this.props.repository;
-    const { classes } = this.props;
+    const { openDelete } = this.state;
     const keyId = Boolean(this.props.environment)
       ? this.props.environment.id
       : this.props.repository.id;
@@ -122,9 +124,8 @@ class RepositoryItem extends Component {
           {Boolean(this.props.environment) && (
             <DeleteEnvironment
               handleCloseDelete={this.handleCloseDelete}
-              openDelete={this.state.openDelete}
+              openDelete={openDelete}
               environment={this.props.environment}
-              handleDelete={this.handleDelete}
             />
           )}
           <EnvironmentForm
@@ -134,6 +135,7 @@ class RepositoryItem extends Component {
             environment={this.props.environment}
             envExists={Boolean(this.props.environment)}
             key={keyId}
+            errors={errors}
           />
         </Card>
       </ListItem>
@@ -144,8 +146,6 @@ class RepositoryItem extends Component {
 RepositoryItem.propTypes = {
   key: PropTypes.string,
   repository: PropTypes.object.isRequired,
-  getEnvironments: PropTypes.func.isRequired,
-  deleteEnvironment: PropTypes.func.isRequired,
   environment: PropTypes.object,
 };
 
@@ -154,12 +154,13 @@ function mapStateToProps(state, ownProps) {
   const { environments } = state.environments; // this is empty at reload
   return {
     environment: environments.find(env => env.repository.id === repoId), // check env.repo instead of id
+    errorsCreate: getErrors(state.errors, types.CREATE_ENVIRONMENT),
+    errorsEdit: getErrors(state.errors, types.EDIT_ENVIRONMENT),
   };
 }
 
 const mapDispatchToProps = {
-  getEnvironments,
-  deleteEnvironment,
+  resetEnvironmentsErrors,
 };
 
 export default compose(
