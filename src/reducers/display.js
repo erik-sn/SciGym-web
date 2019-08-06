@@ -24,6 +24,8 @@ const notifications = {
   [types.DELETE_ENVIRONMENT_FAILURE]: 'Failed to delete environment. Please try again later.',
   [types.CREATE_IMAGE_SUCCESS]: 'Successfully uploaded image.',
   [types.CREATE_IMAGE_FAILURE]: 'Failed to upload image. Please try again later.',
+  [types.DELETE_IMAGE_SUCCESS]: 'Successfully deleted image.',
+  [types.DELETE_IMAGE_FAILURE]: 'Failed to delete image. Please try again later.',
 };
 
 function getNotifications(state, actionType) {
@@ -114,9 +116,24 @@ export default (state = initialState, action) => {
     case types.DELETE_ENVIRONMENT_FAILURE: {
       return removeLoading(state, types.DELETE_ENVIRONMENT, action.type);
     }
-    case types.CREATE_IMAGE:
-    case types.CREATE_IMAGE_SUCCESS:
-    case types.CREATE_IMAGE_FAILURE:
+    case types.CREATE_IMAGE: {
+      return setLoading(state, types.CREATE_IMAGE, action.type);
+    }
+    case types.CREATE_IMAGE_SUCCESS: {
+      return removeLoading(state, types.CREATE_IMAGE, action.type);
+    }
+    case types.CREATE_IMAGE_FAILURE: {
+      return removeLoading(state, types.CREATE_IMAGE, action.type);
+    }
+    case types.DELETE_IMAGE: {
+      return setLoading(state, types.DELETE_IMAGE, action.type);
+    }
+    case types.DELETE_IMAGE_SUCCESS: {
+      return removeLoading(state, types.DELETE_IMAGE, action.type);
+    }
+    case types.DELETE_IMAGE_FAILURE: {
+      return removeLoading(state, types.DELETE_IMAGE, action.type);
+    }
     default:
       return state;
   }

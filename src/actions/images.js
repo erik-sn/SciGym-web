@@ -74,10 +74,19 @@ export const deleteImage = image => {
           type: types.DELETE_IMAGE_SUCCESS,
           payload: response.data,
         });
+        api.myImages().then(json => {
+          dispatch(getUserImages(json.data));
+        });
       })
       .catch(error => {
         dispatch({ type: types.DELETE_IMAGE_FAILURE });
         logError(error);
       });
+  };
+};
+
+export const resetImageProps = () => {
+  return dispatch => {
+    dispatch({ type: types.RESET_IMAGE_PROPS });
   };
 };
