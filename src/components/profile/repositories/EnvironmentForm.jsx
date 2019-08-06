@@ -52,7 +52,6 @@ class EnvironmentForm extends Component {
       avatarId:
         envExists && Boolean(environment.currentAvatar) ? environment.currentAvatar.id : null,
     };
-    this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -60,15 +59,6 @@ class EnvironmentForm extends Component {
     this.handleDeleteTag = this.handleDeleteTag.bind(this);
     this.handleChangeTopic = this.handleChangeTopic.bind(this);
   }
-
-  //set state.avatar to image
-  handleUploadSuccess = response => {
-    this.props.getUserImages();
-    this.setState({
-      avatar: response.data,
-      avatarId: response.data.id,
-    });
-  };
 
   handleSelect = selectedAvatar => {
     if (selectedAvatar !== null) {
@@ -131,6 +121,13 @@ class EnvironmentForm extends Component {
       this.props.onClose();
       this.props.resetEnvironmentsProps();
     }
+    if (prevProps.uploadedImage !== this.props.uploadedImage && this.props.uploadedImage) {
+      const { uploadedImage } = this.props;
+      this.setState({
+        avatar: uploadedImage,
+        avatarId: uploadedImage.id,
+      });
+    }
   }
 
   render() {
@@ -142,11 +139,7 @@ class EnvironmentForm extends Component {
           <DialogTitle>
             {this.props.envExists ? 'Edit Environment' : 'Create Environment'}
           </DialogTitle>
-          <ImagePreview
-            avatar={this.state.avatar}
-            handleSuccess={this.handleUploadSuccess}
-            handleSelect={this.handleSelect}
-          />
+          <ImagePreview avatar={this.state.avatar} handleSelect={this.handleSelect} />
           <EnvironmentFormText
             name={this.state.name}
             description={this.state.description}
@@ -204,11 +197,15 @@ EnvironmentForm.propTypes = {
   open: PropTypes.bool.isRequired,
   envExists: PropTypes.bool.isRequired,
   topics: PropTypes.arrayOf(PropTypes.object),
+  uploadSuccess: PropTypes.any, // this is either undefined or bool
+  uploadedImage: PropTypes.any, // this is either undefined or object
+  loading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   topics: state.topics.topics,
   uploadSuccess: state.environments.uploadSuccess,
+  uploadedImage: state.images.uploadedImage,
   loading:
     isLoading(state.display, types.CREATE_ENVIRONMENT) ||
     isLoading(state.display, types.EDIT_ENVIRONMENT),

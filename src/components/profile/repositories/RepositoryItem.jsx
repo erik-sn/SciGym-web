@@ -147,6 +147,9 @@ RepositoryItem.propTypes = {
   key: PropTypes.string,
   repository: PropTypes.object.isRequired,
   environment: PropTypes.object,
+  errorsCreate: PropTypes.any, // this is bool or object
+  errorsEdit: PropTypes.any, // this is bool or object
+  resetEnvironmentsErrors: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state, ownProps) {

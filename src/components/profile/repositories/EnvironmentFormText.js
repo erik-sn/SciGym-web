@@ -71,6 +71,7 @@ EnvironmentFormText.propTypes = {
   description: PropTypes.string,
   repository: PropTypes.object.isRequired,
   handleChange: PropTypes.func.isRequired,
+  errors: PropTypes.any, // this is either bool or object
 };
 
 export default withStyles(styles)(EnvironmentFormText);

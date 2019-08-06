@@ -4,10 +4,17 @@ const initialState = {
   userImages: [],
   imageConfig: [],
   deleteSuccess: undefined,
+  uploadedImage: undefined,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case types.CREATE_IMAGE_SUCCESS: {
+      return { ...state, uploadedImage: action.payload };
+    }
+    case types.CREATE_IMAGE_FAILURE: {
+      return { ...state, uploadedImage: false };
+    }
     case types.DELETE_IMAGE_SUCCESS: {
       return {
         ...state,
@@ -31,7 +38,7 @@ export default (state = initialState, action) => {
       return { ...state, imageConfig: action.payload };
     }
     case types.RESET_IMAGE_PROPS: {
-      return { ...state, deleteSuccess: undefined };
+      return { ...state, deleteSuccess: undefined, uploadedImage: undefined };
     }
     default:
       return state;

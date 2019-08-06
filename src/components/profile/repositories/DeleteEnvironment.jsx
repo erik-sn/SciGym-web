@@ -70,6 +70,7 @@ DeleteEnvironment.propTypes = {
   environment: PropTypes.object,
   openDelete: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
+  deleteSuccess: PropTypes.any, // this is either undefined or bool
 };
 
 const mapStateToProps = state => ({

@@ -53,6 +53,9 @@ export const createImage = (...args) => {
           type: types.CREATE_IMAGE_SUCCESS,
           payload: response.data,
         });
+        api.myImages().then(json => {
+          dispatch(getUserImages(json.data));
+        });
       })
       .catch(error => {
         dispatch({ type: types.CREATE_IMAGE_FAILURE });

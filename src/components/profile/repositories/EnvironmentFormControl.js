@@ -93,6 +93,7 @@ EnvironmentFormControl.propTypes = {
   handleChangeTopic: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   handleAddTag: PropTypes.func.isRequired,
+  errors: PropTypes.any, // this is either bool or object
 };
 
 export default withStyles(styles)(EnvironmentFormControl);
