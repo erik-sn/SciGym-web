@@ -22,6 +22,8 @@ import Impressum from './impressum/Impressum';
 import Notifications from './Notifications';
 import constants from '../utils/constants';
 import EnvironmentDetail from './environment/EnvironmentDetail';
+import PrivatePolicy from './policy/PrivatePolicy';
+import TermsAndConditions from './policy/TermsAndConditions';
 
 export class App extends Component {
   componentDidMount() {
@@ -65,6 +67,8 @@ export class App extends Component {
           <Route path="/get-started" component={GetStarted} />
           <Route path="/env/:env_name" component={EnvironmentDetail} />
           <Route path="/impressum" component={Impressum} />
+          <Route path="/policy/private-policy" component={PrivatePolicy} />
+          <Route path="/policy/terms-and-conditions" component={TermsAndConditions} />
           <Route path="*" component={Home} />
         </Switch>
         <UserWatcher />

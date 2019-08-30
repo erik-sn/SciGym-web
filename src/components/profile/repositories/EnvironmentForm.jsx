@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -10,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import api from '../../../utils/api';
 import { getEnvironments } from '../../../actions/environments';
@@ -49,6 +51,7 @@ class EnvironmentForm extends Component {
       avatar: envExists ? environment.currentAvatar : null,
       avatarId:
         envExists && Boolean(environment.currentAvatar) ? environment.currentAvatar.id : null,
+      checked: false,
     };
     this.getEnvironments = this.getEnvironments.bind(this);
     this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
@@ -146,9 +149,13 @@ class EnvironmentForm extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  handleCheck = event => {
+    this.setState({ checked: event.target.checked })
+  }
+
   render() {
     const { classes, repository, topics } = this.props;
-    const { error, tags } = this.state;
+    const { error, tags, checked } = this.state;
     return (
       <form className={classes.container}>
         <Dialog onClose={this.handleClose} open={this.props.open} fullWidth>
@@ -188,7 +195,16 @@ class EnvironmentForm extends Component {
               ))}
             </List>
           )}
-          <Button onClick={this.handleSubmit}>Submit</Button>
+          {/* TODO: Check also for image upload. */}
+          <Typography className={classes.textField}>
+            <Checkbox checked={checked} onChange={this.handleCheck} value="policy" />
+            I agree to the <Link to="/policy/private-policy">Private Policy</Link> and <Link to="/policy/terms-and-conditions">Terms and Conditions</Link>
+          </Typography>
+          {checked ? (
+            <Button onClick={this.handleSubmit}>Submit</Button>
+          ) : (
+              <Button disabled>Submit</Button>
+            )}
           {error ? (
             <Typography variant="subtitle1" color="error" className={classes.errorStyle}>
               {error}
