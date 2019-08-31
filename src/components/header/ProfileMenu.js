@@ -14,7 +14,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
-import Login from '../auth/Login';
+import LoginForm from '../auth/LoginForm'
 import Logout from '../auth/Logout';
 
 const styles = theme => ({
@@ -29,8 +29,14 @@ const styles = theme => ({
 function ProfileMenu({ classes, userExists }) {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(undefined);
+  const [openLogin, setOpenLogin] = useState(false);
   const toggle = () => setOpen(!open);
   const close = () => setOpen(false);
+  const toggleLogin = () => {
+    setOpen(false);
+    setOpenLogin(true)
+  }
+  const closeLogin = () => setOpenLogin(false);
   return (
     <div className={classes.root}>
       <div>
@@ -52,7 +58,17 @@ function ProfileMenu({ classes, userExists }) {
               <Paper>
                 <ClickAwayListener onClickAway={close}>
                   <MenuList>
-                    <Login onClick={close} />
+                    {userExists ? (
+                      <MenuItem onClick={close} component={Link} to="/profile">
+                        My Profile
+                    </MenuItem>
+                    ) : (
+                        <MenuItem onClick={toggleLogin}>
+                          Login
+                    </MenuItem>
+                      )
+                    }
+                    {/* <Login onClick={close} /> */}
                     {userExists && <Logout onClick={close} />}
                     <MenuItem onClick={close} component={Link} to="/impressum">
                       About Us
@@ -64,6 +80,7 @@ function ProfileMenu({ classes, userExists }) {
           )}
         </Popper>
       </div>
+      <LoginForm open={openLogin} onClose={closeLogin} />
     </div>
   );
 }
