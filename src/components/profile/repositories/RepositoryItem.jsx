@@ -124,11 +124,11 @@ class RepositoryItem extends Component {
                 </Typography>
                 <Typography variant="subtitle1" gutterBottom>
                   Owner:{' '}
-                  <a href={'https://github.com/'.concat(owner.username)}> {owner.username} </a>
+                  <a href={'https://github.com/'.concat(owner.username)} target="_blank" rel="noopener noreferrer"> {owner.username} </a>
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button href={htmlUrl}>
+                <Button href={htmlUrl} target="_blank" rel="noopener noreferrer">
                   <GithubIcon />
                   Github
                 </Button>

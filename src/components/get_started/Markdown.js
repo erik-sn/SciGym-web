@@ -1,4 +1,4 @@
-// file copied from https://github.com/mui-org/material-ui/blob/master/docs/src/pages/getting-started/page-layout-examples/blog/Markdown.js
+// file copied and modified from https://github.com/mui-org/material-ui/blob/master/docs/src/pages/getting-started/page-layout-examples/blog/Markdown.js
 import React from 'react';
 import ReactMarkdown from 'markdown-to-jsx';
 import { withStyles } from '@material-ui/core/styles';
@@ -34,6 +34,7 @@ const options = {
     h3: { component: props => <Typography gutterBottom variant="subtitle1" {...props} /> },
     h4: { component: props => <Typography gutterBottom variant="caption" paragraph {...props} /> },
     p: { component: props => <Typography paragraph {...props} /> },
+    a: { component: props => <a href={props.href} target="_blank" rel="noopener noreferrer">{props.children}</a> },
     li: {
       component: withStyles(styles)(({ classes, ...props }) => (
         <li className={classes.listItem}>
