@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 
 import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
@@ -33,6 +34,7 @@ const EnvironmentFormControl = ({
   handleChangeTopic,
   handleChange,
   handleAddTag,
+  errors,
 }) => {
   return (
     <div className={classes.root}>
@@ -72,7 +74,11 @@ const EnvironmentFormControl = ({
                 </IconButton>
               </InputAdornment>
             }
+            error={Boolean(errors && errors.tags)}
           />
+          <FormHelperText error={true} id="tag-helper-text">
+            {errors && errors.tags}
+          </FormHelperText>
         </FormControl>
       </div>
     </div>
@@ -87,6 +93,7 @@ EnvironmentFormControl.propTypes = {
   handleChangeTopic: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   handleAddTag: PropTypes.func.isRequired,
+  errors: PropTypes.any, // this is either bool or object
 };
 
 export default withStyles(styles)(EnvironmentFormControl);

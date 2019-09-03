@@ -5,6 +5,8 @@ const initialState = {
   searchedEnvironments: undefined,
   categorizedEnvironments: undefined,
   searchedTopic: undefined,
+  uploadSuccess: undefined,
+  deleteSuccess: undefined,
 };
 
 export default (state = initialState, action) => {
@@ -15,11 +17,48 @@ export default (state = initialState, action) => {
         environments: action.payload.results,
       };
     }
-    case types.DELETE_ENVIRONMENT: {
-      const envId = action.meta.id;
+    // case types.DELETE_ENVIRONMENT: // environments: state.environments.filter(env => env.id !== envId), causes weird rerender
+    case types.DELETE_ENVIRONMENT_SUCCESS: {
       return {
         ...state,
-        environments: state.environments.filter(env => env.id !== envId),
+        deleteSuccess: true,
+      };
+    }
+    case types.DELETE_ENVIRONMENT_FAILURE: {
+      return {
+        ...state,
+        deleteSuccess: false,
+      };
+    }
+    case types.CREATE_ENVIRONMENT_SUCCESS: {
+      return {
+        ...state,
+        uploadSuccess: true,
+      };
+    }
+    case types.CREATE_ENVIRONMENT_FAILURE: {
+      return {
+        ...state,
+        uploadSuccess: false,
+      };
+    }
+    case types.EDIT_ENVIRONMENT_SUCCESS: {
+      return {
+        ...state,
+        uploadSuccess: true,
+      };
+    }
+    case types.EDIT_ENVIRONMENT_FAILURE: {
+      return {
+        ...state,
+        uploadSuccess: false,
+      };
+    }
+    case types.RESET_ENVIRONMENTS_PROPS: {
+      return {
+        ...state,
+        uploadSuccess: undefined,
+        deleteSuccess: undefined,
       };
     }
     case types.SEARCH_ENVIRONMENTS_SUCCESS: {

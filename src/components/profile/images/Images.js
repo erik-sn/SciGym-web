@@ -7,7 +7,6 @@ import { withStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
-import api from '../../../utils/api';
 import { getUserImages } from '../../../actions/images';
 import ImageCard from './ImageCard';
 
@@ -35,47 +34,7 @@ const styles = theme => ({
 });
 
 class Images extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      openDelete: false,
-      error: '',
-    };
-  }
-
-  handleClickDelete = () => {
-    this.setState({ openDelete: true });
-  };
-
-  handleCloseDelete = () => {
-    this.setState({ openDelete: false });
-  };
-
-  handleDelete = image => {
-    api
-      .deleteImage(image) // TODO: this should not be an API call but an action
-      .then(this.handleSuccess)
-      .catch(this.handleFailure);
-    this.setState({
-      openDelete: false,
-    });
-  };
-
-  handleSuccess = () => {
-    api.myImages().then(() => {
-      this.props.getUserImages();
-      this.setState({
-        error: '',
-      });
-    });
-  };
-
-  handleFailure = () => {
-    this.setState({ error: "Can't be deleted!" });
-  };
-
   render() {
-    const { error } = this.state;
     const { classes, userImages } = this.props;
     if (userImages.length > 0) {
       return (
@@ -95,15 +54,7 @@ class Images extends Component {
           >
             {userImages.map(image => (
               <Grid key={image.id} item>
-                <ImageCard
-                  classes={classes}
-                  image={image}
-                  error={error}
-                  handleClickDelete={this.handleClickDelete}
-                  handleCloseDelete={this.handleCloseDelete}
-                  handleDelete={this.handleDelete}
-                  openDelete={this.state.openDelete}
-                />
+                <ImageCard classes={classes} image={image} />
               </Grid>
             ))}
           </Grid>

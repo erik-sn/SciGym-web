@@ -31,9 +31,33 @@ export const createEnvironment = (...args) => {
           type: types.CREATE_ENVIRONMENT_SUCCESS,
           payload: response.data,
         });
+        api.environments().then(json => {
+          dispatch(getEnvironments(json.data));
+        });
       })
       .catch(error => {
-        dispatch({ type: types.CREATE_ENVIRONMENT_FAILURE });
+        dispatch({ type: types.CREATE_ENVIRONMENT_FAILURE, payload: error });
+        logError(error);
+      });
+  };
+};
+
+export const editEnvironment = (...args) => {
+  return dispatch => {
+    dispatch({ type: types.EDIT_ENVIRONMENT });
+    api
+      .editEnvironment(...args)
+      .then(response => {
+        dispatch({
+          type: types.EDIT_ENVIRONMENT_SUCCESS,
+          payload: response.data,
+        });
+        api.environments().then(json => {
+          dispatch(getEnvironments(json.data));
+        });
+      })
+      .catch(error => {
+        dispatch({ type: types.EDIT_ENVIRONMENT_FAILURE, payload: error });
         logError(error);
       });
   };
@@ -52,11 +76,26 @@ export const deleteEnvironment = environment => {
           type: types.DELETE_ENVIRONMENT_SUCCESS,
           payload: response.data,
         });
+        api.environments().then(json => {
+          dispatch(getEnvironments(json.data));
+        });
       })
       .catch(error => {
         dispatch({ type: types.DELETE_ENVIRONMENT_FAILURE });
         logError(error);
       });
+  };
+};
+
+export const resetEnvironmentsProps = () => {
+  return dispatch => {
+    dispatch({ type: types.RESET_ENVIRONMENTS_PROPS });
+  };
+};
+
+export const resetEnvironmentsErrors = () => {
+  return dispatch => {
+    dispatch({ type: types.RESET_ENVIRONMENTS_ERRORS });
   };
 };
 
