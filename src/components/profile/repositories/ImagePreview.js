@@ -7,10 +7,13 @@ import { withStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-import api from '../../../utils/api';
 import constants from '../../../utils/constants';
 import ImagePopContent from './ImagePopContent';
+import { createImage } from '../../../actions/images';
+import { isLoading } from '../../../reducers/display';
+import types from '../../../utils/types';
 
 const styles = theme => ({
   root: {
@@ -33,6 +36,9 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       margin: theme.spacing.unit,
     },
+  },
+  loadingStyle: {
+    padding: '70px 0',
   },
   errorStyle: {
     margin: theme.spacing.unit * 2,
@@ -82,10 +88,6 @@ class ImagePreview extends Component {
     });
   };
 
-  handleFailure = () => {
-    this.setState({ error: 'Sorry, upload did NOT succeed!' });
-  };
-
   handleSelect = selectedAvatar => {
     this.props.handleSelect(selectedAvatar);
   };
@@ -96,11 +98,7 @@ class ImagePreview extends Component {
     const fileExtension = uploadedFile.name.split('.').pop();
     //2MB limit & specific file extension
     if (uploadedFile.size < 2000000 && imageConfig.includes('.'.concat(fileExtension))) {
-      //upload image
-      api
-        .createImage(uploadedFile)
-        .then(this.props.handleSuccess)
-        .catch(this.handleFailure);
+      this.props.createImage(uploadedFile);
     } else {
       this.setState({
         error: `Sorry, avatar size is limited to 2MB and we only accept ${imageConfig.join()}`,
@@ -110,12 +108,21 @@ class ImagePreview extends Component {
 
   render() {
     const { error, anchorEl } = this.state;
-    const { classes, userImages, imageConfig } = this.props;
+    const { classes, userImages, imageConfig, loading } = this.props;
     const open = Boolean(anchorEl);
     return (
       <div className={classes.root}>
         <div className={classes.logoStyle}>
-          <img src={this.state.avatarURL} height="150" width="150" alt="" />
+          {loading ? (
+            <CircularProgress
+              className={classes.loadingStyle}
+              size={50}
+              disableShrink
+              color="primary"
+            />
+          ) : (
+            <img src={this.state.avatarURL} height="150" width="150" alt="" />
+          )}
         </div>
         <div className={classes.contentStyle}>
           <Button
@@ -165,17 +172,25 @@ class ImagePreview extends Component {
 ImagePreview.propTypes = {
   avatar: PropTypes.any, // this is null or an object
   userImages: PropTypes.arrayOf(PropTypes.object),
-  handleSuccess: PropTypes.func.isRequired,
   handleSelect: PropTypes.func.isRequired,
   imageConfig: PropTypes.arrayOf(PropTypes.string),
+  createImage: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   userImages: state.images.userImages,
   imageConfig: state.images.imageConfig,
+  loading: isLoading(state.display, types.CREATE_IMAGE),
 });
+const mapDispatchToProps = {
+  createImage,
+};
 
 export default compose(
-  connect(mapStateToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   withStyles(styles)
 )(ImagePreview);

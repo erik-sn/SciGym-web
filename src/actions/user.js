@@ -67,7 +67,7 @@ export const deleteUser = () => {
         });
       })
       .catch(error => {
-        dispatch({ type: types.DELETE_ENVIRONMENT_FAILURE, payload: error });
+        dispatch({ type: types.DELETE_USER_FAILURE, payload: error });
         logError(error);
       });
   };

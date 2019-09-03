@@ -17,7 +17,7 @@ const styles = theme => ({
   },
 });
 
-const EnvironmentFormText = ({ classes, name, description, repository, handleChange }) => {
+const EnvironmentFormText = ({ classes, name, description, repository, handleChange, errors }) => {
   return (
     <div className={classes.root}>
       <div className={classes.child}>
@@ -29,6 +29,8 @@ const EnvironmentFormText = ({ classes, name, description, repository, handleCha
           onChange={handleChange('name')}
           margin="normal"
           variant="filled"
+          error={Boolean(errors && errors.name)}
+          helperText={errors && errors.name}
         />
       </div>
       <div className={classes.child}>
@@ -44,6 +46,8 @@ const EnvironmentFormText = ({ classes, name, description, repository, handleCha
           InputLabelProps={{
             shrink: true,
           }}
+          error={Boolean(errors && errors.description)}
+          helperText={errors && errors.description}
         />
       </div>
       <div className={classes.child}>
@@ -67,6 +71,7 @@ EnvironmentFormText.propTypes = {
   description: PropTypes.string,
   repository: PropTypes.object.isRequired,
   handleChange: PropTypes.func.isRequired,
+  errors: PropTypes.any, // this is either bool or object
 };
 
 export default withStyles(styles)(EnvironmentFormText);
