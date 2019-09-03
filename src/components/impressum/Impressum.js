@@ -70,13 +70,13 @@ function Impressum(props) {
       </Typography>
       <Typography variant="subtitle1" className={classes.paragraph}>
         If you have any questions or ideas, contact us at info@scigym.ai, or find us on{' '}
-        <a href="https://twitter.com/scigym_ai">Twitter</a>
+        <a href="https://twitter.com/scigym_ai" target="_blank" rel="noopener noreferrer">Twitter</a>
       </Typography>
       <Typography variant="h5" className={classes.title}>
         Supporters
       </Typography>
       <Typography variant="subtitle1" className={classes.paragraph}>
-        <a href="https://unitary.fund/">
+        <a href="https://unitary.fund/" target="_blank" rel="noopener noreferrer">
           <img
             src="https://img.shields.io/badge/Supported%20By-UNITARY%20FUND-brightgreen.svg?style=for-the-badge"
             alt="unitaryFund"
@@ -84,7 +84,7 @@ function Impressum(props) {
         </a>
       </Typography>
       <Typography variant="subtitle1" className={classes.paragraph}>
-        <a href="https://www.fwf.ac.at/en/">
+        <a href="https://www.fwf.ac.at/en/" target="_blank" rel="noopener noreferrer">
           <img src={`${constants.STATIC_URL}/icons/FWF-logo.png`} alt="FWF" />
         </a>
       </Typography>

@@ -21,7 +21,7 @@ function ContributorCard(props) {
 
   return (
     <Card className={classes.card}>
-      <CardActionArea href={contributor.htmlUrl}>
+      <CardActionArea href={contributor.htmlUrl} target="_blank" rel="noopener noreferrer">
         <CardMedia
           className={classes.media}
           image={contributor.avatarUrl}

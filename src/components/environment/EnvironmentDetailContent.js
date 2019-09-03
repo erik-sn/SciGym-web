@@ -58,7 +58,7 @@ class EnvironmentDetailContent extends Component {
             {description}
           </Typography>
           <Typography variant="subtitle2" gutterBottom>
-            Owner: <a href={'https://github.com/'.concat(owner.username)}> {owner.username} </a>{' '}
+            Owner: <a href={'https://github.com/'.concat(owner.username)} target="_blank" rel="noopener noreferrer"> {owner.username} </a>{' '}
             {fork ? <b> (forked)</b> : ''}
           </Typography>
           <Typography variant="subtitle2" gutterBottom>
@@ -88,7 +88,7 @@ class EnvironmentDetailContent extends Component {
           </Grid>
           <Grid container spacing={40}>
             <Grid item>
-              <Button href={htmlUrl} className={classes.buttonStyle}>
+              <Button href={htmlUrl} className={classes.buttonStyle} target="_blank" rel="noopener noreferrer">
                 <GithubIcon />
                 Github
               </Button>

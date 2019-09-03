@@ -104,7 +104,7 @@ class EnvironmentItem extends Component {
                   />
                 </CardActionArea>
                 <CardActions>
-                  <Button href={htmlUrl} className={classes.buttonStyle}>
+                  <Button href={htmlUrl} className={classes.buttonStyle} target="_blank" rel="noopener noreferrer">
                     <GithubIcon />
                     Github
                   </Button>

@@ -29,10 +29,10 @@ const HeroOverlay = ({ classes }) => {
       </Hidden>
       <Hidden xsDown>
         <div className={classes.mediaButtons}>
-          <Button href="https://github.com/hendrikpn/scigym">
+          <Button href="https://github.com/hendrikpn/scigym" target="_blank" rel="noopener noreferrer">
             <GithubIcon />
           </Button>
-          <Button href="https://twitter.com/scigym_ai">
+          <Button href="https://twitter.com/scigym_ai" target="_blank" rel="noopener noreferrer">
             <TwitterIcon />
           </Button>
         </div>
