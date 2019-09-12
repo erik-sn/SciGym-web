@@ -39,6 +39,27 @@ export default (state = initialState, action) => {
         [types.CREATE_ENVIRONMENT]: null,
       };
     }
+    case types.CREATE_MESSAGEBOARD:
+    case types.CREATE_MESSAGEBOARD_SUCCESS: {
+      return { ...state, [types.CREATE_MESSAGEBOARD]: null };
+    }
+    case types.CREATE_MESSAGEBOARD_FAILURE: {
+      return { ...state, [types.CREATE_MESSAGEBOARD]: _parseApiError(action.payload) };
+    }
+    case types.EDIT_MESSAGEBOARD:
+    case types.EDIT_MESSAGEBOARD_SUCCESS: {
+      return { ...state, [types.EDIT_MESSAGEBOARD]: null };
+    }
+    case types.EDIT_MESSAGEBOARD_FAILURE: {
+      return { ...state, [types.EDIT_MESSAGEBOARD]: _parseApiError(action.payload) };
+    }
+    case types.RESET_MESSAGEBOARDS_ERRORS: {
+      return {
+        ...state,
+        [types.EDIT_MESSAGEBOARD]: null,
+        [types.CREATE_MESSAGEBOARD]: null,
+      };
+    }
     default:
       return state;
   }

@@ -117,6 +117,27 @@ class ScigymApiClient {
   getProjectAuthors() {
     return axios.get(`${this.url}/projectauthors/`);
   }
+
+  getMessageBoards(params) {
+    return axios.get(`${this.url}/message_boards/`);
+  }
+
+  createMessageBoard(title, description, environmentId, tags) {
+    return axios.post(`${this.url}/message_boards/`, {
+      title: title,
+      description: description,
+      tags: tags,
+      environment: environmentId,
+    });
+  }
+
+  editMessageBoard(messageboard) {
+    return axios.put(`${this.url}/message_boards/${messageboard.id}/`, messageboard);
+  }
+
+  deleteMessageBoard(messageboard) {
+    return axios.delete(`${this.url}/message_boards/${messageboard.id}/`);
+  }
 }
 
 export default new ScigymApiClient(`${getHost()}/api`, 'v1');

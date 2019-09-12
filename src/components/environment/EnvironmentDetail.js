@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import showdown from 'showdown';
 
-import { withStyles } from '@material-ui/core';
+import { withStyles, Button } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -18,11 +18,13 @@ import CardContent from '@material-ui/core/CardContent';
 
 import constants from '../../utils/constants';
 import EnvironmentDetailContent from './EnvironmentDetailContent';
+import MessageBoard from './MessageBoard';
 
 const styles = theme => ({
   root: {
     display: 'flex',
     flexFlow: 'row wrap',
+    backgroundColor: 'AliceBlue',
   },
   title: {
     margin: theme.spacing.unit * 2,
@@ -30,7 +32,6 @@ const styles = theme => ({
   },
   gridStyle: {
     paddingTop: '50px',
-    backgroundColor: 'AliceBlue',
   },
   gridImg: {
     width: '300px',
@@ -148,42 +149,43 @@ class EnvironmentDetail extends Component {
               No environment found
             </Typography>
           ) : (
-            <Grid container justify="center" className={classes.gridStyle} spacing={0}>
-              <Grid key="image" item className={classes.gridImg}>
-                <Card className={classes.imgCardStyle}>
-                  <CardMedia
-                    className={classes.mediaStyle}
-                    image={constants.STATIC_URL.concat(filePath)}
-                  />
-                </Card>
+              <Grid container justify="center" className={classes.gridStyle} spacing={0}>
+                <Grid key="image" item className={classes.gridImg}>
+                  <Card className={classes.imgCardStyle}>
+                    <CardMedia
+                      className={classes.mediaStyle}
+                      image={constants.STATIC_URL.concat(filePath)}
+                    />
+                  </Card>
+                </Grid>
+                <Grid key="content" item className={classes.gridContent}>
+                  <EnvironmentDetailContent environment={environment} />
+                </Grid>
               </Grid>
-              <Grid key="content" item className={classes.gridContent}>
-                <EnvironmentDetailContent environment={environment} />
-              </Grid>
-            </Grid>
-          )}
+            )}
+          <MessageBoard environment={environment} />
+          {/* <Card className={classes.readmeCardStyle} raised>
+            <CardContent className={classes.readmeCardContent}>
+              <IconButton
+                onClick={this.handleClickOpen}
+                className={classnames(classes.expand, {
+                  [classes.expandOpen]: this.state.openReadme,
+                })}
+              >
+                <ExpandMoreIcon />
+              </IconButton>
+              <Typography variant="subtitle1">README</Typography>
+            </CardContent>
+            <Collapse in={this.state.openReadme} timeout="auto" unmountOnExit>
+              <Paper className={classes.readmePaperStyle}>
+                <div
+                  dangerouslySetInnerHTML={{ __html: this.converter.makeHtml(atob(readme)) }}
+                  className={classes.readmeStyle}
+                />
+              </Paper>
+            </Collapse>
+          </Card> */}
         </div>
-        <Card className={classes.readmeCardStyle} raised>
-          <CardContent className={classes.readmeCardContent}>
-            <IconButton
-              onClick={this.handleClickOpen}
-              className={classnames(classes.expand, {
-                [classes.expandOpen]: this.state.openReadme,
-              })}
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-            <Typography variant="subtitle1">README</Typography>
-          </CardContent>
-          <Collapse in={this.state.openReadme} timeout="auto" unmountOnExit>
-            <Paper className={classes.readmePaperStyle}>
-              <div
-                dangerouslySetInnerHTML={{ __html: this.converter.makeHtml(atob(readme)) }}
-                className={classes.readmeStyle}
-              />
-            </Paper>
-          </Collapse>
-        </Card>
       </div>
     );
   }

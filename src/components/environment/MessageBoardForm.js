@@ -12,16 +12,13 @@ import List from '@material-ui/core/List';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {
-  createEnvironment,
-  editEnvironment,
-  resetEnvironmentsProps,
-} from '../../../actions/environments';
-import { getUserImages } from '../../../actions/images';
-import ImagePreview from './ImagePreview';
-import EnvironmentFormText from './EnvironmentFormText';
-import EnvironmentFormControl from './EnvironmentFormControl';
-import { isLoading } from '../../../reducers/display';
-import types from '../../../utils/types';
+  createMessageBoard,
+  resetMessageBoardsProps,
+} from '../../actions/messageboards';
+import MessageBoardFormText from './MessageBoardFormText';
+import MessageBoardFormControl from './MessageBoardFormControl';
+import { isLoading } from '../../reducers/display';
+import types from '../../utils/types';
 
 const styles = theme => ({
   container: {
@@ -37,57 +34,33 @@ const styles = theme => ({
   },
 });
 
-class EnvironmentForm extends Component {
+class MessageBoardForm extends Component {
   constructor(props) {
     super(props);
-    const { envExists, environment, repository } = props;
+    const { envExists, environment, messageBoard } = props;
     this.state = {
-      id: envExists ? environment.id : repository.id,
-      name: envExists ? environment.name : repository.name,
-      description: envExists ? environment.description : repository.description,
+      id: envExists ? environment.id : undefined,
+      title: Boolean(messageBoard) ? messageBoard.title : '',
+      description: Boolean(messageBoard) ? messageBoard.description : '',
       tag: '',
-      tags: envExists && Boolean(environment.tags) ? environment.tags : [],
-      topic: envExists && Boolean(environment.topic) ? environment.topic.id : '',
-      avatar: envExists ? environment.currentAvatar : null,
-      avatarId:
-        envExists && Boolean(environment.currentAvatar) ? environment.currentAvatar.id : null,
+      tags: Boolean(messageBoard) && Boolean(messageBoard.tags) ? messageBoard.tags : [],
     };
-    this.handleSelect = this.handleSelect.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleAddTag = this.handleAddTag.bind(this);
     this.handleDeleteTag = this.handleDeleteTag.bind(this);
-    this.handleChangeTopic = this.handleChangeTopic.bind(this);
   }
-
-  handleSelect = selectedAvatar => {
-    if (selectedAvatar !== null) {
-      this.setState({
-        avatar: selectedAvatar,
-        avatarId: selectedAvatar.id,
-      });
-    } else {
-      this.setState({
-        avatar: selectedAvatar,
-        avatarId: null,
-      });
-    }
-  };
 
   handleSubmit = event => {
     event.preventDefault();
-    if (this.props.envExists) {
-      this.props.editEnvironment(this.state);
-    } else {
-      const { name, description, id, tags, topic, avatarId } = this.state;
-      this.props.createEnvironment(name, description, id, tags, topic, avatarId);
-    }
-  };
+    const { title, description, id, tags } = this.state;
+    this.props.createMessageBoard(title, description, id, tags);
+  }
 
-  handleChange = name => event => {
+  handleChange = title => event => {
     event.preventDefault();
     this.setState({
-      [name]: event.target.value,
+      [title]: event.target.value,
     });
   };
 
@@ -111,47 +84,31 @@ class EnvironmentForm extends Component {
     });
   };
 
-  handleChangeTopic = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
-
   componentDidUpdate(prevProps) {
     if (prevProps.uploadSuccess !== this.props.uploadSuccess && this.props.uploadSuccess) {
       // this is called many times in a row because the update is not fast enough
       this.props.onClose();
-      this.props.resetEnvironmentsProps();
-    }
-    if (prevProps.uploadedImage !== this.props.uploadedImage && this.props.uploadedImage) {
-      const { uploadedImage } = this.props;
-      this.setState({
-        avatar: uploadedImage,
-        avatarId: uploadedImage.id,
-      });
+      this.props.resetMessageBoardsProps();
     }
   }
 
   render() {
-    const { classes, repository, topics, errors, loading } = this.props;
+    const { classes, errors, loading } = this.props;
     const { tags } = this.state;
     return (
       <form className={classes.container}>
         <Dialog onClose={this.props.onClose} open={this.props.open} fullWidth>
           <DialogTitle>
-            {this.props.envExists ? 'Edit Environment' : 'Create Environment'}
+            Start a Discussion
           </DialogTitle>
-          <ImagePreview avatar={this.state.avatar} handleSelect={this.handleSelect} />
-          <EnvironmentFormText
-            name={this.state.name}
+          <MessageBoardFormText
+            title={this.state.title}
             description={this.state.description}
-            repository={repository}
             handleChange={this.handleChange}
             errors={errors}
           />
-          <EnvironmentFormControl
-            topics={topics}
-            topic={this.state.topic}
+          <MessageBoardFormControl
             tag={this.state.tag}
-            handleChangeTopic={this.handleChangeTopic}
             handleChange={this.handleChange}
             handleAddTag={this.handleAddTag}
             errors={errors}
@@ -178,28 +135,24 @@ class EnvironmentForm extends Component {
               color="primary"
             />
           ) : (
-            <Button onClick={this.handleSubmit}>Submit</Button>
-          )}
+              <Button onClick={this.handleSubmit}>Submit</Button>
+            )}
         </Dialog>
       </form>
     );
   }
 }
 
-EnvironmentForm.propTypes = {
-  getUserImages: PropTypes.func.isRequired,
-  createEnvironment: PropTypes.func.isRequired,
-  editEnvironment: PropTypes.func.isRequired,
-  resetEnvironmentsProps: PropTypes.func.isRequired,
+MessageBoardForm.propTypes = {
+  createMessageBoard: PropTypes.func.isRequired,
+  resetMessageBoardsProps: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-  repository: PropTypes.object.isRequired,
   environment: PropTypes.object,
   open: PropTypes.bool.isRequired,
   envExists: PropTypes.bool.isRequired,
-  topics: PropTypes.arrayOf(PropTypes.object),
   uploadSuccess: PropTypes.any, // this is either undefined or bool
-  uploadedImage: PropTypes.any, // this is either undefined or object
   loading: PropTypes.bool.isRequired,
+  messageBoard: PropTypes.any, // this is either undefined or an object
   errors: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.object,
@@ -207,19 +160,14 @@ EnvironmentForm.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  topics: state.topics.topics,
-  uploadSuccess: state.environments.uploadSuccess,
-  uploadedImage: state.images.uploadedImage,
+  uploadSuccess: state.messageboards.uploadSuccess,
   loading:
-    isLoading(state.display, types.CREATE_ENVIRONMENT) ||
-    isLoading(state.display, types.EDIT_ENVIRONMENT),
+    isLoading(state.display, types.CREATE_MESSAGEBOARD)
 });
 
 const mapDispatchToProps = {
-  getUserImages,
-  createEnvironment,
-  editEnvironment,
-  resetEnvironmentsProps,
+  createMessageBoard,
+  resetMessageBoardsProps,
 };
 
 export default compose(
@@ -228,4 +176,4 @@ export default compose(
     mapDispatchToProps
   ),
   withStyles(styles)
-)(EnvironmentForm);
+)(MessageBoardForm);

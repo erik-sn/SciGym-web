@@ -15,6 +15,7 @@ import { getEnvironments } from '../actions/environments';
 import { getTopics } from '../actions/topics';
 import { getImageConfig } from '../actions/images';
 import { getContributors } from '../actions/contributors';
+import { getMessageBoards } from '../actions/messageboards';
 import Home from './home/Home';
 import Profile from './profile/Profile';
 import GetStarted from './get_started/GetStarted';
@@ -35,6 +36,7 @@ export class App extends Component {
     this.props.getTopics();
     this.props.getImageConfig();
     this.props.getContributors();
+    this.props.getMessageBoards();
     window.setTimeout(this.props.getApiStatus, 30000); // do we need this?
   }
 
@@ -48,7 +50,7 @@ export class App extends Component {
   render() {
     if (!this.props.appLoaded) {
       return (
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', paddingTop: '200px', backgroundColor: 'AliceBlue' }}>
           <h1>
             {' '}
             <CircularProgress variant="indeterminate" /> We are loading
@@ -58,9 +60,11 @@ export class App extends Component {
     }
 
     const oauthPath = new URL(this.props.githubCallbackUrl).pathname;
+    const oauthPathCallBack = oauthPath.concat('env/:callbackURL')
     return (
       <div className="App">
-        <Route path={oauthPath} component={Auth} />
+        <Route key="auth" exact path={oauthPath} component={Auth} />
+        <Route key="auth-params" path={oauthPathCallBack} component={Auth} />
         <Header />
         <Switch>
           <Route path="/profile" component={Profile} />
@@ -93,6 +97,7 @@ App.propTypes = {
   getTopics: PropTypes.func.isRequired,
   getImageConfig: PropTypes.func.isRequired,
   getContributors: PropTypes.func.isRequired,
+  getMessageBoards: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -112,6 +117,7 @@ export default withRouter(
       getTopics,
       getImageConfig,
       getContributors,
+      getMessageBoards,
     }
   )(App)
 );

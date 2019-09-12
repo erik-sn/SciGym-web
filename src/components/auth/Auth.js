@@ -18,7 +18,7 @@ export class Auth extends Component {
     );
     let definitions = search.split('&');
 
-    definitions.forEach(function(val, key) {
+    definitions.forEach(function (val, key) {
       let parts = val.split('=', 2);
       params[parts[0]] = parts[1];
     });
@@ -27,11 +27,20 @@ export class Auth extends Component {
   }
 
   render() {
-    return <Redirect to="/" />;
+    const { callbackURL } = this.props
+    const url = callbackURL ? '/env/'.concat(callbackURL) : '/';
+    return <Redirect to={url} />;
   }
 }
 
+function mapStateToProps(state, ownProps) {
+  const { callbackURL } = ownProps.match.params;
+  return {
+    callbackURL: callbackURL,
+  };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   { loginUserWithGithub }
 )(Auth);

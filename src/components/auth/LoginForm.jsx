@@ -22,7 +22,9 @@ class LoginForm extends Component {
     this.state = { checked: false };
   }
   get githubOauthLink() {
-    const { githubClientId, githubCallbackUrl, githubRandomState } = this.props;
+    const { githubClientId, githubRandomState, callbackURL } = this.props;
+    let { githubCallbackUrl } = this.props
+    if (callbackURL.length > 0) { githubCallbackUrl = githubCallbackUrl.concat(callbackURL) }
     return `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${githubCallbackUrl}&state=${githubRandomState}`;
   }
   handleCheck = event => {

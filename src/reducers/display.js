@@ -26,6 +26,12 @@ const notifications = {
   [types.CREATE_IMAGE_FAILURE]: 'Failed to upload image. Please try again later.',
   [types.DELETE_IMAGE_SUCCESS]: 'Successfully deleted image.',
   [types.DELETE_IMAGE_FAILURE]: 'Failed to delete image. Please try again later.',
+  [types.CREATE_MESSAGEBOARD_SUCCESS]: 'Successfully opened a new discussion.',
+  [types.CREATE_MESSAGEBOARD_FAILURE]: 'Failed to open a new discussion. Please try again later.',
+  [types.EDIT_MESSAGEBOARD_SUCCESS]: 'Successfully updated your discussion.',
+  [types.EDIT_MESSAGEBOARD_FAILURE]: 'Failed to update your discussion. Please try again later.',
+  [types.DELETE_MESSAGEBOARD_SUCCESS]: 'Successfully deleted your message board.',
+  [types.DELETE_MESSAGEBOARD_FAILURE]: 'Failed to delete your message board. Please try again later.',
 };
 
 function getNotifications(state, actionType) {
@@ -133,6 +139,33 @@ export default (state = initialState, action) => {
     }
     case types.DELETE_IMAGE_FAILURE: {
       return removeLoading(state, types.DELETE_IMAGE, action.type);
+    }
+    case types.CREATE_MESSAGEBOARD: {
+      return setLoading(state, types.CREATE_MESSAGEBOARD, action.type);
+    }
+    case types.CREATE_MESSAGEBOARD_SUCCESS: {
+      return removeLoading(state, types.CREATE_MESSAGEBOARD, action.type);
+    }
+    case types.CREATE_MESSAGEBOARD_FAILURE: {
+      return removeLoading(state, types.CREATE_MESSAGEBOARD, action.type);
+    }
+    case types.EDIT_MESSAGEBOARD: {
+      return setLoading(state, types.EDIT_MESSAGEBOARD, action.type);
+    }
+    case types.EDIT_MESSAGEBOARD_SUCCESS: {
+      return removeLoading(state, types.EDIT_MESSAGEBOARD, action.type);
+    }
+    case types.EDIT_MESSAGEBOARD_FAILURE: {
+      return removeLoading(state, types.EDIT_MESSAGEBOARD, action.type);
+    }
+    case types.DELETE_MESSAGEBOARD: {
+      return setLoading(state, types.DELETE_MESSAGEBOARD, action.type);
+    }
+    case types.DELETE_MESSAGEBOARD_SUCCESS: {
+      return removeLoading(state, types.DELETE_MESSAGEBOARD, action.type);
+    }
+    case types.DELETE_MESSAGEBOARD_FAILURE: {
+      return removeLoading(state, types.DELETE_MESSAGEBOARD, action.type);
     }
     default:
       return state;
