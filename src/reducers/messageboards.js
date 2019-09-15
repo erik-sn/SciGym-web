@@ -2,6 +2,7 @@ import types from '../utils/types';
 
 const initialState = {
   messageboards: [],
+  num_comments: [],
   uploadSuccess: undefined,
   deleteSuccess: undefined,
 };
@@ -56,6 +57,12 @@ export default (state = initialState, action) => {
         uploadSuccess: undefined,
         deleteSuccess: undefined,
       };
+    }
+    case types.COUNT_COMMENTS_SUCCESS: {
+      return {
+        ...state,
+        num_comments: action.payload
+      }
     }
     default:
       return state;

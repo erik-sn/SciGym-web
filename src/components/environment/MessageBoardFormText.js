@@ -45,7 +45,7 @@ const MessageBoardFormText = ({ classes, title, description, handleChange, error
           margin="normal"
           variant="filled"
           error={Boolean(errors && errors.description)}
-          helperText={errors && errors.description}
+          helperText={errors ? errors.description : 'We support styling with markdown.'}
         />
       </div>
     </div>

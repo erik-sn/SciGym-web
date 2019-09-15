@@ -15,6 +15,7 @@ import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import CardContent from '@material-ui/core/CardContent';
+import Divider from '@material-ui/core/Divider';
 import Edit from '@material-ui/icons/Edit';
 import List from '@material-ui/core/List';
 import MessageBoardHead from './MessageBoardHead';
@@ -22,6 +23,7 @@ import MessageBoardForm from './MessageBoardForm';
 import LoginForm from '../auth/LoginForm';
 import types from '../../utils/types';
 import { getErrors } from '../../reducers/errors';
+import MessageBoardItem from './MessageBoardItem';
 
 const styles = theme => ({
 
@@ -39,7 +41,7 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       width: '75%',
     },
-    paddingBottom: '0px',
+    paddingBottom: '50px',
   },
 });
 
@@ -75,7 +77,7 @@ class MessageBoard extends Component {
   };
 
   render() {
-    const { classes, environment, userExists, errorsCreate } = this.props;
+    const { classes, environment, userExists, errorsCreate, messageboards, replies } = this.props;
     const { openLogin, openForm } = this.state;
     const errors = errorsCreate;
     const callbackURL = Boolean(environment) ? 'env/'.concat(environment.name) : ''
@@ -88,6 +90,14 @@ class MessageBoard extends Component {
         <Card>
           <List>
             <MessageBoardHead />
+            <Divider />
+            {messageboards.map(board => (
+              <React.Fragment key={board.id}>
+                <MessageBoardItem key={board.id} messageboard={board} replies={replies[board.id]} />
+                <Divider />
+              </React.Fragment>
+            )
+            )}
           </List>
         </Card>
         <MessageBoardForm environment={environment} envExists={Boolean(environment)} open={openForm} onClose={this.handleCloseForm} errors={errors} />
@@ -99,6 +109,7 @@ class MessageBoard extends Component {
 
 MessageBoard.propTypes = {
   environment: PropTypes.object,
+  env_name: PropTypes.string.isRequired,
   userExists: PropTypes.bool.isRequired,
   errorsCreate: PropTypes.oneOfType([
     PropTypes.bool,
@@ -106,10 +117,16 @@ MessageBoard.propTypes = {
   ]).isRequired,
 };
 
-const mapStateToProps = state => ({
-  userExists: state.user.exists,
-  errorsCreate: getErrors(state.errors, types.CREATE_MESSAGEBOARD),
-});
+function mapStateToProps(state, ownProps) {
+  const { messageboards, num_comments } = state.messageboards;
+  const { env_name } = ownProps;
+  return {
+    messageboards: messageboards.filter(board => board.environment.name === env_name),
+    userExists: state.user.exists,
+    errorsCreate: getErrors(state.errors, types.CREATE_MESSAGEBOARD),
+    replies: num_comments
+  };
+}
 
 export default compose(
   connect(mapStateToProps),

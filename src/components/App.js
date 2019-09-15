@@ -15,7 +15,7 @@ import { getEnvironments } from '../actions/environments';
 import { getTopics } from '../actions/topics';
 import { getImageConfig } from '../actions/images';
 import { getContributors } from '../actions/contributors';
-import { getMessageBoards } from '../actions/messageboards';
+import { getMessageBoards, countComments } from '../actions/messageboards';
 import Home from './home/Home';
 import Profile from './profile/Profile';
 import GetStarted from './get_started/GetStarted';
@@ -37,6 +37,7 @@ export class App extends Component {
     this.props.getImageConfig();
     this.props.getContributors();
     this.props.getMessageBoards();
+    this.props.countComments();
     window.setTimeout(this.props.getApiStatus, 30000); // do we need this?
   }
 
@@ -98,6 +99,7 @@ App.propTypes = {
   getImageConfig: PropTypes.func.isRequired,
   getContributors: PropTypes.func.isRequired,
   getMessageBoards: PropTypes.func.isRequired,
+  countComments: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -118,6 +120,7 @@ export default withRouter(
       getImageConfig,
       getContributors,
       getMessageBoards,
+      countComments,
     }
   )(App)
 );

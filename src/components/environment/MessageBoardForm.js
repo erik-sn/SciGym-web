@@ -90,6 +90,9 @@ class MessageBoardForm extends Component {
       this.props.onClose();
       this.props.resetMessageBoardsProps();
     }
+    if (this.state.id === undefined && this.props.envExists) {
+      this.setState({ id: this.props.environment.id })
+    }
   }
 
   render() {
@@ -147,7 +150,7 @@ MessageBoardForm.propTypes = {
   createMessageBoard: PropTypes.func.isRequired,
   resetMessageBoardsProps: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-  environment: PropTypes.object,
+  environment: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   envExists: PropTypes.bool.isRequired,
   uploadSuccess: PropTypes.any, // this is either undefined or bool

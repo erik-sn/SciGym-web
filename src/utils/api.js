@@ -138,6 +138,10 @@ class ScigymApiClient {
   deleteMessageBoard(messageboard) {
     return axios.delete(`${this.url}/message_boards/${messageboard.id}/`);
   }
+
+  countComments() {
+    return axios.get(`${this.url}/comments/count_comments/`)
+  }
 }
 
 export default new ScigymApiClient(`${getHost()}/api`, 'v1');

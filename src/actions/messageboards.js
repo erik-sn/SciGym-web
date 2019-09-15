@@ -98,3 +98,24 @@ export const resetMessageBoardsErrors = () => {
     dispatch({ type: types.RESET_ENVIRONMENTS_ERRORS });
   };
 };
+
+export const countComments = () => {
+  return dispatch => {
+    dispatch({
+      type: types.COUNT_COMMENTS,
+    });
+    api
+      .countComments()
+      .then(response => {
+        console.log(response.data);
+        dispatch({
+          type: types.COUNT_COMMENTS_SUCCESS,
+          payload: response.data,
+        });
+      })
+      .catch(error => {
+        dispatch({ type: types.COUNT_COMMENTS_FAILURE });
+        logError(error);
+      });
+  }
+}

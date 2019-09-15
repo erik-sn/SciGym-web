@@ -132,6 +132,7 @@ class EnvironmentDetail extends Component {
 
   render() {
     const { classes, environment } = this.props;
+    const { env_name } = this.props.match.params
     let readme = '';
     let filePath = constants.SCIGYM_LOGO;
     if (!(environment === undefined)) {
@@ -143,27 +144,28 @@ class EnvironmentDetail extends Component {
     }
     return (
       <div>
-        <div className={classes.root}>
           {environment === undefined ? (
             <Typography variant="h6" className={classes.title}>
               No environment found
             </Typography>
           ) : (
-              <Grid container justify="center" className={classes.gridStyle} spacing={0}>
-                <Grid key="image" item className={classes.gridImg}>
-                  <Card className={classes.imgCardStyle}>
-                    <CardMedia
-                      className={classes.mediaStyle}
-                      image={constants.STATIC_URL.concat(filePath)}
-                    />
-                  </Card>
+            <div className={classes.root}>
+                <Grid container justify="center" className={classes.gridStyle} spacing={0}>
+                  <Grid key="image" item className={classes.gridImg}>
+                    <Card className={classes.imgCardStyle}>
+                      <CardMedia
+                        className={classes.mediaStyle}
+                        image={constants.STATIC_URL.concat(filePath)}
+                      />
+                    </Card>
+                  </Grid>
+                  <Grid key="content" item className={classes.gridContent}>
+                    <EnvironmentDetailContent environment={environment} />
+                  </Grid>
                 </Grid>
-                <Grid key="content" item className={classes.gridContent}>
-                  <EnvironmentDetailContent environment={environment} />
-                </Grid>
-              </Grid>
+                <MessageBoard environment={environment} env_name={env_name} />
+              </div>
             )}
-          <MessageBoard environment={environment} />
           {/* <Card className={classes.readmeCardStyle} raised>
             <CardContent className={classes.readmeCardContent}>
               <IconButton
@@ -186,7 +188,6 @@ class EnvironmentDetail extends Component {
             </Collapse>
           </Card> */}
         </div>
-      </div>
     );
   }
 }
