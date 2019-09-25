@@ -25,8 +25,15 @@ import constants from '../utils/constants';
 import EnvironmentDetail from './environment/EnvironmentDetail';
 import PrivatePolicy from './policy/PrivatePolicy';
 import TermsAndConditions from './policy/TermsAndConditions';
+import Discussion from './forum/Discussion';
 
 export class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      change: false
+    };
+  }
   componentDidMount() {
     this.refreshAuthToken();
     this.props.getApiConfig();
@@ -45,6 +52,24 @@ export class App extends Component {
     const storedRefreshToken = localStorage.getItem(constants.REFRESH_TOKEN);
     if (storedRefreshToken) {
       this.props.refreshAuthToken(storedRefreshToken);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    // here we force an update on any message board when it is opened.
+    const prevPath = prevProps.location.pathname
+    const currPath = this.props.location.pathname
+    if (this.state.change) {
+      this.setState({
+        change: false
+      })
+    }
+    if (currPath.includes('/env') && currPath.includes('/forum')) {
+      if (prevPath !== currPath) {
+        this.setState({
+          change: true,
+        })
+      }
     }
   }
 
@@ -70,7 +95,8 @@ export class App extends Component {
         <Switch>
           <Route path="/profile" component={Profile} />
           <Route path="/get-started" component={GetStarted} />
-          <Route path="/env/:env_name" component={EnvironmentDetail} />
+          <Route exact path="/env/:env_name" component={EnvironmentDetail} />
+          <Route path="/env/:env_name/forum/:board_title" render={props => (<Discussion {...props} change={this.state.change} />)} />
           <Route path="/impressum" component={Impressum} />
           <Route path="/policy/private-policy" component={PrivatePolicy} />
           <Route path="/policy/terms-and-conditions" component={TermsAndConditions} />

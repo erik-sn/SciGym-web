@@ -15,6 +15,8 @@ import Hidden from '@material-ui/core/Hidden';
 import List from '@material-ui/core/List';
 import Chip from '@material-ui/core/Chip';
 
+import MessageBoardsActions from './MessageBoardsActions';
+
 const styles = theme => ({
   root: {
     flex: '1',
@@ -25,11 +27,17 @@ const styles = theme => ({
       margin: '0',
     },
   },
+  buttonStyle: {
+    margin: theme.spacing.unit * 0.2,
+    [theme.breakpoints.down('xs')]: {
+      margin: theme.spacing.unit * 0.1,
+    },
+  }
 });
 
 class MessageBoardItem extends Component {
   render() {
-    const { classes, messageboard, replies } = this.props;
+    const { classes, messageboard } = this.props;
     const { tags, titleUrl } = messageboard
     return (
       <Grid container className={classes.root}>
@@ -69,9 +77,7 @@ class MessageBoardItem extends Component {
         </Hidden>
         <Grid item sm={2} xs={3}>
           <ListItem>
-            <Typography variant="subtitle1">
-              {replies}
-            </Typography>
+            <MessageBoardsActions classes={classes} messageboard={messageboard} />
           </ListItem>
         </Grid>
       </Grid>
@@ -81,7 +87,6 @@ class MessageBoardItem extends Component {
 
 MessageBoardItem.propTypes = {
   messageboard: PropTypes.object.isRequired,
-  replies: PropTypes.number,
 };
 
 export default withStyles(styles)(MessageBoardItem);

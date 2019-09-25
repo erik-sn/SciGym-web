@@ -146,7 +146,7 @@ class EnvironmentDetail extends Component {
       <div>
           {environment === undefined ? (
             <Typography variant="h6" className={classes.title}>
-              No environment found
+              There is no environment here...
             </Typography>
           ) : (
             <div className={classes.root}>

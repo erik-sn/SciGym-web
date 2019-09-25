@@ -6,6 +6,7 @@ import { compose } from 'redux';
 import { withStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import InfoIcon from '@material-ui/icons/InfoOutlined';
 
 import { getUserImages } from '../../../actions/images';
 import ImageCard from './ImageCard';
@@ -31,6 +32,9 @@ const styles = theme => ({
   buttonStyle: {
     margin: theme.spacing.unit,
   },
+  iconStyle: {
+    marginRight: theme.spacing.unit,
+  }
 });
 
 class Images extends Component {
@@ -42,7 +46,7 @@ class Images extends Component {
           <Typography variant="h4" component="h3">
             My Images
           </Typography>
-          <Typography component="p">
+          <Typography component="subtitle1">
             You can upload more images when creating environments from your repositories.
           </Typography>
           <Grid
@@ -66,9 +70,11 @@ class Images extends Component {
           <Typography variant="h4" component="h3">
             My Images
           </Typography>
-          <Typography component="p">
-            You don't have any images! <br />
-            Images can be uploaded when you are creating environments from your repositories.
+          <Typography variant="subtitle1" component="h5">
+            You don't have any images!
+          </Typography>
+          <Typography variant="subtitle2" component="h6">
+            <InfoIcon className={classes.iconStyle} />Images can be uploaded when you are creating environments from your repositories.
           </Typography>
         </div>
       );

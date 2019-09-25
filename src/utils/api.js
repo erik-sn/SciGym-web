@@ -122,9 +122,10 @@ class ScigymApiClient {
     return axios.get(`${this.url}/message_boards/`);
   }
 
-  createMessageBoard(title, description, environmentId, tags) {
+  createMessageBoard(title, titleUrl, description, environmentId, tags) {
     return axios.post(`${this.url}/message_boards/`, {
       title: title,
+      title_url: titleUrl,
       description: description,
       tags: tags,
       environment: environmentId,
@@ -140,8 +141,30 @@ class ScigymApiClient {
   }
 
   countComments() {
-    return axios.get(`${this.url}/comments/count_comments/`)
+    return axios.get(`${this.url}/comments/count_comments/`);
   }
+
+  getComments(messageboardId) {
+    return axios.get(`${this.url}/comments/board_comments/`, { params: { messageboard: messageboardId } });
+  }
+
+  createComment(comment, messageboardId) {
+    return axios.post(`${this.url}/comments/`, {
+      comment: comment,
+      messageboard: messageboardId,
+    });
+  }
+
+  editComment(commentId, commentText) {
+    return axios.put(`${this.url}/comments/${commentId}/`, {
+      comment: commentText,
+    });
+  }
+
+  deleteComment(comment) {
+    return axios.delete(`${this.url}/comments/${comment.id}/`);
+  }
+
 }
 
 export default new ScigymApiClient(`${getHost()}/api`, 'v1');

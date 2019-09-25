@@ -60,6 +60,27 @@ export default (state = initialState, action) => {
         [types.CREATE_MESSAGEBOARD]: null,
       };
     }
+    case types.CREATE_COMMENT:
+    case types.CREATE_COMMENT_SUCCESS: {
+      return { ...state, [types.CREATE_COMMENT]: null };
+    }
+    case types.CREATE_COMMENT_FAILURE: {
+      return { ...state, [types.CREATE_COMMENT]: _parseApiError(action.payload) };
+    }
+    case types.EDIT_COMMENT:
+    case types.EDIT_COMMENT_SUCCESS: {
+      return { ...state, [types.EDIT_COMMENT]: null };
+    }
+    case types.EDIT_COMMENT_FAILURE: {
+      return { ...state, [types.EDIT_COMMENT]: _parseApiError(action.payload) };
+    }
+    case types.RESET_COMMENTS_ERRORS: {
+      return {
+        ...state,
+        [types.EDIT_COMMENT]: null,
+        [types.CREATE_COMMENT]: null,
+      };
+    }
     default:
       return state;
   }

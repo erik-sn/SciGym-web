@@ -89,13 +89,13 @@ export const deleteMessageBoard = messageboard => {
 
 export const resetMessageBoardsProps = () => {
   return dispatch => {
-    dispatch({ type: types.RESET_ENVIRONMENTS_PROPS });
+    dispatch({ type: types.RESET_MESSAGEBOARDS_PROPS });
   };
 };
 
 export const resetMessageBoardsErrors = () => {
   return dispatch => {
-    dispatch({ type: types.RESET_ENVIRONMENTS_ERRORS });
+    dispatch({ type: types.RESET_MESSAGEBOARDS_ERRORS });
   };
 };
 
@@ -107,7 +107,6 @@ export const countComments = () => {
     api
       .countComments()
       .then(response => {
-        console.log(response.data);
         dispatch({
           type: types.COUNT_COMMENTS_SUCCESS,
           payload: response.data,

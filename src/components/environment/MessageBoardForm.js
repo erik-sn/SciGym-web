@@ -14,7 +14,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   createMessageBoard,
   resetMessageBoardsProps,
+  editMessageBoard,
 } from '../../actions/messageboards';
+import { getErrors } from '../../reducers/errors';
 import MessageBoardFormText from './MessageBoardFormText';
 import MessageBoardFormControl from './MessageBoardFormControl';
 import { isLoading } from '../../reducers/display';
@@ -37,13 +39,16 @@ const styles = theme => ({
 class MessageBoardForm extends Component {
   constructor(props) {
     super(props);
-    const { envExists, environment, messageBoard } = props;
+    const { environment, messageboard } = props;
+    const envExists = Boolean(environment);
+    const boardExists = Boolean(messageboard)
     this.state = {
-      id: envExists ? environment.id : undefined,
-      title: Boolean(messageBoard) ? messageBoard.title : '',
-      description: Boolean(messageBoard) ? messageBoard.description : '',
+      id: boardExists ? messageboard.id : undefined,
+      environment: envExists ? environment.id : undefined,
+      title: boardExists ? messageboard.title : '',
+      description: boardExists ? messageboard.description : '',
       tag: '',
-      tags: Boolean(messageBoard) && Boolean(messageBoard.tags) ? messageBoard.tags : [],
+      tags: boardExists && Boolean(messageboard.tags) ? messageboard.tags : [],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -53,8 +58,14 @@ class MessageBoardForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { title, description, id, tags } = this.state;
-    this.props.createMessageBoard(title, description, id, tags);
+    const { title, description, environment, tags } = this.state;
+    const titleUrl = '/env/'.concat(this.props.environment.name) + '/forum/'.concat(title)
+    const boardExists = Boolean(this.props.messageboard);
+    if (boardExists) {
+      this.props.editMessageBoard({ ...this.state, title_url: titleUrl });
+    } else {
+      this.props.createMessageBoard(title, titleUrl, description, environment, tags);
+    }
   }
 
   handleChange = title => event => {
@@ -90,8 +101,8 @@ class MessageBoardForm extends Component {
       this.props.onClose();
       this.props.resetMessageBoardsProps();
     }
-    if (this.state.id === undefined && this.props.envExists) {
-      this.setState({ id: this.props.environment.id })
+    if (this.state.environment === undefined && Boolean(this.props.environment)) {
+      this.setState({ environment: this.props.environment.id })
     }
   }
 
@@ -149,28 +160,36 @@ class MessageBoardForm extends Component {
 MessageBoardForm.propTypes = {
   createMessageBoard: PropTypes.func.isRequired,
   resetMessageBoardsProps: PropTypes.func.isRequired,
+  editMessageBoard: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   environment: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
-  envExists: PropTypes.bool.isRequired,
   uploadSuccess: PropTypes.any, // this is either undefined or bool
   loading: PropTypes.bool.isRequired,
-  messageBoard: PropTypes.any, // this is either undefined or an object
+  messageboard: PropTypes.any, // this is either undefined or an object
   errors: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.object,
   ]).isRequired,
 };
 
-const mapStateToProps = state => ({
-  uploadSuccess: state.messageboards.uploadSuccess,
-  loading:
-    isLoading(state.display, types.CREATE_MESSAGEBOARD)
-});
+function mapStateToProps(state) {
+  const errorsCreate = getErrors(state.errors, types.CREATE_MESSAGEBOARD);
+  const errorsEdit = getErrors(state.errors, types.EDIT_MESSAGEBOARD);
+  const errors = Boolean(errorsCreate) ? errorsCreate : Boolean(errorsEdit) && errorsEdit;
+  return {
+    uploadSuccess: state.messageboards.uploadSuccess,
+    loading:
+      isLoading(state.display, types.CREATE_MESSAGEBOARD) ||
+      isLoading(state.display, types.EDIT_MESSAGEBOARD),
+    errors: errors,
+  };
+};
 
 const mapDispatchToProps = {
   createMessageBoard,
   resetMessageBoardsProps,
+  editMessageBoard,
 };
 
 export default compose(
