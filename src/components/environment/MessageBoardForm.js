@@ -59,12 +59,11 @@ class MessageBoardForm extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const { title, description, environment, tags } = this.state;
-    const titleUrl = '/env/'.concat(this.props.environment.name) + '/forum/'.concat(title)
     const boardExists = Boolean(this.props.messageboard);
     if (boardExists) {
-      this.props.editMessageBoard({ ...this.state, title_url: titleUrl });
+      this.props.editMessageBoard(this.state);
     } else {
-      this.props.createMessageBoard(title, titleUrl, description, environment, tags);
+      this.props.createMessageBoard(title, description, environment, tags);
     }
   }
 

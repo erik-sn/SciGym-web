@@ -171,8 +171,8 @@ Discussion.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { messageboards } = state.messageboards;
-  const { env_name, board_title } = ownProps.match.params;
-  const discussionUrl = '/env/'.concat(env_name) + '/forum/'.concat(board_title)
+  let { env_url, board_url } = ownProps.match.params;
+  const discussionUrl = '/env/'.concat(env_url) + '/forum/'.concat(board_url)
   const messageboard = messageboards.find(board => board.titleUrl === discussionUrl)
   const { comments } = state.comments
   return {

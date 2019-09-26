@@ -143,15 +143,15 @@ MessageBoard.propTypes = {
   environment: PropTypes.object,
   messageboards: PropTypes.arrayOf(PropTypes.object),
   replies: PropTypes.object,
-  env_name: PropTypes.string.isRequired,
+  env_url: PropTypes.string.isRequired,
   userExists: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state, ownProps) {
   const { messageboards, num_comments } = state.messageboards;
-  const { env_name } = ownProps;
+  const { env_url } = ownProps;
   return {
-    messageboards: messageboards.filter(board => board.environment.name === env_name),
+    messageboards: messageboards.filter(board => board.environment.url === env_url),
     userExists: state.user.exists,
     replies: num_comments
   };

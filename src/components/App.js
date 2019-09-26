@@ -95,8 +95,8 @@ export class App extends Component {
         <Switch>
           <Route path="/profile" component={Profile} />
           <Route path="/get-started" component={GetStarted} />
-          <Route exact path="/env/:env_name" component={EnvironmentDetail} />
-          <Route path="/env/:env_name/forum/:board_title" render={props => (<Discussion {...props} change={this.state.change} />)} />
+          <Route exact path="/env/:env_url" component={EnvironmentDetail} />
+          <Route path="/env/:env_url/forum/:board_url" render={props => (<Discussion {...props} change={this.state.change} />)} />
           <Route path="/impressum" component={Impressum} />
           <Route path="/policy/private-policy" component={PrivatePolicy} />
           <Route path="/policy/terms-and-conditions" component={TermsAndConditions} />

@@ -132,7 +132,7 @@ class EnvironmentDetail extends Component {
 
   render() {
     const { classes, environment } = this.props;
-    const { env_name } = this.props.match.params
+    const { env_url } = this.props.match.params
     let readme = '';
     let filePath = constants.SCIGYM_LOGO;
     if (!(environment === undefined)) {
@@ -144,29 +144,29 @@ class EnvironmentDetail extends Component {
     }
     return (
       <div>
-          {environment === undefined ? (
-            <Typography variant="h6" className={classes.title}>
-              There is no environment here...
+        {environment === undefined ? (
+          <Typography variant="h6" className={classes.title}>
+            There is no environment here...
             </Typography>
-          ) : (
+        ) : (
             <div className={classes.root}>
-                <Grid container justify="center" className={classes.gridStyle} spacing={0}>
-                  <Grid key="image" item className={classes.gridImg}>
-                    <Card className={classes.imgCardStyle}>
-                      <CardMedia
-                        className={classes.mediaStyle}
-                        image={constants.STATIC_URL.concat(filePath)}
-                      />
-                    </Card>
-                  </Grid>
-                  <Grid key="content" item className={classes.gridContent}>
-                    <EnvironmentDetailContent environment={environment} />
-                  </Grid>
+              <Grid container justify="center" className={classes.gridStyle} spacing={0}>
+                <Grid key="image" item className={classes.gridImg}>
+                  <Card className={classes.imgCardStyle}>
+                    <CardMedia
+                      className={classes.mediaStyle}
+                      image={constants.STATIC_URL.concat(filePath)}
+                    />
+                  </Card>
                 </Grid>
-                <MessageBoard environment={environment} env_name={env_name} />
-              </div>
-            )}
-          {/* <Card className={classes.readmeCardStyle} raised>
+                <Grid key="content" item className={classes.gridContent}>
+                  <EnvironmentDetailContent environment={environment} />
+                </Grid>
+              </Grid>
+              <MessageBoard environment={environment} env_url={env_url} />
+            </div>
+          )}
+        {/* <Card className={classes.readmeCardStyle} raised>
             <CardContent className={classes.readmeCardContent}>
               <IconButton
                 onClick={this.handleClickOpen}
@@ -187,7 +187,7 @@ class EnvironmentDetail extends Component {
               </Paper>
             </Collapse>
           </Card> */}
-        </div>
+      </div>
     );
   }
 }
@@ -198,9 +198,9 @@ EnvironmentDetail.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { environments } = state.environments;
-  const { env_name } = ownProps.match.params;
+  let { env_url } = ownProps.match.params;
   return {
-    environment: environments.find(env => env.name === env_name),
+    environment: environments.find(env => env.url === env_url),
   };
 }
 

@@ -2,7 +2,7 @@ import types from '../utils/types';
 
 const initialState = {
   messageboards: [],
-  num_comments: [],
+  num_comments: {},
   uploadSuccess: undefined,
   deleteSuccess: undefined,
 };
