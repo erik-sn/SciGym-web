@@ -38,7 +38,7 @@ const styles = theme => ({
 class MessageBoardItem extends Component {
   render() {
     const { classes, messageboard } = this.props;
-    const { tags, titleUrl } = messageboard
+    const { tags, titleUrl, environment } = messageboard
     return (
       <Grid container className={classes.root}>
         <Grid item sm={7} xs={9}>
@@ -49,7 +49,7 @@ class MessageBoardItem extends Component {
             <ListItemText
               primary={messageboard.title}
               secondary={
-                "by " + messageboard.author.username
+                "by " + messageboard.author.username + " on " + environment.name
               }
             />
           </ListItem>
