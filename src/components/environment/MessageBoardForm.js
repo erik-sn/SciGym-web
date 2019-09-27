@@ -58,12 +58,11 @@ class MessageBoardForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { title, description, environment, tags } = this.state;
     const boardExists = Boolean(this.props.messageboard);
     if (boardExists) {
       this.props.editMessageBoard(this.state);
     } else {
-      this.props.createMessageBoard(title, description, environment, tags);
+      this.props.createMessageBoard(this.state);
     }
   }
 

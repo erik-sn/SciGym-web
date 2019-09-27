@@ -24,17 +24,19 @@ const styles = theme => ({
   root: {
     display: 'flex',
     flexFlow: 'row wrap',
+    maxHeight: '600px',
+    overflowY: 'scroll',
   },
   cardStyle: {
     width: '100%',
   },
   logoStyle: {
     flex: '1 1 1',
-    margin: 'auto',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     top: '0',
-    bottom: '0',
     textAlign: 'center',
-    padding: theme.spacing.unit * 3,
+    padding: '30px',
     paddingLeft: '30px',
     paddingRight: '0px',
     [theme.breakpoints.up('lg')]: {

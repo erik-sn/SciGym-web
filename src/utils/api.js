@@ -122,13 +122,8 @@ class ScigymApiClient {
     return axios.get(`${this.url}/message_boards/`);
   }
 
-  createMessageBoard(title, description, environmentId, tags) {
-    return axios.post(`${this.url}/message_boards/`, {
-      title: title,
-      description: description,
-      tags: tags,
-      environment: environmentId,
-    });
+  createMessageBoard(messageboard) {
+    return axios.post(`${this.url}/message_boards/`, messageboard);
   }
 
   editMessageBoard(messageboard) {

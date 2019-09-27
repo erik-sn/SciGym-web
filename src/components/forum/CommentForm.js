@@ -48,8 +48,11 @@ class CommentForm extends Component {
     event.preventDefault();
     const commentExists = Boolean(this.props.comment);
     const { commentText, messageboardId } = this.state;
+    // this is needed for ReactMarkdown to display quotes correctly
+    // commentText = commentText.replace(/(\n){2,}/g, '2412-21314-2141245-214214-141521-8896745');
+    // commentText = commentText.replace(/(\n)/g, '  \n');
+    // commentText = commentText.replace(/(2412-21314-2141245-214214-141521-8896745)/g, '\n\n');
     if (this.props.quote) {
-      const { commentText, messageboardId } = this.state;
       this.props.createComment(commentText, messageboardId);
     }
     else if (commentExists) {
@@ -83,12 +86,15 @@ class CommentForm extends Component {
     if (this.props.quote && !prevProps.quote) {
       const { comment } = this.props
       const date = comment.created.split("T")[0]
-      const preamble = '>*posted by ' + comment.author.username + ' on ' + date + '*\n'
-      let commentText = preamble + '>' + comment.comment.replace(/\n/g, '\n>')
+      const preamble = '>*posted by ' + comment.author.username + ' on ' + date + '*\n\n'
+      let commentText = preamble + '>' + comment.comment.replace(/\n/g, '\n>') + '  \n\n'
       while (commentText.includes('\n>\n')) {
         commentText = commentText.replace(/\n>\n/g, '\n\n')
       }
       this.setState({ commentText: commentText })
+    }
+    if (!this.props.quote && prevProps.quote) {
+      this.setState({ commentText: this.props.comment.comment })
     }
   }
 

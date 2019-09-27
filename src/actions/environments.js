@@ -2,6 +2,7 @@ import types from '../utils/types';
 
 import api from '../utils/api';
 import { logError } from '../utils/errors';
+import { createReadme } from './messageboards';
 
 export const getEnvironments = params => {
   return dispatch => {
@@ -33,6 +34,7 @@ export const createEnvironment = (...args) => {
         });
         api.environments().then(json => {
           dispatch(getEnvironments(json.data));
+          dispatch(createReadme(response.data));
         });
       })
       .catch(error => {

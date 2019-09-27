@@ -57,11 +57,9 @@ const options = {
   },
 };
 
-function Markdown({ children, ...props }) {
-  return ( //originally: children.replace(/\n/g, '  \n'). But this does not cause a line break after quotes
-    <ReactMarkdown options={options} {...props}>
-      {typeof children === 'string' ? children.replace(/\n/g, '\n\n') : children}
-    </ReactMarkdown>
+function Markdown(props) {
+  return (
+    <ReactMarkdown options={options} {...props} />
   )
 }
 

@@ -118,3 +118,13 @@ export const countComments = () => {
       });
   }
 }
+
+export const createReadme = (environment) => {
+  const { readme, readmeName } = environment.repository;
+  return dispatch => {
+    if (readmeName.slice(-3) === '.md') {
+      const messageboard = { title: 'This is the README', description: atob(readme), environment: environment.id, tags: ['README', 'info'] };
+      dispatch(createMessageBoard(messageboard));
+    }
+  }
+}
