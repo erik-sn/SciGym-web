@@ -2,7 +2,7 @@ import types from '../utils/types';
 
 import api from '../utils/api';
 import { logError } from '../utils/errors';
-import { createReadme } from './messageboards';
+import { createReadme, getMessageBoards } from './messageboards';
 
 export const getEnvironments = params => {
   return dispatch => {
@@ -80,6 +80,7 @@ export const deleteEnvironment = environment => {
         });
         api.environments().then(json => {
           dispatch(getEnvironments(json.data));
+          dispatch(getMessageBoards());
         });
       })
       .catch(error => {
