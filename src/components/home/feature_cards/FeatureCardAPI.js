@@ -21,7 +21,7 @@ const featureCardAPI = ({ classes }) => {
       </div>
       <div className={classes.mediaStyle}>
         <img
-          className={classes.imgStyle}
+          className={classes.imgStyleAPI}
           src={constants.STATIC_URL.concat(constants.SCIENCE_API)}
           alt=""
         />

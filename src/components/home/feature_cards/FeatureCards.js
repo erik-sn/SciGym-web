@@ -25,9 +25,19 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit,
   },
-  imgStyle: {
-    height: '150px',
-    width: '200px',
+  imgStyleAPI: {
+    height: '120px',
+    width: '152px',
+  },
+  imgStyleRL: {
+    paddingTop: '10px',
+    height: '140px',
+    width: '140px',
+  },
+  imgStyleConnect: {
+    paddingTop: '10px',
+    height: '140px',
+    width: '127px',
   },
 });
 
