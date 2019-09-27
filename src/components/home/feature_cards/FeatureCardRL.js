@@ -21,7 +21,7 @@ const featureCardRL = ({ classes }) => {
       </div>
       <div className={classes.mediaStyle}>
         <img
-          className={classes.imgStyle}
+          className={classes.imgStyleRL}
           src={constants.STATIC_URL.concat(constants.SCIENCE_RL)}
           alt=""
         />
