@@ -2,19 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import showdown from 'showdown';
 
 import { withStyles, Button, CircularProgress } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
-import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ReplyIcon from '@material-ui/icons/Reply';
@@ -55,23 +45,6 @@ const styles = theme => ({
     margin: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit * 6,
   },
-  gridStyle: {
-    paddingTop: '50px',
-  },
-  gridImg: {
-    width: '300px',
-    margin: theme.spacing.unit,
-    [theme.breakpoints.down('sm')]: {
-      width: '200px',
-    },
-  },
-  gridContent: {
-    width: '600px',
-    margin: theme.spacing.unit,
-    [theme.breakpoints.down('md')]: {
-      width: '400px',
-    },
-  },
   uploadButtonStyle: {
     left: '0px',
     margin: theme.spacing.unit * 2,
@@ -83,7 +56,6 @@ class Discussion extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      openReadme: false, // remove?
       openForm: false,
       openLogin: false,
     };

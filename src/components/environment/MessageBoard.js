@@ -2,26 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import showdown from 'showdown';
 
 import { withStyles, Button } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
-import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
 import Edit from '@material-ui/icons/Edit';
 import List from '@material-ui/core/List';
 import MessageBoardHead from './MessageBoardHead';
 import MessageBoardForm from './MessageBoardForm';
 import LoginForm from '../auth/LoginForm';
-import types from '../../utils/types';
 import MessageBoardItem from './MessageBoardItem';
 import ExpandMoreLess from '../ExpandMoreLess';
 

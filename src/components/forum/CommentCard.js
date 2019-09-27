@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
@@ -8,15 +7,12 @@ import ListItem from '@material-ui/core/ListItem';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import IconButton from '@material-ui/core/IconButton';
 import { withStyles, CardActionArea } from '@material-ui/core';
 import Slide from '@material-ui/core/Slide';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import NoteIcon from '@material-ui/icons/Note';
-import FormatQuoteIcon from '@material-ui/icons/FormatQuote';
 
-import constants from '../../utils/constants';
 import CommentCardActions from './CommentCardActions';
 import Markdown from '../Markdown';
 
@@ -54,9 +50,6 @@ const styles = theme => ({
   commentContentStyle: {
     borderLeft: '0.1em solid grey',
   },
-  commentStyle: {
-    whiteSpace: 'pre-line',
-  },
   userInfoStyle: {
     margin: theme.spacing.unit * 2
   },
@@ -67,12 +60,6 @@ const styles = theme => ({
     position: 'absolute',
     right: '40px',
     bottom: '25px',
-  },
-  tagStyle: {
-    margin: theme.spacing.unit,
-    [theme.breakpoints.down('xs')]: {
-      margin: '0',
-    },
   },
   listStyle: {
     minWidth: '770px',
@@ -106,11 +93,11 @@ class CommentCard extends Component {
   }
 
   render() {
-    const { comment, author, created, lastUpdated } = this.props.comment;
+    const { comment, author, created } = this.props.comment;
     const { userId } = this.props;
     const owner = userId === author.id;
     const date = created.split("T")[0]
-    const time = created.split("T")[1].split("+")[0].slice(0, -3) + " CET" // is this okay?
+    // const time = created.split("T")[1].split("+")[0].slice(0, -3) + " CET" // is this okay?
     const avatarUrl = 'https://avatars.githubusercontent.com/'.concat(author.username)
     const githubUrl = 'https://www.github.com/'.concat(author.username)
     const { classes } = this.props;

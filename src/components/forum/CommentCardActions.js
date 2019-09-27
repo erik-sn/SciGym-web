@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Fab from '@material-ui/core/Fab';
 import IconButton from '@material-ui/core/IconButton';
 
-import AddIcon from '@material-ui/icons/Add';
 import Edit from '@material-ui/icons/Edit';
 import Delete from '@material-ui/icons/Delete';
 import FormatQuoteIcon from '@material-ui/icons/FormatQuote';

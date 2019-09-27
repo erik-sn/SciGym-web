@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
@@ -10,7 +8,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
-import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import List from '@material-ui/core/List';
 import Chip from '@material-ui/core/Chip';

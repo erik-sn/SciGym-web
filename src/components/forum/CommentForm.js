@@ -33,7 +33,7 @@ const styles = theme => ({
 class CommentForm extends Component {
   constructor(props) {
     super(props);
-    const { comment, messageboard, quote } = props;
+    const { comment, messageboard } = props;
     const commentExists = Boolean(comment)
     this.state = {
       commentId: commentExists ? comment.id : undefined,
@@ -48,10 +48,6 @@ class CommentForm extends Component {
     event.preventDefault();
     const commentExists = Boolean(this.props.comment);
     const { commentText, messageboardId } = this.state;
-    // this is needed for ReactMarkdown to display quotes correctly
-    // commentText = commentText.replace(/(\n){2,}/g, '2412-21314-2141245-214214-141521-8896745');
-    // commentText = commentText.replace(/(\n)/g, '  \n');
-    // commentText = commentText.replace(/(2412-21314-2141245-214214-141521-8896745)/g, '\n\n');
     if (this.props.quote) {
       this.props.createComment(commentText, messageboardId);
     }
@@ -84,6 +80,7 @@ class CommentForm extends Component {
       this.setState({ commentId: this.props.comment.id })
     }
     if (this.props.quote && !prevProps.quote) {
+      // here we add the quotation before the text the user is typing
       const { comment } = this.props
       const date = comment.created.split("T")[0]
       const preamble = '>*posted by ' + comment.author.username + ' on ' + date + '*\n\n'

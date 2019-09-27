@@ -14,9 +14,6 @@ import { isLoading } from '../../../reducers/display';
 import types from '../../../utils/types';
 
 const styles = theme => ({
-  errorStyle: {
-    margin: theme.spacing.unit,
-  },
   loadingStyle: {
     marginRight: '20px',
   },
@@ -53,10 +50,10 @@ class DeleteImage extends Component {
               color="secondary"
             />
           ) : (
-            <Button onClick={this.handleDelete} color="secondary">
-              Delete
+              <Button onClick={this.handleDelete} color="secondary">
+                Delete
             </Button>
-          )}
+            )}
           <Button onClick={handleCloseDelete} color="primary">
             Cancel
           </Button>

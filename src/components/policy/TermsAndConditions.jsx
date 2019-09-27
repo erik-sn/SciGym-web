@@ -5,9 +5,6 @@ import { withStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
-  root: {
-    // backgroundColor: 'AliceBlue',
-  },
   textBlock: {
     margin: theme.spacing.unit * 5,
     marginRight: theme.spacing.unit * 10,
@@ -31,7 +28,7 @@ const styles = theme => ({
 
 const TermsAndConditions = ({ classes }) => {
   return (
-    <div className={classes.root}>
+    <div>
       <div className={classes.textBlock}>
         <Typography className={classes.title} variant="h3">Terms and Conditions</Typography>
         <Typography variant="subtitle1">These terms and conditions (&quot;Terms&quot;, &quot;Agreement&quot;) are an agreement between Website Operator (&quot;Website Operator&quot;, &quot;us&quot;, &quot;we&quot; or &quot;our&quot;) and you (&quot;User&quot;, &quot;you&quot; or &quot;your&quot;). This Agreement sets forth the general terms and conditions of your use of the <a target="_blank" rel="noopener noreferrer" href="http://www.scigym.ai">scigym.ai</a> website and any of its products or services (collectively, &quot;Website&quot; or &quot;Services&quot;).</Typography>

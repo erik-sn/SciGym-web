@@ -31,11 +31,6 @@ const styles = theme => ({
     margin: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit * 4,
   },
-  contentPaper: {
-    display: 'flexGrow',
-    width: '100%',
-    marginTop: '10px',
-  },
   gridStyle: {
     overflow: 'auto',
     overflowX: 'scroll',

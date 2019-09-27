@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Fab from '@material-ui/core/Fab';
-import IconButton from '@material-ui/core/IconButton';
 
-import AddIcon from '@material-ui/icons/Add';
 import Edit from '@material-ui/icons/Edit';
 import Delete from '@material-ui/icons/Delete';
-import FormatQuoteIcon from '@material-ui/icons/FormatQuote';
 
 import MessageBoardForm from '../../environment/MessageBoardForm';
 import MessageBoardsDelete from './MessageBoardsDelete';
@@ -44,7 +41,7 @@ class MessageBoardsActions extends Component {
     const { classes } = this.props;
     const { openForm, openDelete } = this.state;
     return (
-      <div className={classes.buttonPosition}>
+      <div>
         <div>
           <Fab
             size="small"

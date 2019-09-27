@@ -1,28 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import ListItem from '@material-ui/core/ListItem';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import IconButton from '@material-ui/core/IconButton';
-import { withStyles, CardHeader } from '@material-ui/core';
-import Slide from '@material-ui/core/Slide';
+import { withStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import NoteIcon from '@material-ui/icons/Note';
-import FormatQuoteIcon from '@material-ui/icons/FormatQuote';
-import Paper from '@material-ui/core/Paper';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import List from '@material-ui/core/List';
 import Chip from '@material-ui/core/Chip';
 import LocalOffer from '@material-ui/icons/LocalOffer';
 
-import constants from '../../utils/constants';
-import CommentCardActions from './CommentCardActions';
 import Markdown from '../Markdown';
 
 const styles = theme => ({
@@ -59,19 +50,8 @@ const styles = theme => ({
   commentContentStyle: {
     borderLeft: '0.1em solid grey',
   },
-  commentStyle: {
-    whiteSpace: 'pre-line',
-  },
   userInfoStyle: {
     margin: theme.spacing.unit * 2
-  },
-  buttonStyle: {
-    margin: theme.spacing.unit,
-  },
-  buttonPosition: {
-    position: 'absolute',
-    right: '40px',
-    bottom: '25px',
   },
   tagStyle: {
     margin: theme.spacing.unit,
@@ -128,9 +108,8 @@ class CommentCard extends Component {
   render() {
     const { title, author, created, description, tags } = this.props.messageboard;
     const { userId } = this.props;
-    const owner = userId === author.id;
     const date = created.split("T")[0]
-    const time = created.split("T")[1].split("+")[0].slice(0, -3) + " CET" // is this okay?
+    // const time = created.split("T")[1].split("+")[0].slice(0, -3) + " CET" // is this okay?
     const avatarUrl = 'https://avatars.githubusercontent.com/'.concat(author.username)
     const githubUrl = 'https://www.github.com/'.concat(author.username)
     const { classes } = this.props;
@@ -171,14 +150,6 @@ class CommentCard extends Component {
                   {description + '\n'}
                 </Markdown>
               </CardContent>
-              {/* <CardActions>
-                  <CommentCardActions
-                    classes={classes}
-                    owner={owner}
-                    handleClickDelete={this.handleClickDelete}
-                    handleClickOpen={this.handleClickOpen}
-                  />
-                </CardActions> */}
             </div>
           </div>
         </Card>
