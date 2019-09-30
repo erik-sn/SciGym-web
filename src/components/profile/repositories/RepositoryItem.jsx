@@ -147,8 +147,14 @@ RepositoryItem.propTypes = {
   key: PropTypes.string,
   repository: PropTypes.object.isRequired,
   environment: PropTypes.object,
-  errorsCreate: PropTypes.any, // this is bool or object
-  errorsEdit: PropTypes.any, // this is bool or object
+  errorsCreate: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+  ]).isRequired,
+  errorsEdit: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+  ]).isRequired,
   resetEnvironmentsErrors: PropTypes.func.isRequired,
 };
 

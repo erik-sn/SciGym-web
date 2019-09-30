@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import PropTypes from 'prop-types';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core';
-import { deleteImage, resetImageProps } from '../../../actions/images';
-import { isLoading } from '../../../reducers/display';
-import types from '../../../utils/types';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+import {
+  deleteComment,
+  resetCommentsProps,
+} from '../../actions/comments';
+import { isLoading } from '../../reducers/display';
+import types from '../../utils/types';
 
 const styles = theme => ({
   loadingStyle: {
@@ -19,20 +23,19 @@ const styles = theme => ({
   },
 });
 
-class DeleteImage extends Component {
+class CommentDelete extends Component {
   constructor(props) {
     super(props);
     this.handleDelete = this.handleDelete.bind(this);
   }
   handleDelete = () => {
-    this.props.deleteImage(this.props.image);
+    this.props.deleteComment(this.props.comment);
   };
-
   componentDidUpdate(prevProps) {
     if (prevProps.deleteSuccess !== this.props.deleteSuccess && this.props.deleteSuccess) {
       // this is called many times in a row because the update is not fast enough
       this.props.handleCloseDelete();
-      this.props.resetImageProps();
+      this.props.resetCommentsProps();
     }
   }
 
@@ -40,7 +43,9 @@ class DeleteImage extends Component {
     const { classes, openDelete, handleCloseDelete, loading } = this.props;
     return (
       <Dialog open={openDelete} onClose={handleCloseDelete}>
-        <DialogTitle>Are you sure you want to delete the image?</DialogTitle>
+        <DialogTitle>
+          Are you sure you want to delete this comment?
+        </DialogTitle>
         <DialogActions>
           {loading ? (
             <CircularProgress
@@ -63,19 +68,23 @@ class DeleteImage extends Component {
   }
 }
 
-DeleteImage.propTypes = {
+CommentDelete.propTypes = {
   handleCloseDelete: PropTypes.func.isRequired,
-  image: PropTypes.object.isRequired,
+  comment: PropTypes.object,
   openDelete: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
-  deleteSuccess: PropTypes.any, // this is undefined or bool
+  deleteSuccess: PropTypes.any, // this is either undefined or bool
 };
 
 const mapStateToProps = state => ({
-  deleteSuccess: state.images.deleteSuccess,
-  loading: isLoading(state.display, types.DELETE_IMAGE),
+  deleteSuccess: state.comments.deleteSuccess,
+  loading: isLoading(state.display, types.DELETE_COMMENT),
 });
-const mapDispatchToProps = { deleteImage, resetImageProps };
+
+const mapDispatchToProps = {
+  deleteComment,
+  resetCommentsProps,
+};
 
 export default compose(
   connect(
@@ -83,4 +92,4 @@ export default compose(
     mapDispatchToProps
   ),
   withStyles(styles)
-)(DeleteImage);
+)(CommentDelete);

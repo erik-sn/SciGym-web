@@ -5,9 +5,6 @@ import { withStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
-  root: {
-    // backgroundColor: 'AliceBlue',
-  },
   textBlock: {
     margin: theme.spacing.unit * 5,
     marginRight: theme.spacing.unit * 10,
@@ -31,7 +28,7 @@ const styles = theme => ({
 
 const PrivatePolicy = ({ classes }) => {
   return (
-    <div className={classes.root}>
+    <div>
       <div className={classes.textBlock}>
         <Typography className={classes.title} variant="h3">Privacy policy</Typography>
         <Typography variant="subtitle1">This privacy policy (&quot;Policy&quot;) describes how Website Operator (&quot;Website Operator&quot;, &quot;we&quot;, &quot;us&quot; or &quot;our&quot;) collects, protects and uses the personally identifiable information (&quot;Personal Information&quot;) you (&quot;User&quot;, &quot;you&quot; or &quot;your&quot;) may provide on the <a target="_blank" rel="noopener noreferrer" href="http://www.scigym.ai">scigym.ai</a> website and any of its products or services (collectively, &quot;Website&quot; or &quot;Services&quot;). It also describes the choices available to you regarding our use of your Personal Information and how you can access and update this information. This Policy does not apply to the practices of companies that we do not own or control, or to individuals that we do not employ or manage.</Typography>

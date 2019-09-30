@@ -80,7 +80,7 @@ function ProfileMenu({ classes, userExists }) {
           )}
         </Popper>
       </div>
-      <LoginForm open={openLogin} onClose={closeLogin} />
+      <LoginForm open={openLogin} onClose={closeLogin} callbackURL={''} />
     </div>
   );
 }

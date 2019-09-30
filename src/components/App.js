@@ -15,6 +15,7 @@ import { getEnvironments } from '../actions/environments';
 import { getTopics } from '../actions/topics';
 import { getImageConfig } from '../actions/images';
 import { getContributors } from '../actions/contributors';
+import { getMessageBoards, countComments } from '../actions/messageboards';
 import Home from './home/Home';
 import Profile from './profile/Profile';
 import GetStarted from './get_started/GetStarted';
@@ -24,8 +25,15 @@ import constants from '../utils/constants';
 import EnvironmentDetail from './environment/EnvironmentDetail';
 import PrivatePolicy from './policy/PrivatePolicy';
 import TermsAndConditions from './policy/TermsAndConditions';
+import Discussion from './forum/Discussion';
 
 export class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      change: false
+    };
+  }
   componentDidMount() {
     this.refreshAuthToken();
     this.props.getApiConfig();
@@ -35,6 +43,8 @@ export class App extends Component {
     this.props.getTopics();
     this.props.getImageConfig();
     this.props.getContributors();
+    this.props.getMessageBoards();
+    this.props.countComments();
     window.setTimeout(this.props.getApiStatus, 30000); // do we need this?
   }
 
@@ -45,10 +55,28 @@ export class App extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    // here we force an update on any message board when it is opened.
+    const prevPath = prevProps.location.pathname
+    const currPath = this.props.location.pathname
+    if (this.state.change) {
+      this.setState({
+        change: false
+      })
+    }
+    if (currPath.includes('/env') && currPath.includes('/forum')) {
+      if (prevPath !== currPath) {
+        this.setState({
+          change: true,
+        })
+      }
+    }
+  }
+
   render() {
     if (!this.props.appLoaded) {
       return (
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', paddingTop: '200px', backgroundColor: 'AliceBlue' }}>
           <h1>
             {' '}
             <CircularProgress variant="indeterminate" /> We are loading
@@ -58,14 +86,17 @@ export class App extends Component {
     }
 
     const oauthPath = new URL(this.props.githubCallbackUrl).pathname;
+    const oauthPathCallBack = oauthPath.concat('env/:callbackURL')
     return (
       <div className="App">
-        <Route path={oauthPath} component={Auth} />
+        <Route key="auth" exact path={oauthPath} component={Auth} />
+        <Route key="auth-params" path={oauthPathCallBack} component={Auth} />
         <Header />
         <Switch>
           <Route path="/profile" component={Profile} />
           <Route path="/get-started" component={GetStarted} />
-          <Route path="/env/:env_name" component={EnvironmentDetail} />
+          <Route exact path="/env/:env_url" component={EnvironmentDetail} />
+          <Route path="/env/:env_url/forum/:board_url" render={props => (<Discussion {...props} change={this.state.change} />)} />
           <Route path="/impressum" component={Impressum} />
           <Route path="/policy/private-policy" component={PrivatePolicy} />
           <Route path="/policy/terms-and-conditions" component={TermsAndConditions} />
@@ -93,6 +124,8 @@ App.propTypes = {
   getTopics: PropTypes.func.isRequired,
   getImageConfig: PropTypes.func.isRequired,
   getContributors: PropTypes.func.isRequired,
+  getMessageBoards: PropTypes.func.isRequired,
+  countComments: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -112,6 +145,8 @@ export default withRouter(
       getTopics,
       getImageConfig,
       getContributors,
+      getMessageBoards,
+      countComments,
     }
   )(App)
 );

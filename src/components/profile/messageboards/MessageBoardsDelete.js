@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import PropTypes from 'prop-types';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core';
-import { deleteImage, resetImageProps } from '../../../actions/images';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+import {
+  deleteMessageBoard,
+  resetMessageBoardsProps,
+} from '../../../actions/messageboards';
 import { isLoading } from '../../../reducers/display';
 import types from '../../../utils/types';
 
@@ -19,20 +23,21 @@ const styles = theme => ({
   },
 });
 
-class DeleteImage extends Component {
+class MessageBoardsDelete extends Component {
   constructor(props) {
     super(props);
     this.handleDelete = this.handleDelete.bind(this);
   }
+
   handleDelete = () => {
-    this.props.deleteImage(this.props.image);
+    this.props.deleteMessageBoard(this.props.messageboard);
   };
 
   componentDidUpdate(prevProps) {
     if (prevProps.deleteSuccess !== this.props.deleteSuccess && this.props.deleteSuccess) {
       // this is called many times in a row because the update is not fast enough
       this.props.handleCloseDelete();
-      this.props.resetImageProps();
+      this.props.resetMessageBoardsProps();
     }
   }
 
@@ -40,7 +45,9 @@ class DeleteImage extends Component {
     const { classes, openDelete, handleCloseDelete, loading } = this.props;
     return (
       <Dialog open={openDelete} onClose={handleCloseDelete}>
-        <DialogTitle>Are you sure you want to delete the image?</DialogTitle>
+        <DialogTitle>
+          Are you sure you want to delete this message board with all its comments?
+        </DialogTitle>
         <DialogActions>
           {loading ? (
             <CircularProgress
@@ -63,19 +70,23 @@ class DeleteImage extends Component {
   }
 }
 
-DeleteImage.propTypes = {
+MessageBoardsDelete.propTypes = {
   handleCloseDelete: PropTypes.func.isRequired,
-  image: PropTypes.object.isRequired,
+  messageboard: PropTypes.object,
   openDelete: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
-  deleteSuccess: PropTypes.any, // this is undefined or bool
+  deleteSuccess: PropTypes.any, // this is either undefined or bool
 };
 
 const mapStateToProps = state => ({
-  deleteSuccess: state.images.deleteSuccess,
-  loading: isLoading(state.display, types.DELETE_IMAGE),
+  deleteSuccess: state.messageboards.deleteSuccess,
+  loading: isLoading(state.display, types.DELETE_MESSAGEBOARD),
 });
-const mapDispatchToProps = { deleteImage, resetImageProps };
+
+const mapDispatchToProps = {
+  deleteMessageBoard,
+  resetMessageBoardsProps,
+};
 
 export default compose(
   connect(
@@ -83,4 +94,4 @@ export default compose(
     mapDispatchToProps
   ),
   withStyles(styles)
-)(DeleteImage);
+)(MessageBoardsDelete);

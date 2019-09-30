@@ -26,6 +26,18 @@ const notifications = {
   [types.CREATE_IMAGE_FAILURE]: 'Failed to upload image. Please try again later.',
   [types.DELETE_IMAGE_SUCCESS]: 'Successfully deleted image.',
   [types.DELETE_IMAGE_FAILURE]: 'Failed to delete image. Please try again later.',
+  [types.CREATE_COMMENT_SUCCESS]: 'Successfully posted a reply.',
+  [types.CREATE_COMMENT_FAILURE]: 'Failed to post a reply. Please try again later.',
+  [types.EDIT_COMMENT_SUCCESS]: 'Successfully updated your reply.',
+  [types.EDIT_COMMENT_FAILURE]: 'Failed to update your reply. Please try again later.',
+  [types.DELETE_COMMENT_SUCCESS]: 'Successfully deleted your reply.',
+  [types.DELETE_COMMENT_FAILURE]: 'Failed to delete your reply. Please try again later.',
+  [types.CREATE_MESSAGEBOARD_SUCCESS]: 'Successfully opened a new discussion.',
+  [types.CREATE_MESSAGEBOARD_FAILURE]: 'Failed to open a new discussion. Please try again later.',
+  [types.EDIT_MESSAGEBOARD_SUCCESS]: 'Successfully updated your discussion.',
+  [types.EDIT_MESSAGEBOARD_FAILURE]: 'Failed to update your discussion. Please try again later.',
+  [types.DELETE_MESSAGEBOARD_SUCCESS]: 'Successfully deleted your message board.',
+  [types.DELETE_MESSAGEBOARD_FAILURE]: 'Failed to delete your message board. Please try again later.',
 };
 
 function getNotifications(state, actionType) {
@@ -133,6 +145,69 @@ export default (state = initialState, action) => {
     }
     case types.DELETE_IMAGE_FAILURE: {
       return removeLoading(state, types.DELETE_IMAGE, action.type);
+    }
+    case types.CREATE_MESSAGEBOARD: {
+      return setLoading(state, types.CREATE_MESSAGEBOARD, action.type);
+    }
+    case types.CREATE_MESSAGEBOARD_SUCCESS: {
+      return removeLoading(state, types.CREATE_MESSAGEBOARD, action.type);
+    }
+    case types.CREATE_MESSAGEBOARD_FAILURE: {
+      return removeLoading(state, types.CREATE_MESSAGEBOARD, action.type);
+    }
+    case types.EDIT_MESSAGEBOARD: {
+      return setLoading(state, types.EDIT_MESSAGEBOARD, action.type);
+    }
+    case types.EDIT_MESSAGEBOARD_SUCCESS: {
+      return removeLoading(state, types.EDIT_MESSAGEBOARD, action.type);
+    }
+    case types.EDIT_MESSAGEBOARD_FAILURE: {
+      return removeLoading(state, types.EDIT_MESSAGEBOARD, action.type);
+    }
+    case types.DELETE_MESSAGEBOARD: {
+      return setLoading(state, types.DELETE_MESSAGEBOARD, action.type);
+    }
+    case types.DELETE_MESSAGEBOARD_SUCCESS: {
+      return removeLoading(state, types.DELETE_MESSAGEBOARD, action.type);
+    }
+    case types.DELETE_MESSAGEBOARD_FAILURE: {
+      return removeLoading(state, types.DELETE_MESSAGEBOARD, action.type);
+    }
+    case types.GET_COMMENTS_LIST: {
+      return setLoading(state, types.GET_COMMENTS_LIST, action.type);
+    }
+    case types.GET_COMMENTS_LIST_SUCCESS: {
+      return removeLoading(state, types.GET_COMMENTS_LIST, action.type);
+    }
+    case types.GET_COMMENTS_LIST_FAILURE: {
+      return removeLoading(state, types.GET_COMMENTS_LIST, action.type);
+    }
+    case types.CREATE_COMMENT: {
+      return setLoading(state, types.CREATE_COMMENT, action.type);
+    }
+    case types.CREATE_COMMENT_SUCCESS: {
+      return removeLoading(state, types.CREATE_COMMENT, action.type);
+    }
+    case types.CREATE_COMMENT_FAILURE: {
+      return removeLoading(state, types.CREATE_COMMENT, action.type);
+    }
+    case types.EDIT_COMMENT: {
+      return setLoading(state, types.EDIT_COMMENT, action.type);
+    }
+    case types.EDIT_COMMENT_SUCCESS: {
+      return removeLoading(state, types.EDIT_COMMENT, action.type);
+    }
+    case types.EDIT_COMMENT_FAILURE: {
+      return removeLoading(state, types.EDIT_COMMENT, action.type);
+    }
+    case types.DELETE_COMMENT: {
+      return setLoading(state, types.DELETE_COMMENT, action.type);
+    }
+    case types.DELETE_COMMENT_SUCCESS: {
+      return removeLoading(state, types.DELETE_COMMENT, action.type);
+    }
+    case types.DELETE_COMMENT_FAILURE: {
+      return removeLoading(state, types.DELETE_COMMENT, action.type);
     }
     default:
       return state;

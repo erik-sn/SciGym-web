@@ -1,0 +1,49 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core';
+
+import TextField from '@material-ui/core/TextField';
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+  },
+  child: {
+    width: 'auto',
+    margin: theme.spacing.unit * 2,
+  },
+  textField: {
+    width: '100%',
+  },
+});
+
+const CommentFormText = ({ classes, commentText, handleChange, errors }) => {
+  return (
+    <div className={classes.root}>
+      <div className={classes.child}>
+        <TextField
+          id="filled-full-description"
+          label="Leave a comment"
+          className={classes.textField}
+          value={Boolean(commentText) ? commentText : ''}
+          onChange={handleChange('commentText')}
+          multiline
+          rows={10}
+          margin="normal"
+          variant="filled"
+          error={Boolean(errors && errors.description)}
+          helperText={errors ? errors.description : 'We support styling with markdown.'}
+        />
+      </div>
+    </div>
+  );
+};
+
+CommentFormText.propTypes = {
+  classes: PropTypes.object.isRequired,
+  commentText: PropTypes.string,
+  handleChange: PropTypes.func.isRequired,
+  errors: PropTypes.any, // this is either bool or object
+};
+
+export default withStyles(styles)(CommentFormText);

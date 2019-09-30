@@ -7,10 +7,10 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { withStyles } from '@material-ui/core';
 
 import Account from './account/Account';
-import Groups from './groups/Groups';
 import Settings from './Settings';
 import Repositories from './repositories/Repositories';
 import Images from './images/Images';
+import MessageBoards from './messageboards/MessageBoards';
 
 const styles = theme => ({
   root: {
@@ -22,14 +22,14 @@ const styles = theme => ({
 
 const Profile = ({ classes, userExists }) => {
   if (!userExists) {
-    return <Redirect to="/" />;
+    return <Redirect to="/" />; // TODO: this probably also redirects after login
   }
   return (
     <div className={classes.root}>
       <Settings />
       <Switch>
         <Route path="/profile/account" component={Account} />
-        <Route path="/profile/groups" component={Groups} />
+        <Route path="/profile/messageboards" component={MessageBoards} />
         <Route path="/profile/images" component={Images} />
         <Route path="*" component={Repositories} />
       </Switch>

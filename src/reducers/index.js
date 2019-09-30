@@ -10,6 +10,8 @@ import topics from './topics';
 import images from './images';
 import contributors from './contributors';
 import projectauthors from './projectauthors';
+import messageboards from './messageboards';
+import comments from './comments';
 
 const rootReducer = combineReducers({
   config,
@@ -22,6 +24,8 @@ const rootReducer = combineReducers({
   projectauthors,
   topics,
   images,
+  messageboards,
+  comments,
 });
 
 export default rootReducer;

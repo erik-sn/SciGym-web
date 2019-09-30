@@ -5,7 +5,7 @@ import MenuList from '@material-ui/core/MenuList';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import AccountIcon from '@material-ui/icons/AccountBox';
-import GroupIcon from '@material-ui/icons/Group';
+import ForumIcon from '@material-ui/icons/Forum';
 import ListIcon from '@material-ui/icons/ViewList';
 import ImageIcon from '@material-ui/icons/Image';
 import Hidden from '@material-ui/core/Hidden';
@@ -43,7 +43,7 @@ function Settings({ classes }) {
             <Divider />
             <SettingsItem to="/profile/account" text="Account" icon={<AccountIcon />} />
             <SettingsItem to="/profile/images" text="Images" icon={<ImageIcon />} />
-            <SettingsItem to="/profile/groups" text="Groups" icon={<GroupIcon />} />
+            <SettingsItem to="/profile/messageboards" text="Message Boards" icon={<ForumIcon />} />
           </MenuList>
         </Paper>
       </Hidden>
@@ -56,7 +56,7 @@ function Settings({ classes }) {
               <Divider />
               <SettingsItem to="/profile/account" text="Account" icon={<AccountIcon />} />
               <SettingsItem to="/profile/images" text="Images" icon={<ImageIcon />} />
-              <SettingsItem to="/profile/groups" text="Groups" icon={<GroupIcon />} />
+              <SettingsItem to="/profile/messageboards" text="Message Boards" icon={<ForumIcon />} />
             </MenuList>
           </div>
         </SwipeableDrawer>

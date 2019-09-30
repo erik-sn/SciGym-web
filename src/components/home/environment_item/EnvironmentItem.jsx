@@ -77,7 +77,7 @@ class EnvironmentItem extends Component {
 
   render() {
     const { owner, htmlUrl, gym, fork } = this.props.environment.repository;
-    const { name, description, scigym, tags, topic, currentAvatar } = this.props.environment;
+    const { name, url, description, scigym, tags, topic, currentAvatar } = this.props.environment;
     const { classes } = this.props;
     let filePath = constants.SCIGYM_LOGO;
     if (currentAvatar != null) {
@@ -92,7 +92,7 @@ class EnvironmentItem extends Component {
                 <img src={constants.STATIC_URL.concat(filePath)} height="150" width="150" alt="" />
               </div>
               <div className={classes.cardContentStyle}>
-                <CardActionArea component={Link} to={'/env/' + name}>
+                <CardActionArea component={Link} to={'/env/' + url}>
                   <EnvironmentItemContent
                     classes={classes}
                     name={name}

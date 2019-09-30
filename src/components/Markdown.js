@@ -8,6 +8,11 @@ const styles = theme => ({
   listItem: {
     marginTop: theme.spacing.unit,
   },
+  blockquoteStyle: {
+    margin: theme.spacing.unit,
+    borderLeft: '2px solid #ccc',
+    paddingLeft: theme.spacing.unit,
+  },
 });
 
 const options = {
@@ -35,6 +40,13 @@ const options = {
     h4: { component: props => <Typography gutterBottom variant="caption" paragraph {...props} /> },
     p: { component: props => <Typography paragraph {...props} /> },
     a: { component: props => <a href={props.href} target="_blank" rel="noopener noreferrer">{props.children}</a> },
+    blockquote: {
+      component: withStyles(styles)(({ classes, ...props }) => (
+        <blockquote className={classes.blockquoteStyle}>
+          {props.children}
+        </blockquote>
+      )),
+    },
     li: {
       component: withStyles(styles)(({ classes, ...props }) => (
         <li className={classes.listItem}>
@@ -46,7 +58,9 @@ const options = {
 };
 
 function Markdown(props) {
-  return <ReactMarkdown options={options} {...props} />;
+  return (
+    <ReactMarkdown options={options} {...props} />
+  )
 }
 
 export default Markdown;

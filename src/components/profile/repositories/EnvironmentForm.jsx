@@ -16,6 +16,7 @@ import {
   editEnvironment,
   resetEnvironmentsProps,
 } from '../../../actions/environments';
+import { resetMessageBoardsProps } from '../../../actions/messageboards';
 import { getUserImages } from '../../../actions/images';
 import ImagePreview from './ImagePreview';
 import EnvironmentFormText from './EnvironmentFormText';
@@ -128,6 +129,10 @@ class EnvironmentForm extends Component {
         avatarId: uploadedImage.id,
       });
     }
+    if (prevProps.uploadMessageBoard !== this.props.uploadMessageBoard && this.props.uploadMessageBoard) {
+      // this is called many times in a row because the update is not fast enough
+      this.props.resetMessageBoardsProps();
+    }
   }
 
   render() {
@@ -178,8 +183,8 @@ class EnvironmentForm extends Component {
               color="primary"
             />
           ) : (
-            <Button onClick={this.handleSubmit}>Submit</Button>
-          )}
+              <Button onClick={this.handleSubmit}>Submit</Button>
+            )}
         </Dialog>
       </form>
     );
@@ -191,6 +196,7 @@ EnvironmentForm.propTypes = {
   createEnvironment: PropTypes.func.isRequired,
   editEnvironment: PropTypes.func.isRequired,
   resetEnvironmentsProps: PropTypes.func.isRequired,
+  resetMessageBoardsProps: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   repository: PropTypes.object.isRequired,
   environment: PropTypes.object,
@@ -200,12 +206,17 @@ EnvironmentForm.propTypes = {
   uploadSuccess: PropTypes.any, // this is either undefined or bool
   uploadedImage: PropTypes.any, // this is either undefined or object
   loading: PropTypes.bool.isRequired,
+  errors: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+  ]).isRequired,
 };
 
 const mapStateToProps = state => ({
   topics: state.topics.topics,
   uploadSuccess: state.environments.uploadSuccess,
   uploadedImage: state.images.uploadedImage,
+  uploadMessageBoard: state.messageboards.uploadSuccess,
   loading:
     isLoading(state.display, types.CREATE_ENVIRONMENT) ||
     isLoading(state.display, types.EDIT_ENVIRONMENT),
@@ -216,6 +227,7 @@ const mapDispatchToProps = {
   createEnvironment,
   editEnvironment,
   resetEnvironmentsProps,
+  resetMessageBoardsProps,
 };
 
 export default compose(
