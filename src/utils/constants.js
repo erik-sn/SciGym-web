@@ -1,11 +1,11 @@
-import { getHost } from './environment';
+import { getStaticUrl } from './environment';
 
 export default {
   REFRESH_TOKEN: 'refreshToken',
   ACCESS_TOKEN: 'accessToken',
 
   //url relating to static files
-  STATIC_URL: `${getHost()}/static`,
+  STATIC_URL: getStaticUrl(),
   SCIGYM_LOGO: '/icons/scigym-logo.png',
   GITHUB_LOGO: '/icons/github-circle.png',
   TWITTER_LOGO: '/icons/twitter-logo.png',
