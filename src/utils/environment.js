@@ -3,7 +3,7 @@ import { includes } from 'lodash';
 
 const LOCAL_API = 'http://localhost:8000';
 const REMOTE_API = '';
-const REMOTE_STATIC = 'https://scigym.s3.eu-central-1.amazonaws.com';
+const AWS_S3_BUCKET = 'https://scigym.s3.eu-central-1.amazonaws.com';
 
 function isLocal() {
   const hostName = window.location.hostname;
@@ -21,5 +21,5 @@ export function getMediaUrl() {
 }
 
 export function getStaticUrl() {
-  return isLocal() ? `${LOCAL_API}/static` : REMOTE_STATIC;
+  return isLocal() ? `${LOCAL_API}/static` : AWS_S3_BUCKET;
 }

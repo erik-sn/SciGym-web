@@ -76,10 +76,10 @@ export class App extends Component {
   render() {
     if (!this.props.appLoaded) {
       return (
-        <div style={{ textAlign: 'center', paddingTop: '200px', backgroundColor: 'AliceBlue' }}>
+        <div style={{ height: '100vh', textAlign: 'center', paddingTop: '200px', backgroundColor: 'AliceBlue' }}>
           <h1>
             {' '}
-            <CircularProgress variant="indeterminate" /> We are loading
+            <CircularProgress variant="indeterminate" />
           </h1>
         </div>
       );
