@@ -63,7 +63,7 @@ class EnvironmentDetail extends Component {
     if (!(environment === undefined)) {
       const { currentAvatar } = this.props.environment;
       if (currentAvatar != null) {
-        filePath = currentAvatar.uploadPath;
+        filePath = currentAvatar.filePath;
       }
     }
     return (

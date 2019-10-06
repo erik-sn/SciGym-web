@@ -1,5 +1,10 @@
 import { includes } from 'lodash';
 
+
+const LOCAL_API = 'http://localhost:8000';
+const REMOTE_API = '';
+const REMOTE_STATIC = 'https://scigym.s3.eu-central-1.amazonaws.com';
+
 function isLocal() {
   const hostName = window.location.hostname;
   return includes(hostName, 'localhost');
@@ -8,17 +13,13 @@ function isLocal() {
 export function getHost() {
   // we assume in test/production environments we are just using
   // the root URL
-  if (isLocal()) {
-    return 'http://localhost:8000';
-  }
-  return 'https://scigym.s3.eu-central-1.amazonaws.com';
+  return isLocal() ? 'http://localhost:8000' : REMOTE_API;
 }
 
+export function getMediaUrl() {
+  return isLocal() ? LOCAL_API : '';  // media url is an absolute path in AWS, let image path uploads handle it
+}
 
 export function getStaticUrl() {
-  const host = getHost();
-  if (isLocal()) {
-    return `${host}/static`;
-  }
-  return host;
+  return isLocal() ? `${LOCAL_API}/static` : REMOTE_STATIC;
 }

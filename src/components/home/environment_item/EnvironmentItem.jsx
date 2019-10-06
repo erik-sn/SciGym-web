@@ -81,7 +81,7 @@ class EnvironmentItem extends Component {
     const { classes } = this.props;
     let filePath = constants.SCIGYM_LOGO;
     if (currentAvatar != null) {
-      filePath = currentAvatar.uploadPath;
+      filePath = currentAvatar.filePath;
     }
     return (
       <ListItem className={classes.listStyle}>
@@ -89,7 +89,7 @@ class EnvironmentItem extends Component {
           <Card className={classes.cardStyle} raised>
             <div className={classes.root}>
               <div className={classes.logoStyle}>
-                <img src={constants.STATIC_URL.concat(filePath)} height="150" width="150" alt="" />
+                <img src={constants.MEDIA_URL.concat(filePath)} height="150" width="150" alt="" />
               </div>
               <div className={classes.cardContentStyle}>
                 <CardActionArea component={Link} to={'/env/' + url}>

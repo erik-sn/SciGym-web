@@ -17,6 +17,7 @@ import DeleteEnvironment from './DeleteEnvironment';
 import { resetEnvironmentsErrors } from '../../../actions/environments';
 import RepositoryItemFormArea from './RepositoryItemFormArea';
 import types from '../../../utils/types';
+import constants from '../../../utils/constants';
 import { getErrors } from '../../../reducers/errors';
 
 const styles = theme => ({
@@ -60,6 +61,21 @@ class RepositoryItem extends Component {
     this.handleCloseDelete = this.handleCloseDelete.bind(this);
   }
 
+  get avatarUrl() {
+    const isEnvironment = Boolean(this.props.environment);
+    if (!isEnvironment) {
+      return <SciGymLogo />;
+    }
+    
+    const avatar = this.props.environment.currentAvatar;
+    if (!avatar) {
+      return <SciGymLogo />;
+    }
+
+    const imageSrc = constants.MEDIA_URL.concat(avatar.filePath);
+    return <img src={imageSrc} height="150" width="150" alt="" />
+  }
+
   handleClickOpen = () => {
     this.setState({
       open: true,
@@ -84,15 +100,18 @@ class RepositoryItem extends Component {
     const errors = Boolean(errorsCreate) ? errorsCreate : Boolean(errorsEdit) && errorsEdit;
     const { name, description, owner, htmlUrl } = this.props.repository;
     const { openDelete } = this.state;
-    const keyId = Boolean(this.props.environment)
+    const isEnvironment = Boolean(this.props.environment);
+    const keyId = isEnvironment
       ? this.props.environment.id
       : this.props.repository.id;
+
+
     return (
       <ListItem>
         <Card className={classes.cardStyle} raised>
           <div className={classes.root}>
             <div className={classes.logoStyle}>
-              <SciGymLogo />
+              {this.avatarUrl}
             </div>
             <div className={classes.cardContentStyle}>
               <CardContent>

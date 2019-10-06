@@ -1,4 +1,4 @@
-import { getStaticUrl } from './environment';
+import { getStaticUrl, getMediaUrl } from './environment';
 
 export default {
   REFRESH_TOKEN: 'refreshToken',
@@ -6,6 +6,7 @@ export default {
 
   //url relating to static files
   STATIC_URL: getStaticUrl(),
+  MEDIA_URL: getMediaUrl(),
   SCIGYM_LOGO: '/icons/scigym-logo.png',
   GITHUB_LOGO: '/icons/github-circle.png',
   TWITTER_LOGO: '/icons/twitter-logo.png',

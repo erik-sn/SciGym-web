@@ -45,16 +45,18 @@ const styles = theme => ({
   },
 });
 
+const MAX_FILE_SIZE_bytes = 2000000;
+
 class ImagePreview extends Component {
   constructor(props) {
     super(props);
     let filePath = constants.SCIGYM_LOGO;
     if (props.avatar != null) {
-      filePath = props.avatar.uploadPath;
+      filePath = props.avatar.filePath;
     }
     this.state = {
       avatar: props.avatar,
-      avatarURL: constants.STATIC_URL.concat(filePath),
+      avatarURL: constants.MEDIA_URL.concat(filePath),
       error: null,
       anchorEl: null,
     };
@@ -66,11 +68,11 @@ class ImagePreview extends Component {
     if (prevProps.avatar !== this.props.avatar) {
       let filePath = constants.SCIGYM_LOGO;
       if (this.props.avatar != null) {
-        filePath = this.props.avatar.uploadPath;
+        filePath = this.props.avatar.filePath;
       }
       this.setState({
         avatar: this.props.avatar,
-        avatarURL: constants.STATIC_URL.concat(filePath),
+        avatarURL: constants.MEDIA_URL.concat(filePath),
         error: null,
       });
     }
@@ -95,14 +97,21 @@ class ImagePreview extends Component {
   handleChange = imageConfig => event => {
     event.preventDefault();
     const uploadedFile = event.target.files[0];
-    const fileExtension = uploadedFile.name.split('.').pop();
+    const fileExtension = uploadedFile.name.split('.').pop().toLowerCase();
+
+    console.log(uploadedFile.size);
     //2MB limit & specific file extension
-    if (uploadedFile.size < 2000000 && imageConfig.includes('.'.concat(fileExtension))) {
-      this.props.createImage(uploadedFile);
+    let error;
+    if (uploadedFile.size > MAX_FILE_SIZE_bytes) {
+      error = `Sorry, avatar size is limited to 2MB.`;
+    } else if (!imageConfig.includes('.'.concat(fileExtension))) {
+      error = `Incorrect file extension. we only accept ${imageConfig.join()}`;
+    }
+
+    if (error) {
+      this.setState({ error });
     } else {
-      this.setState({
-        error: `Sorry, avatar size is limited to 2MB and we only accept ${imageConfig.join()}`,
-      });
+      this.props.createImage(uploadedFile);
     }
   };
 
