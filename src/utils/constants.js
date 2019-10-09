@@ -13,6 +13,7 @@ export default {
   STATIC_URL,
   MEDIA_URL,
   SCIGYM_LOGO: `${STATIC_URL}/icons/scigym-logo.png`,
+  SCIGYM_NAV_LOGO: `${STATIC_URL}/icons/scigym-nav-logo.png`,
   GITHUB_LOGO: `${STATIC_URL}/icons/github-circle.png`,
   TWITTER_LOGO: `${STATIC_URL}/icons/twitter-logo.png`,
   BANNER: `${STATIC_URL}/images/ai_photonics_banner.jpg`,

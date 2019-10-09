@@ -15,7 +15,7 @@ import Hidden from '@material-ui/core/Hidden';
 
 import types from '../../utils/types';
 import { isLoading } from '../../reducers/display';
-import { SciGymIcon } from '../files/images';
+import { SciGymNavIcon } from '../files/images';
 import ProfileMenu from './ProfileMenu';
 import SearchBar from './SearchBar';
 
@@ -58,7 +58,7 @@ export class Header extends PureComponent {
         <Toolbar className={classes.toolBarStyle}>
           <div className={classes.root}>
             <IconButton component={Link} to="/" color="inherit" className={classes.iconButtonStyle}>
-              <SciGymIcon />
+              <SciGymNavIcon />
               SciGym
             </IconButton>
             <Hidden xsDown>
