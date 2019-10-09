@@ -20,5 +20,7 @@ export default {
   SCIENCE_API: `${STATIC_URL}/images/APIforScience.png`,
   SCIENCE_RL: `${STATIC_URL}/images/RLforScience.png`,
   SCIENCE_CPU: `${STATIC_URL}/images/CPUforScience.png`,
-  FWF_LOGO: `${STATIC_URL}/icons/FWF-logo.png`
+  FWF_LOGO: `${STATIC_URL}/icons/FWF-logo.png`,
+  CONTRIBUTE: `${STATIC_URL}/markdown/contribute.md`,
+  PLAY: `${STATIC_URL}/markdown/play.md`
 };

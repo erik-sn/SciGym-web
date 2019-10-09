@@ -53,9 +53,7 @@ class Play extends Component {
     markdown: '',
   };
   componentDidMount() {
-    const mdPath = require('./play.md');
-
-    fetch(mdPath)
+    fetch(constants.PLAY)
       .then(response => {
         return response.text();
       })
