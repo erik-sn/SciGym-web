@@ -80,7 +80,7 @@ function Impressum(props) {
       </Typography>
       <Typography variant="subtitle1" className={classes.paragraph}>
         <a href="https://www.fwf.ac.at/en/" target="_blank" rel="noopener noreferrer">
-          <img src={`${constants.STATIC_URL}/icons/FWF-logo.png`} alt="FWF" />
+          <img src={constants.FWF_LOGO} alt="FWF" />
         </a>
       </Typography>
       <Typography variant="h5" className={classes.title}>

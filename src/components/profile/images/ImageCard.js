@@ -33,7 +33,7 @@ class ImageCard extends Component {
       <Card className={classes.cardStyle}>
         <CardMedia
           className={classes.mediaStyle}
-          image={constants.MEDIA_URL.concat(image.filePath)}
+          image={constants.MEDIA_URL.concat(image.url)}
         >
           <div>
             <Fab

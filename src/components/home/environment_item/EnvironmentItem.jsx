@@ -79,9 +79,9 @@ class EnvironmentItem extends Component {
     const { owner, htmlUrl, gym, fork } = this.props.environment.repository;
     const { name, url, description, scigym, tags, topic, currentAvatar } = this.props.environment;
     const { classes } = this.props;
-    let filePath = constants.STATIC_URL + constants.SCIGYM_LOGO;
+    let filePath = constants.SCIGYM_LOGO;
     if (currentAvatar != null) {
-      filePath = constants.MEDIA_URL.concat(currentAvatar.filePath)
+      filePath = constants.MEDIA_URL.concat(currentAvatar.url)
     }
     return (
       <ListItem className={classes.listStyle}>

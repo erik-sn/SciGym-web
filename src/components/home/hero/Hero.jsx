@@ -109,7 +109,7 @@ class Hero extends Component {
         <div
           className={classes.hero}
           style={{
-            backgroundImage: `url(${constants.STATIC_URL.concat(constants.BANNER)}`,
+            backgroundImage: `url(${constants.BANNER}`,
           }}
         >
           <HeroOverlay classes={classes} />

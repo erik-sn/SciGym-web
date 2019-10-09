@@ -72,7 +72,7 @@ class RepositoryItem extends Component {
       return <SciGymLogo />;
     }
 
-    const imageSrc = constants.MEDIA_URL.concat(avatar.filePath);
+    const imageSrc = constants.MEDIA_URL.concat(avatar.url);
     return <img src={imageSrc} height="150" width="150" alt="" />
   }
 

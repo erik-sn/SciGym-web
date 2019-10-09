@@ -59,11 +59,11 @@ class EnvironmentDetail extends Component {
   render() {
     const { classes, environment } = this.props;
     const { env_url } = this.props.match.params
-    let filePath = constants.STATIC_URL + constants.SCIGYM_LOGO;
+    let filePath = constants.SCIGYM_LOGO;
     if (!(environment === undefined)) {
       const { currentAvatar } = this.props.environment;
       if (currentAvatar != null) {
-        filePath = constants.MEDIA_URL.concat(currentAvatar.filePath)
+        filePath = constants.MEDIA_URL.concat(currentAvatar.url)
       }
     }
     return (

@@ -52,11 +52,11 @@ class ImagePreview extends Component {
     super(props);
     let filePath = constants.SCIGYM_LOGO;
     if (props.avatar != null) {
-      filePath = props.avatar.filePath;
+      filePath = props.avatar.url;
     }
     this.state = {
       avatar: props.avatar,
-      avatarURL: constants.MEDIA_URL.concat(filePath),
+      avatarURL: filePath,
       error: null,
       anchorEl: null,
     };
@@ -68,7 +68,7 @@ class ImagePreview extends Component {
     if (prevProps.avatar !== this.props.avatar) {
       let filePath = constants.SCIGYM_LOGO;
       if (this.props.avatar != null) {
-        filePath = this.props.avatar.filePath;
+        filePath = this.props.avatar.url;
       }
       this.setState({
         avatar: this.props.avatar,
