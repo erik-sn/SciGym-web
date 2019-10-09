@@ -56,9 +56,7 @@ class Contribute extends Component {
     markdown: '',
   };
   componentDidMount() {
-    fetch(constants.CONTRIBUTE, {
-      credentials: "include"
-    })
+    fetch(constants.CONTRIBUTE)
       .then(response => {
         return response.text();
       })
